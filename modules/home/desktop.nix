@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   imports = [
@@ -9,5 +9,7 @@
 
   home.packages = [ pkgs.pwasio ];
 
-  xdg.configFile."quickshell".source = config.lib.file.mkOutOfStoreSymlink "/home/honey/NixOS/modules/home/quickshell";
+  home.activation.quickshell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ln -sfn ${config.home.homeDirectory}/NixOS/modules/home/quickshell ${config.xdg.configHome}/quickshell
+  '';
 }
