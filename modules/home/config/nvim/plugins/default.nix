@@ -1,0 +1,22 @@
+{
+  imports = [
+    ./colorscheme.nix
+    ./editor.nix
+    ./ui.nix
+    ./completion.nix
+    ./lsp.nix
+    ./treesitter.nix
+    ./fzf.nix
+    ./git.nix
+    ./format.nix
+    ./lint.nix
+    ./terminal.nix
+    ./whichkey.nix
+    ./dap.nix
+    ./rust.nix
+    ./emmet.nix
+    ./markdown.nix
+    ./claude.nix
+    ./typr.nix
+  ];
+}

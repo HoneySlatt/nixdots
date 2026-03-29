@@ -1,0 +1,89 @@
+{
+  programs.nixvim.keymaps = [
+    # Window navigation
+    { mode = "n"; key = "<C-h>"; action = "<C-w>h"; options.desc = "Move to left window"; }
+    { mode = "n"; key = "<C-j>"; action = "<C-w>j"; options.desc = "Move to lower window"; }
+    { mode = "n"; key = "<C-k>"; action = "<C-w>k"; options.desc = "Move to upper window"; }
+    { mode = "n"; key = "<C-l>"; action = "<C-w>l"; options.desc = "Move to right window"; }
+
+    # Window resize
+    { mode = "n"; key = "<C-Up>"; action = "<cmd>resize +2<cr>"; options.desc = "Increase window height"; }
+    { mode = "n"; key = "<C-Down>"; action = "<cmd>resize -2<cr>"; options.desc = "Decrease window height"; }
+    { mode = "n"; key = "<C-Left>"; action = "<cmd>vertical resize -2<cr>"; options.desc = "Decrease window width"; }
+    { mode = "n"; key = "<C-Right>"; action = "<cmd>vertical resize +2<cr>"; options.desc = "Increase window width"; }
+
+    # Buffer navigation
+    { mode = "n"; key = "<S-h>"; action = "<cmd>bprevious<cr>"; options.desc = "Previous buffer"; }
+    { mode = "n"; key = "<S-l>"; action = "<cmd>bnext<cr>"; options.desc = "Next buffer"; }
+    { mode = "n"; key = "<leader>bd"; action = "<cmd>bdelete<cr>"; options.desc = "Delete buffer"; }
+
+    # Better indenting (stay in visual mode)
+    { mode = "v"; key = "<"; action = "<gv"; }
+    { mode = "v"; key = ">"; action = ">gv"; }
+
+    # Move lines up/down in visual mode
+    { mode = "v"; key = "J"; action = ":m '>+1<cr>gv=gv"; options.desc = "Move line down"; }
+    { mode = "v"; key = "K"; action = ":m '<-2<cr>gv=gv"; options.desc = "Move line up"; }
+
+    # Clear search highlight
+    { mode = "n"; key = "<Esc>"; action = "<cmd>nohlsearch<cr>"; options.desc = "Clear search highlight"; }
+
+    # Disable arrow keys
+    { mode = ["n" "v" "i"]; key = "<Up>"; action = "<Nop>"; }
+    { mode = ["n" "v" "i"]; key = "<Down>"; action = "<Nop>"; }
+    { mode = ["n" "v" "i"]; key = "<Left>"; action = "<Nop>"; }
+    { mode = ["n" "v" "i"]; key = "<Right>"; action = "<Nop>"; }
+
+    # Diagnostics
+    { mode = "n"; key = "[d"; action.__raw = "vim.diagnostic.goto_prev"; options.desc = "Previous diagnostic"; }
+    { mode = "n"; key = "]d"; action.__raw = "vim.diagnostic.goto_next"; options.desc = "Next diagnostic"; }
+    { mode = "n"; key = "<leader>d"; action.__raw = "vim.diagnostic.open_float"; options.desc = "Show diagnostic"; }
+
+    # Neo-tree
+    { mode = "n"; key = "<leader>e"; action = "<cmd>Neotree toggle<cr>"; options.desc = "Toggle file explorer"; }
+
+    # FzfLua
+    { mode = "n"; key = "<leader>ff"; action = "<cmd>FzfLua files<cr>"; options.desc = "Find files"; }
+    { mode = "n"; key = "<leader>fg"; action = "<cmd>FzfLua live_grep<cr>"; options.desc = "Live grep"; }
+    { mode = "n"; key = "<leader>fb"; action = "<cmd>FzfLua buffers<cr>"; options.desc = "Find buffers"; }
+    { mode = "n"; key = "<leader>fh"; action = "<cmd>FzfLua help_tags<cr>"; options.desc = "Help tags"; }
+    { mode = "n"; key = "<leader>fr"; action = "<cmd>FzfLua oldfiles<cr>"; options.desc = "Recent files"; }
+    { mode = "n"; key = "<leader>fd"; action = "<cmd>FzfLua diagnostics_document<cr>"; options.desc = "Document diagnostics"; }
+
+    # Conform (format)
+    {
+      mode = "n";
+      key = "<leader>cf";
+      action.__raw = ''function() require("conform").format({ async = true, lsp_fallback = true }) end'';
+      options.desc = "Format file";
+    }
+
+    # ToggleTerm
+    { mode = "n"; key = "<leader>tt"; action = "<cmd>ToggleTerm direction=float<cr>"; options.desc = "Toggle floating terminal"; }
+    { mode = "n"; key = "<leader>th"; action = "<cmd>ToggleTerm direction=horizontal size=15<cr>"; options.desc = "Toggle horizontal terminal"; }
+
+    # DAP
+    { mode = "n"; key = "<leader>db"; action.__raw = ''function() require("dap").toggle_breakpoint() end''; options.desc = "Toggle breakpoint"; }
+    { mode = "n"; key = "<leader>dc"; action.__raw = ''function() require("dap").continue() end''; options.desc = "Continue"; }
+    { mode = "n"; key = "<leader>di"; action.__raw = ''function() require("dap").step_into() end''; options.desc = "Step into"; }
+    { mode = "n"; key = "<leader>do"; action.__raw = ''function() require("dap").step_over() end''; options.desc = "Step over"; }
+    { mode = "n"; key = "<leader>dO"; action.__raw = ''function() require("dap").step_out() end''; options.desc = "Step out"; }
+    { mode = "n"; key = "<leader>dt"; action.__raw = ''function() require("dap").terminate() end''; options.desc = "Terminate"; }
+    { mode = "n"; key = "<leader>du"; action.__raw = ''function() require("dapui").toggle() end''; options.desc = "Toggle debug UI"; }
+
+    # Markdown live preview
+    { mode = "n"; key = "<leader>mp"; action = "<cmd>LivePreview start<cr>"; options.desc = "Start live preview"; }
+    { mode = "n"; key = "<leader>ms"; action = "<cmd>LivePreview close<cr>"; options.desc = "Stop live preview"; }
+
+    # Claude Code
+    { mode = "n"; key = "<leader>ac"; action = "<cmd>ClaudeCode<cr>"; options.desc = "Toggle Claude"; }
+    { mode = "n"; key = "<leader>af"; action = "<cmd>ClaudeCodeFocus<cr>"; options.desc = "Focus Claude"; }
+    { mode = "n"; key = "<leader>ar"; action = "<cmd>ClaudeCode --resume<cr>"; options.desc = "Resume Claude"; }
+    { mode = "n"; key = "<leader>aC"; action = "<cmd>ClaudeCode --continue<cr>"; options.desc = "Continue Claude"; }
+    { mode = "n"; key = "<leader>am"; action = "<cmd>ClaudeCodeSelectModel<cr>"; options.desc = "Select model"; }
+    { mode = "n"; key = "<leader>ab"; action = "<cmd>ClaudeCodeAdd %<cr>"; options.desc = "Add current buffer"; }
+    { mode = "v"; key = "<leader>as"; action = "<cmd>ClaudeCodeSend<cr>"; options.desc = "Send to Claude"; }
+    { mode = "n"; key = "<leader>aa"; action = "<cmd>ClaudeCodeDiffAccept<cr>"; options.desc = "Accept diff"; }
+    { mode = "n"; key = "<leader>ad"; action = "<cmd>ClaudeCodeDiffDeny<cr>"; options.desc = "Reject diff"; }
+  ];
+}
