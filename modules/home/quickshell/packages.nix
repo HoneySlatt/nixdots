@@ -11,7 +11,7 @@
       name = "qs-compile-userstyle";
       runtimeInputs = [ nodejs nodePackages.less ];
       text = ''
-        node "$HOME/.config/quickshell/scripts/compile-userstyle.js" "$@"
+        NODE_PATH="${nodePackages.less}/lib/node_modules" node "$HOME/.config/quickshell/scripts/compile-userstyle.js" "$@"
       '';
     })
   ];

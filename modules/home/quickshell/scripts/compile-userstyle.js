@@ -2,7 +2,7 @@
 // Usage: compile-userstyle.js <site.user.less> <palette-json>
 // Compiles a catppuccin userstyle LESS file with a custom palette injected.
 
-const less = require('/run/current-system/sw/lib/node_modules/less');
+const less = require('less');
 const fs   = require('fs');
 const path = require('path');
 
