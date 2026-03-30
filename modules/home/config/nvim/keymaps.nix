@@ -63,6 +63,7 @@
           local Terminal = require("toggleterm.terminal").Terminal
           local lazygit = Terminal:new({
             cmd = "lazygit",
+            dir = vim.fn.expand("%:p:h"),
             direction = "float",
             float_opts = { border = "rounded" },
             hidden = true,
@@ -80,8 +81,26 @@
     { mode = "n"; key = "<leader>xq"; action = "<cmd>Trouble qflist toggle<cr>";               options.desc = "Quickfix"; }
 
     # ToggleTerm
-    { mode = "n"; key = "<leader>tt"; action = "<cmd>ToggleTerm direction=float<cr>";           options.desc = "Toggle floating terminal"; }
-    { mode = "n"; key = "<leader>th"; action = "<cmd>ToggleTerm direction=horizontal size=15<cr>"; options.desc = "Toggle horizontal terminal"; }
+    {
+      mode = "n";
+      key = "<leader>tt";
+      action.__raw = ''
+        function()
+          require("toggleterm").toggle(1, nil, vim.fn.expand("%:p:h"), "float")
+        end
+      '';
+      options.desc = "Toggle floating terminal";
+    }
+    {
+      mode = "n";
+      key = "<leader>th";
+      action.__raw = ''
+        function()
+          require("toggleterm").toggle(1, 15, vim.fn.expand("%:p:h"), "horizontal")
+        end
+      '';
+      options.desc = "Toggle horizontal terminal";
+    }
 
     # DAP
     { mode = "n"; key = "<leader>db"; action.__raw = ''function() require("dap").toggle_breakpoint() end''; options.desc = "Toggle breakpoint"; }
