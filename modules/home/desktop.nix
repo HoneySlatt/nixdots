@@ -1,15 +1,12 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./common.nix
     ./hyprland
+    ./quickshell
     ./config
   ];
 
   home.packages = [ pkgs.pwasio ];
-
-  home.activation.quickshell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ln -sfn ${config.home.homeDirectory}/NixOS/modules/home/quickshell ${config.xdg.configHome}/quickshell
-  '';
 }

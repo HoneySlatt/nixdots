@@ -1,6 +1,7 @@
 {
   imports = [
     ./packages.nix
+    ./dashboard.nix
     ./colorscheme.nix
     ./editor.nix
     ./ui.nix

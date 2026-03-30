@@ -13,6 +13,11 @@
     x11.enable = true;
   };
 
+  gtk.iconTheme = {
+    package = pkgs.papirus-icon-theme;
+    name = "Papirus-Dark";
+  };
+
   home.file."NAS".source = config.lib.file.mkOutOfStoreSymlink "/mnt/NAS";
 
   programs.direnv = {

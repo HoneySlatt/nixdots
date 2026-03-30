@@ -11,21 +11,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    # Hyprland
-    quickshell
-    swaynotificationcenter
-    swayosd
-    libnotify
-    awww
-    grim
-    imagemagick
-    wf-recorder
-    wl-clipboard
-    cliphist
-    hyprpolkitagent
-    hyprpicker
-    playerctl
-
     # Web Browsers
     firefox
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -64,24 +49,12 @@
     zathura
     rustlings
     claude-code
+    ani-cli
+    trash-cli
     proton-vpn-cli
     protonmail-bridge
-    trash-cli
-    ani-cli
-
-    # GTK
-    adw-gtk3
-    papirus-icon-theme
-    glib
-    gsettings-desktop-schemas
-
-    # Kvantum
-    libsForQt5.qtstyleplugin-kvantum
-    kdePackages.qtstyleplugin-kvantum
 
     # Others
-    nodejs
-    nodePackages.less
     ripdrag
     jellyfin-mpv-shim
     wineWow64Packages.stagingFull

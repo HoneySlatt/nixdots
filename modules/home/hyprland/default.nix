@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./packages.nix
     ./monitors.nix
     ./input.nix
     ./settings.nix

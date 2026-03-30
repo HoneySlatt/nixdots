@@ -126,6 +126,18 @@
         everforest        = { cs = "everforest", bg = "dark"  },
       }
 
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "carbonfox",
+        callback = function()
+          vim.schedule(function()
+            vim.api.nvim_set_hl(0, "lualine_a_normal", { fg = "#161616", bg = "#c6c6c6", bold = true })
+            vim.api.nvim_set_hl(0, "lualine_b_normal", { fg = "#f2f4f8", bg = "#3a3a3a" })
+            vim.api.nvim_set_hl(0, "lualine_y_normal", { fg = "#f2f4f8", bg = "#3a3a3a" })
+            vim.api.nvim_set_hl(0, "lualine_z_normal", { fg = "#161616", bg = "#c6c6c6", bold = true })
+          end)
+        end,
+      })
+
       local f = io.open(vim.fn.expand("~/.config/quickshell/.current-theme"), "r")
       local entry = theme_map["catppuccin"]
       if f then
