@@ -23,8 +23,6 @@
     wl-clipboard
     cliphist
     hyprpolkitagent
-    hypridle
-    hyprlock
     hyprpicker
     playerctl
 
@@ -35,6 +33,7 @@
     # Desktop Apps
     cider-2
     vesktop
+    zed-editor
     obs-studio
     obsidian
     blender
@@ -42,13 +41,8 @@
     inkscape
     libreoffice
     qbittorrent
-    mpv
-    imv
     jellyfin-desktop
     kdePackages.kdenlive
-
-    # Custom pkgs
-    steam-metadata-editor
 
     # Gaming
     ryubing
@@ -56,22 +50,27 @@
     prismlauncher
 
     # TUI/CLI
-    kitty
-    yazi
+    git
+    fzf
+    fd
+    bat
+    eza
     aerc
     btop
     gdu
     cava
+    fastfetch
+    imv
     zathura
     rustlings
     claude-code
     proton-vpn-cli
+    protonmail-bridge
     trash-cli
     ani-cli
 
-    # GTK themes
-    (catppuccin-gtk.override { accents = [ "lavender" ]; variant = "mocha"; })
-    gruvbox-gtk-theme
+    # GTK
+    adw-gtk3
     papirus-icon-theme
     glib
     gsettings-desktop-schemas
@@ -79,32 +78,16 @@
     # Kvantum
     libsForQt5.qtstyleplugin-kvantum
     kdePackages.qtstyleplugin-kvantum
-    (catppuccin-kvantum.overrideAttrs (_: {
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out/share/Kvantum
-        cp -a themes/catppuccin-mocha-lavender $out/share/Kvantum
-        runHook postInstall
-      '';
-    }))
-    gruvbox-kvantum
-    rose-pine-kvantum
 
     # Others
-    openssl
     nodejs
     nodePackages.less
-    git
-    lazygit
-    fzf
-    fd
-    bat
-    eza
     ripdrag
-    fastfetch
-    wineWow64Packages.stagingFull
     jellyfin-mpv-shim
-    protonmail-bridge
+    wineWow64Packages.stagingFull
+
+    # Custom pkgs
+    steam-metadata-editor
   ];
 
   fonts.packages = with pkgs; [

@@ -51,6 +51,7 @@
       icon       = "mpv";
       comment    = "Free and open source media player";
       mimeType   = [ "video/mp4" "video/mkv" "video/x-matroska" "video/webm" "video/avi" "video/x-msvideo" "video/quicktime" "video/x-flv" "audio/mpeg" "audio/flac" "audio/ogg" "audio/x-wav" ];
+      noDisplay = true;
       categories = [ "AudioVideo" "Video" ];
     };
 
@@ -177,13 +178,13 @@
       name       = "Kitty";
       exec       = "kitty";
       icon       = "kitty";
-      comment    = "Fast, feature-rich GPU based terminal emulator";
+      comment    = "Fast, feature-rich terminal emulator";
       categories = [ "System" "TerminalEmulator" ];
     };
 
     nvim = {
       name       = "Neovim";
-      exec       = "kitty nvim %F";
+      exec       = "kitty -e nvim %F";
       icon       = "nvim";
       comment    = "Hyperextensible Vim-based text editor";
       categories = [ "Utility" "TextEditor" ];
@@ -191,7 +192,7 @@
 
     yazi = {
       name       = "Yazi";
-      exec       = "kitty yazi %F";
+      exec       = "kitty -e yazi %F";
       icon       = "/home/honey/Pictures/Icons/yazi.png";
       comment    = "Blazing fast terminal file manager";
       categories = [ "System" "FileManager" ];
@@ -199,7 +200,7 @@
 
     ani-cli = {
       name       = "AniCLI";
-      exec       = "kitty ani-cli";
+      exec       = "kitty -e ani-cli";
       icon       = "/home/honey/Pictures/Icons/onepiece.png";
       comment    = "Anime streaming CLI";
       categories = [ "AudioVideo" "Video" ];
@@ -207,7 +208,7 @@
 
     aerc = {
       name       = "AERC";
-      exec       = "kitty aerc";
+      exec       = "kitty -e aerc";
       icon       = "/home/honey/Pictures/Icons/aerc.png";
       comment    = "TUI Email Client";
       mimeType   = [ "x-scheme-handler/mailto" ];
@@ -218,19 +219,11 @@
 
     btop = {
       name      = "btop++";
-      exec      = "kitty btop";
+      exec      = "kitty -e btop";
       icon      = "btop";
       comment   = "Resource monitor";
       noDisplay = true;
       categories = [ "System" "Monitor" ];
-    };
-
-    kitty-open = {
-      name      = "Kitty";
-      noDisplay = true;
-      exec      = "kitty";
-      icon      = "kitty";
-      categories = [ "System" "TerminalEmulator" ];
     };
 
     umpv = {

@@ -51,33 +51,33 @@ case "$THEME" in
   catppuccin)
     C[cat_accent]="lavender" C[kitty_theme]="catppuccin-mocha"
     C[gtk_theme]="catppuccin-mocha-lavender-standard" C[gtk_scheme]="prefer-dark"
-    C[kvantum_theme]="catppuccin-mocha-lavender" C[wallpaper_dir]="CatppuccinMocha"
+    C[wallpaper_dir]="CatppuccinMocha"
     ;;
   rosepine)
     C[cat_accent]="lavender" C[kitty_theme]="rose-pine"
     C[gtk_theme]="catppuccin-mocha-lavender-standard" C[gtk_scheme]="prefer-dark"
-    C[kvantum_theme]="rose-pine-iris" C[wallpaper_dir]="RosePine"
+    C[wallpaper_dir]="RosePine"
     ;;
   gruvbox)
     C[cat_accent]="yellow" C[kitty_theme]="gruvbox-dark"
     C[gtk_theme]="Gruvbox-Dark" C[gtk_scheme]="prefer-dark"
-    C[kvantum_theme]="Gruvbox-Dark-Brown" C[wallpaper_dir]="GruvboxDark"
+    C[wallpaper_dir]="GruvboxDark"
     ;;
   everforest)
     C[cat_accent]="green" C[kitty_theme]="everforest"
     C[gtk_theme]="Gruvbox-Dark" C[gtk_scheme]="prefer-dark"
-    C[kvantum_theme]="Gruvbox-Dark-Brown" C[wallpaper_dir]="Everforest"
+    C[wallpaper_dir]="Everforest"
     ;;
   carbonfox)
     C[cat_accent]="mauve" C[kitty_theme]="carbonfox" C[hypr_accent]="#3a3a3a" C[accent_ui]="#3a3a3a"
     C[gtk_theme]="catppuccin-mocha-lavender-standard" C[gtk_scheme]="prefer-dark"
-    C[kvantum_theme]="KvAdaptaDark" C[wallpaper_dir]="Carbonfox"
+    C[wallpaper_dir]="Carbonfox"
     ;;
   gruvbox-light)
     C[cat_accent]="yellow" C[kitty_theme]="gruvbox-light"
     C[gtk_theme]="Gruvbox-Light" C[gtk_scheme]="prefer-light"
     C[icon_theme]="Papirus-Light"
-    C[kvantum_theme]="Gruvbox-Dark-Brown" C[wallpaper_dir]="GruvboxLight"
+    C[wallpaper_dir]="GruvboxLight"
     ;;
 esac
 
@@ -185,41 +185,77 @@ nvim_reload() {
 
 # ── GTK ─────────────────────────────────────────────────────────────────────
 switch_gtk() {
-  local gtk_theme="${C[gtk_theme]}"
   local scheme="${C[gtk_scheme]}"
   local icons="${C[icon_theme]:-Papirus-Dark}"
   local prefer_dark
   prefer_dark=$([ "$scheme" = "prefer-dark" ] && echo 1 || echo 0)
 
-  local nix_share="/run/current-system/sw/share"
-  local local_themes="$HOME/.local/share/themes"
-  local local_icons="$HOME/.local/share/icons"
-  mkdir -p "$local_themes" "$local_icons"
+  mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
 
-  # Symlink GTK theme
-  [ -d "$nix_share/themes/$gtk_theme" ] && [ ! -L "$local_themes/$gtk_theme" ] && \
-    ln -sf "$nix_share/themes/$gtk_theme" "$local_themes/$gtk_theme"
+  local gtk_base_theme
+  [ "$scheme" = "prefer-light" ] && gtk_base_theme="adw-gtk3" || gtk_base_theme="adw-gtk3-dark"
 
-  # Symlink icon theme (Papirus-Dark or Papirus-Light)
-  [ -d "$nix_share/icons/$icons" ] && [ ! -L "$local_icons/$icons" ] && \
-    ln -sf "$nix_share/icons/$icons" "$local_icons/$icons"
-
-  local settings_block
-  settings_block="[Settings]
-gtk-theme-name=$gtk_theme
+  local settings_block="[Settings]
+gtk-theme-name=$gtk_base_theme
 gtk-application-prefer-dark-theme=$prefer_dark
 gtk-font-name=JetBrainsMono Nerd Font 10
 gtk-icon-theme-name=$icons
 gtk-cursor-theme-name=phinger-cursors-dark
 gtk-cursor-theme-size=24"
 
-  mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
   echo "$settings_block" > "$HOME/.config/gtk-3.0/settings.ini"
   echo "$settings_block" > "$HOME/.config/gtk-4.0/settings.ini"
 
-  # dconf — live reload pour les apps en cours
+  # Shared color overrides — adw-gtk3 and libadwaita use the same variables
+  local gtk_css
+  gtk_css=$(cat << EOF
+@define-color accent_color ${C[accent]};
+@define-color accent_bg_color ${C[accent]};
+@define-color accent_fg_color ${C[base]};
+@define-color destructive_color ${C[red]};
+@define-color destructive_bg_color ${C[red]};
+@define-color destructive_fg_color ${C[base]};
+@define-color success_color ${C[green]};
+@define-color success_bg_color ${C[green]};
+@define-color success_fg_color ${C[base]};
+@define-color warning_color ${C[yellow]};
+@define-color warning_bg_color ${C[yellow]};
+@define-color warning_fg_color ${C[base]};
+@define-color error_color ${C[red]};
+@define-color error_bg_color ${C[red]};
+@define-color error_fg_color ${C[base]};
+@define-color window_bg_color ${C[base]};
+@define-color window_fg_color ${C[text]};
+@define-color view_bg_color ${C[mantle]};
+@define-color view_fg_color ${C[text]};
+@define-color headerbar_bg_color ${C[crust]};
+@define-color headerbar_fg_color ${C[text]};
+@define-color headerbar_border_color ${C[surface0]};
+@define-color headerbar_backdrop_color ${C[mantle]};
+@define-color headerbar_shade_color ${C[crust]};
+@define-color card_bg_color ${C[surface0]};
+@define-color card_fg_color ${C[text]};
+@define-color card_shade_color ${C[crust]};
+@define-color dialog_bg_color ${C[base]};
+@define-color dialog_fg_color ${C[text]};
+@define-color popover_bg_color ${C[surface0]};
+@define-color popover_fg_color ${C[text]};
+@define-color shade_color ${C[crust]};
+@define-color scrollbar_outline_color ${C[crust]};
+@define-color sidebar_bg_color ${C[mantle]};
+@define-color sidebar_fg_color ${C[text]};
+@define-color sidebar_backdrop_color ${C[base]};
+@define-color sidebar_shade_color ${C[crust]};
+@define-color thumbnail_bg_color ${C[surface0]};
+@define-color thumbnail_fg_color ${C[text]};
+EOF
+)
+  echo "$gtk_css" > "$HOME/.config/gtk-3.0/gtk.css"
+  echo "$gtk_css" > "$HOME/.config/gtk-4.0/gtk.css"
+
+  # dconf live reload
   if command -v dconf &>/dev/null; then
-    dconf write /org/gnome/desktop/interface/gtk-theme      "'$gtk_theme'" 2>/dev/null || true
+    dconf write /org/gnome/desktop/interface/gtk-theme      "'$gtk_base_theme'" 2>/dev/null || true
     dconf write /org/gnome/desktop/interface/color-scheme   "'$scheme'"    2>/dev/null || true
     dconf write /org/gnome/desktop/interface/font-name      "'JetBrainsMono Nerd Font 10'" 2>/dev/null || true
     dconf write /org/gnome/desktop/interface/icon-theme     "'$icons'"     2>/dev/null || true
@@ -516,28 +552,97 @@ EOF
 
 # ── Qt (Kvantum + qt5ct/qt6ct) ──────────────────────────────────────────────
 switch_qt() {
-  local kvantum_theme="${C[kvantum_theme]}"
   local icons="${C[icon_theme]:-Papirus-Dark}"
-  local nix_kvantum="/run/current-system/sw/share/Kvantum"
   local local_kvantum="$HOME/.config/Kvantum"
+  local theme_dir="$local_kvantum/quickshell-theme"
 
-  mkdir -p "$local_kvantum"
+  mkdir -p "$theme_dir"
 
-  # Find and copy theme from nix store into ~/.config/Kvantum/
-  # (NixOS buildEnv doesn't link share/Kvantum/ due to collisions between packages)
-  if [ ! -d "$local_kvantum/$kvantum_theme" ]; then
-    local theme_src
-    theme_src=$(find /nix/store -maxdepth 5 -name "$kvantum_theme" \
-      -path "*/Kvantum/*" -type d 2>/dev/null | head -1)
-    if [ -n "$theme_src" ]; then
-      cp -r "$theme_src" "$local_kvantum/$kvantum_theme"
-    fi
+  # Find KvAdaptaDark SVG source
+  local svg_src="$local_kvantum/KvAdaptaDark/KvAdaptaDark.svg"
+  if [ ! -f "$svg_src" ]; then
+    svg_src=$(find /nix/store -maxdepth 5 -name "KvAdaptaDark.svg" \
+      -path "*/Kvantum/*" 2>/dev/null | head -1)
   fi
 
-  # Kvantum theme
+  # Generate SVG with palette colors replacing KvAdaptaDark hardcoded colors
+  if [ -n "$svg_src" ] && [ -f "$svg_src" ]; then
+    local svg_tmp
+    svg_tmp=$(mktemp)
+    sed \
+      -e "s/#00bcd4/${C[accent]}/gI" \
+      -e "s/#00c3dc/${C[accent]}/gI" \
+      -e "s/#008dd4/${C[blue]}/gI" \
+      -e "s/#4db6ac/${C[teal]}/gI" \
+      -e "s/#263238/${C[base]}/g" \
+      -e "s/#1e282d/${C[crust]}/g" \
+      -e "s/#141b1e/${C[crust]}/g" \
+      -e "s/#212b30/${C[crust]}/g" \
+      -e "s/#212c31/${C[crust]}/g" \
+      -e "s/#222d32/${C[mantle]}/g" \
+      -e "s/#29353b/${C[mantle]}/g" \
+      -e "s/#2d3a41/${C[mantle]}/g" \
+      -e "s/#28343a/${C[surface0]}/g" \
+      -e "s/#293439/${C[surface0]}/g" \
+      -e "s/#2d393f/${C[surface0]}/g" \
+      -e "s/#304048/${C[surface1]}/g" \
+      -e "s/#314047/${C[surface1]}/g" \
+      -e "s/#39444a/${C[surface1]}/g" \
+      -e "s/#3e4a50/${C[surface1]}/g" \
+      -e "s/#275f59/${C[surface2]}/g" \
+      -e "s/#2d4c4f/${C[surface2]}/g" \
+      -e "s/#556165/${C[overlay0]}/g" \
+      -e "s/#565b5e/${C[overlay0]}/g" \
+      -e "s/#60727c/${C[overlay0]}/g" \
+      -e "s/#6c787d/${C[overlay1]}/g" \
+      -e "s/#717b81/${C[overlay1]}/g" \
+      -e "s/#7f898f/${C[overlay1]}/g" \
+      -e "s/#a6afb4/${C[subtext0]}/g" \
+      -e "s/#acb1bc/${C[subtext0]}/g" \
+      -e "s/#cfd8dc/${C[subtext1]}/g" \
+      -e "s/#000931/${C[crust]}/g" \
+      -e "s/#192023/${C[crust]}/g" \
+      -e "s/#252f35/${C[mantle]}/g" \
+      "$svg_src" > "$svg_tmp" && mv -f "$svg_tmp" "$theme_dir/quickshell-theme.svg"
+    chmod 644 "$theme_dir/quickshell-theme.svg"
+  fi
+
+  # Generate kvconfig: copy KvAdaptaDark (all widget sections) then patch GeneralColors
+  local kvcfg_src="$local_kvantum/KvAdaptaDark/KvAdaptaDark.kvconfig"
+  if [ ! -f "$kvcfg_src" ]; then
+    kvcfg_src=$(find /nix/store -maxdepth 5 -name "KvAdaptaDark.kvconfig" \
+      -path "*/Kvantum/*" 2>/dev/null | head -1)
+  fi
+  if [ -n "$kvcfg_src" ] && [ -f "$kvcfg_src" ]; then
+    local kvcfg_tmp
+    kvcfg_tmp=$(mktemp)
+    sed \
+      -e "s|^window\.color=.*|window.color=${C[base]}|" \
+      -e "s|^base\.color=.*|base.color=${C[mantle]}|" \
+      -e "s|^alt\.base\.color=.*|alt.base.color=${C[crust]}|" \
+      -e "s|^button\.color=.*|button.color=${C[surface0]}|" \
+      -e "s|^light\.color=.*|light.color=${C[surface1]}|" \
+      -e "s|^mid\.light\.color=.*|mid.light.color=${C[surface0]}|" \
+      -e "s|^dark\.color=.*|dark.color=${C[crust]}|" \
+      -e "s|^mid\.color=.*|mid.color=${C[mantle]}|" \
+      -e "s|^highlight\.color=.*|highlight.color=${C[accent]}|" \
+      -e "s|^inactive\.highlight\.color=.*|inactive.highlight.color=${C[surface1]}|" \
+      -e "s|^text\.color=.*|text.color=${C[text]}|" \
+      -e "s|^window\.text\.color=.*|window.text.color=${C[subtext1]}|" \
+      -e "s|^button\.text\.color=.*|button.text.color=${C[subtext1]}|" \
+      -e "s|^disabled\.text\.color=.*|disabled.text.color=${C[overlay0]}|" \
+      -e "s|^tooltip\.text\.color=.*|tooltip.text.color=${C[text]}|" \
+      -e "s|^highlight\.text\.color=.*|highlight.text.color=${C[base]}|" \
+      -e "s|^link\.color=.*|link.color=${C[blue]}|" \
+      -e "s|^link\.visited\.color=.*|link.visited.color=${C[mauve]}|" \
+      -e "s|^progress\.indicator\.text\.color=.*|progress.indicator.text.color=${C[base]}|" \
+      "$kvcfg_src" > "$kvcfg_tmp" && mv -f "$kvcfg_tmp" "$theme_dir/quickshell-theme.kvconfig"
+  fi
+
+  # Activate quickshell-theme
   cat > "$local_kvantum/kvantum.kvconfig" << EOF
 [General]
-theme=$kvantum_theme
+theme=quickshell-theme
 EOF
 
   # qt5ct + qt6ct
@@ -1129,6 +1234,507 @@ switch_jellyfin() {
     "$JELLYFIN_URL/System/Configuration/Branding" > /dev/null
 }
 
+# ── Obsidian ────────────────────────────────────────────────────────────────
+switch_obsidian() {
+  local vault_obsidian="/home/honey/Obsidian Vault/.obsidian"
+  local appearance="$vault_obsidian/appearance.json"
+  [ -f "$appearance" ] || return 0
+
+  local obsidian_theme
+  [ "$THEME" = "gruvbox-light" ] && obsidian_theme="moonstone" || obsidian_theme="obsidian"
+
+  mkdir -p "$vault_obsidian/snippets"
+  cat > "$vault_obsidian/snippets/quickshell-theme.css" << EOF
+/* auto-generated by switch-theme.sh */
+.theme-dark, .theme-light {
+  --background-primary:           ${C[base]};
+  --background-primary-alt:       ${C[mantle]};
+  --background-secondary:         ${C[mantle]};
+  --background-secondary-alt:     ${C[crust]};
+  --background-modifier-border:   ${C[surface0]};
+  --background-modifier-hover:    ${C[surface0]};
+  --background-modifier-active-hover: ${C[surface1]};
+  --background-modifier-form-field: ${C[surface0]};
+
+  --text-normal:                  ${C[text]};
+  --text-muted:                   ${C[subtext0]};
+  --text-faint:                   ${C[overlay0]};
+  --text-on-accent:               ${C[base]};
+  --text-highlight-bg:            ${C[surface1]};
+
+  --interactive-normal:           ${C[surface0]};
+  --interactive-hover:            ${C[surface1]};
+  --interactive-accent:           ${C[accent]};
+  --interactive-accent-hover:     ${C[accent]};
+  --color-accent:                 ${C[accent]};
+  --color-accent-1:               ${C[accent]};
+  --color-accent-2:               ${C[overlay1]};
+
+  --link-color:                   ${C[blue]};
+  --link-external-color:          ${C[sapphire]};
+  --link-unresolved-color:        ${C[overlay1]};
+
+  --tag-background:               ${C[surface1]};
+  --tag-color:                    ${C[accent]};
+  --tag-border-color:             ${C[surface2]};
+
+  --code-background:              ${C[mantle]};
+  --code-normal:                  ${C[green]};
+  --code-comment:                 ${C[overlay0]};
+  --code-string:                  ${C[yellow]};
+  --code-keyword:                 ${C[mauve]};
+  --code-function:                ${C[blue]};
+  --code-operator:                ${C[teal]};
+  --code-property:                ${C[red]};
+
+  --table-header-background:      ${C[surface0]};
+  --table-row-even-background:    ${C[mantle]};
+  --table-row-odd-background:     ${C[base]};
+
+  --titlebar-background:          ${C[crust]};
+  --titlebar-background-focused:  ${C[mantle]};
+  --titlebar-text-color:          ${C[text]};
+
+  --modal-background:             ${C[mantle]};
+  --prompt-background:            ${C[mantle]};
+  --prompt-border-color:          ${C[surface1]};
+
+  --scrollbar-bg:                 transparent;
+  --scrollbar-thumb-bg:           ${C[surface1]};
+  --scrollbar-active-thumb-bg:    ${C[surface2]};
+
+  --color-red:                    ${C[red]};
+  --color-orange:                 ${C[peach]};
+  --color-yellow:                 ${C[yellow]};
+  --color-green:                  ${C[green]};
+  --color-cyan:                   ${C[teal]};
+  --color-blue:                   ${C[blue]};
+  --color-purple:                 ${C[mauve]};
+  --color-pink:                   ${C[pink]};
+}
+EOF
+
+  cat > "$appearance" << EOF
+{
+  "cssTheme": "",
+  "accentColor": "${C[accent]}",
+  "theme": "$obsidian_theme",
+  "enabledCssSnippets": ["quickshell-theme"]
+}
+EOF
+}
+
+# ── aerc ────────────────────────────────────────────────────────────────────
+switch_aerc() {
+  local aerc_conf="$HOME/.config/aerc/aerc.conf"
+  [ -f "$aerc_conf" ] || return 0
+
+  mkdir -p "$HOME/.config/aerc/stylesets"
+  cat > "$HOME/.config/aerc/stylesets/quickshell-theme" << EOF
+*.default=true
+*.normal=true
+
+default.fg=${C[text]}
+
+error.fg=${C[red]}
+warning.fg=${C[peach]}
+success.fg=${C[green]}
+
+tab.fg=${C[overlay0]}
+tab.bg=${C[mantle]}
+tab.selected.fg=${C[text]}
+tab.selected.bg=${C[base]}
+tab.selected.bold=true
+
+border.fg=${C[crust]}
+border.bold=true
+
+msglist_unread.bold=true
+msglist_flagged.fg=${C[yellow]}
+msglist_flagged.bold=true
+msglist_result.fg=${C[blue]}
+msglist_result.bold=true
+msglist_*.selected.bold=true
+msglist_*.selected.bg=${C[surface0]}
+
+dirlist_*.selected.bold=true
+dirlist_*.selected.bg=${C[surface0]}
+
+statusline_default.fg=${C[subtext1]}
+statusline_default.bg=${C[surface0]}
+statusline_error.bold=true
+statusline_success.bold=true
+
+selector_focused.bg=${C[surface0]}
+
+completion_default.selected.bg=${C[surface0]}
+
+[viewer]
+url.fg=${C[blue]}
+url.underline=true
+header.bold=true
+signature.dim=true
+diff_meta.bold=true
+diff_chunk.fg=${C[blue]}
+diff_chunk_func.fg=${C[blue]}
+diff_chunk_func.bold=true
+diff_add.fg=${C[green]}
+diff_del.fg=${C[red]}
+quote_*.fg=${C[overlay0]}
+quote_1.fg=${C[subtext1]}
+EOF
+
+  sed -i 's|^#\?styleset-name=.*|styleset-name=quickshell-theme|' "$aerc_conf"
+}
+
+# ── gdu ─────────────────────────────────────────────────────────────────────
+switch_gdu() {
+  local config="$HOME/.gdu.yaml"
+  [ -f "$config" ] || return 0
+
+  local style_tmp tmp
+  style_tmp=$(mktemp)
+  tmp=$(mktemp)
+
+  cat > "$style_tmp" << EOF
+style:
+    footer:
+        text-color: '${C[text]}'
+        background-color: '${C[surface0]}'
+        number-color: '${C[peach]}'
+    selected-row:
+        text-color: '${C[base]}'
+        background-color: '${C[accent]}'
+    result-row:
+        number-color: '${C[peach]}'
+        directory-color: '${C[blue]}'
+    header:
+        text-color: '${C[text]}'
+        background-color: '${C[surface0]}'
+        hidden: false
+    progress-modal:
+        current-item-path-max-len: 0
+    use-old-size-bar: false
+EOF
+
+  awk '
+    /^style:/ { in_style=1; while ((getline line < style_file) > 0) print line; close(style_file); next }
+    in_style && /^[a-zA-Z]/ { in_style=0 }
+    !in_style { print }
+  ' style_file="$style_tmp" "$config" > "$tmp" && mv "$tmp" "$config"
+
+  rm -f "$style_tmp"
+}
+
+# ── Blender ──────────────────────────────────────────────────────────────────
+switch_blender() {
+  local blender_dir="$HOME/.config/blender/5.0"
+  local preset_dir="$blender_dir/scripts/presets/interface_theme"
+  local preset="$preset_dir/Quickshell.py"
+  local apply_script="$blender_dir/scripts/apply-quickshell-theme.py"
+
+  mkdir -p "$preset_dir"
+
+  # hex (#rrggbb) → "r, g, b, a" floats
+  h4() { local h="${1#\#}"; awk "BEGIN{printf \"%.6f, %.6f, %.6f, ${2:-1.0}\", 0x${h:0:2}/255, 0x${h:2:2}/255, 0x${h:4:2}/255}"; }
+  # hex → "r, g, b" floats (no alpha, for wcol.text)
+  h3() { local h="${1#\#}"; awk "BEGIN{printf \"%.6f, %.6f, %.6f\", 0x${h:0:2}/255, 0x${h:2:2}/255, 0x${h:4:2}/255}"; }
+
+  local base;     base=$(h4 "${C[base]}")
+  local mantle;   mantle=$(h4 "${C[mantle]}")
+  local crust;    crust=$(h4 "${C[crust]}")
+  local surf0;    surf0=$(h4 "${C[surface0]}")
+  local surf1;    surf1=$(h4 "${C[surface1]}")
+  local text4;    text4=$(h4 "${C[text]}")
+  local text3;    text3=$(h3 "${C[text]}")
+  local sub3;     sub3=$(h3 "${C[subtext0]}")
+  local ov3;      ov3=$(h3 "${C[overlay0]}")
+  local _accent="${C[accent_ui]:-${C[accent]}}"
+  local accent4;  accent4=$(h4 "$_accent")
+  local accent3;  accent3=$(h3 "$_accent")
+  local red4;     red4=$(h4 "${C[red]}")
+  local green4;   green4=$(h4 "${C[green]}")
+  local yellow4;  yellow4=$(h4 "${C[yellow]}")
+
+  cat > "$preset" << EOF
+import bpy
+
+t  = bpy.context.preferences.themes[0]
+ui = t.user_interface
+
+def wcol(w, inner, inner_sel, item, text, text_sel, outline=None):
+    w.inner     = inner
+    w.inner_sel = inner_sel
+    w.item      = item
+    w.text      = text
+    w.text_sel  = text_sel
+    if outline is not None:
+        w.outline = outline
+
+base    = ($base)
+mantle  = ($mantle)
+crust   = ($crust)
+surf0   = ($surf0)
+surf1   = ($surf1)
+text4   = ($text4)
+text3   = ($text3)
+sub3    = ($sub3)
+ov3     = ($ov3)
+accent4 = ($accent4)
+accent3 = ($accent3)
+red4    = ($red4)
+green4  = ($green4)
+yellow4 = ($yellow4)
+
+# Standard widgets
+for w in [ui.wcol_regular, ui.wcol_tool, ui.wcol_toolbar_item,
+          ui.wcol_radio, ui.wcol_option, ui.wcol_toggle,
+          ui.wcol_num, ui.wcol_numslider, ui.wcol_progress, ui.wcol_curve]:
+    wcol(w, surf0, accent4, accent4, text3, text3[:3], mantle)
+
+# Text input
+wcol(ui.wcol_text, mantle, mantle, accent4, text3, text3, surf0)
+
+# Box / panel background
+wcol(ui.wcol_box, base, surf0, accent4, text3, text3, surf0)
+
+# Tabs
+wcol(ui.wcol_tab, mantle, surf1, accent4, sub3, text3, mantle)
+
+# Menus
+wcol(ui.wcol_menu,      surf0,  accent4, accent4, text3, text3, surf1)
+wcol(ui.wcol_pulldown,  surf0,  accent4, accent4, text3, text3, surf1)
+wcol(ui.wcol_menu_back, mantle, surf0,   accent4, text3, text3, surf0)
+wcol(ui.wcol_menu_item, (0,0,0,0), accent4, accent4, text3, text3)
+wcol(ui.wcol_pie_menu,  mantle, accent4, accent4, text3, text3, surf0)
+
+# Tooltip
+wcol(ui.wcol_tooltip, surf0, surf1, accent4, text3, text3, surf1)
+
+# Scrollbar
+wcol(ui.wcol_scroll,    base,   surf1, surf1, text3, text3, mantle)
+
+# List items
+wcol(ui.wcol_list_item, (0,0,0,0), surf0, accent4, text3, text3)
+
+# 3-tuple versions for RGB-only properties
+base3   = base[:3]
+mantle3 = mantle[:3]
+surf0_3 = surf0[:3]
+surf1_3 = surf1[:3]
+
+# Panel backgrounds (back/header = RGBA, text/title = RGB)
+ui.panel_back     = base
+ui.panel_sub_back = mantle
+ui.panel_header   = mantle
+ui.panel_text     = text3
+ui.panel_title    = text3
+
+# Editor borders
+ui.editor_border         = surf0_3   # RGB
+ui.editor_outline        = surf1     # RGBA
+ui.editor_outline_active = accent4   # RGBA
+
+# Apply header/text to all editor spaces
+for area in ['view_3d', 'node_editor', 'properties', 'outliner',
+             'file_browser', 'sequence_editor', 'text_editor',
+             'nla_editor', 'dopesheet', 'graph_editor',
+             'image_editor', 'console', 'info', 'preferences']:
+    try:
+        space = getattr(t, area).space
+        space.header         = mantle  # RGBA
+        space.header_text    = text3   # RGB
+        space.header_text_hi = accent3 # RGB
+        space.text           = text3   # RGB
+        space.text_hi        = accent3 # RGB
+        space.title          = text3   # RGB
+    except Exception:
+        pass
+
+# 3D viewport background
+t.view_3d.space.gradients.background_type = 'SINGLE_COLOR'
+t.view_3d.space.gradients.gradient        = base3
+t.view_3d.space.gradients.high_gradient   = base3
+
+# 3D viewport overlay
+t.view_3d.grid            = surf0     # RGBA
+t.view_3d.object_selected = accent3   # RGB
+t.view_3d.object_active   = accent3   # RGB
+t.view_3d.wire            = surf1_3   # RGB
+
+# Background for all other editor spaces
+for area in ['node_editor', 'outliner', 'sequence_editor', 'graph_editor',
+             'nla_editor', 'dopesheet', 'file_browser', 'text_editor',
+             'image_editor', 'console', 'info', 'preferences', 'properties']:
+    try:
+        sp = getattr(t, area).space
+        if hasattr(sp, 'back'):
+            sp.back = base3
+    except Exception:
+        pass
+
+# Properties panel highlight color (active object match)
+try:
+    t.properties.match = accent3
+except Exception:
+    pass
+EOF
+
+  # Apply script: load preset + save prefs (run only if Blender is not open)
+  cat > "$apply_script" << EOF
+import bpy, os
+exec(open(os.path.expanduser('$preset')).read())
+bpy.ops.wm.save_userpref()
+print("Quickshell theme applied.")
+EOF
+
+  if ! pgrep -x blender > /dev/null; then
+    blender --background --python "$apply_script" &>/dev/null &
+  fi
+}
+
+# ── KDE globals (kdeglobals) ─────────────────────────────────────────────────
+gen_kdeglobals() {
+  # Convert hex color (#rrggbb) to KDE decimal format (r,g,b)
+  h2r() { printf "%d,%d,%d" "0x${1:1:2}" "0x${1:3:2}" "0x${1:5:2}"; }
+
+  local win;     win=$(h2r "${C[base]}")
+  local win_alt; win_alt=$(h2r "${C[mantle]}")
+  local crust;   crust=$(h2r "${C[crust]}")
+  local surf0;   surf0=$(h2r "${C[surface0]}")
+  local surf1;   surf1=$(h2r "${C[surface1]}")
+  local text;    text=$(h2r "${C[text]}")
+  local sub0;    sub0=$(h2r "${C[subtext0]}")
+  local ov0;     ov0=$(h2r "${C[overlay0]}")
+  local accent;  accent=$(h2r "${C[accent]}")
+  local blue;    blue=$(h2r "${C[blue]}")
+  local mauve;   mauve=$(h2r "${C[mauve]}")
+  local red;     red=$(h2r "${C[red]}")
+  local yellow;  yellow=$(h2r "${C[yellow]}")
+  local green;   green=$(h2r "${C[green]}")
+
+  cat > "$HOME/.config/kdeglobals" << EOF
+[Colors:Button]
+BackgroundAlternate=$surf1
+BackgroundNormal=$surf0
+DecorationFocus=$accent
+DecorationHover=$surf1
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:Complementary]
+BackgroundAlternate=$crust
+BackgroundNormal=$crust
+DecorationFocus=$accent
+DecorationHover=$surf0
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:Header]
+BackgroundAlternate=$win_alt
+BackgroundNormal=$win_alt
+DecorationFocus=$accent
+DecorationHover=$surf0
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:Selection]
+BackgroundAlternate=$surf1
+BackgroundNormal=$accent
+DecorationFocus=$accent
+DecorationHover=$surf1
+ForegroundActive=$win
+ForegroundInactive=$win_alt
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$win
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:Tooltip]
+BackgroundAlternate=$surf0
+BackgroundNormal=$surf0
+DecorationFocus=$accent
+DecorationHover=$surf1
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:View]
+BackgroundAlternate=$win_alt
+BackgroundNormal=$win
+DecorationFocus=$accent
+DecorationHover=$surf0
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[Colors:Window]
+BackgroundAlternate=$win_alt
+BackgroundNormal=$win
+DecorationFocus=$accent
+DecorationHover=$surf0
+ForegroundActive=$accent
+ForegroundInactive=$ov0
+ForegroundLink=$blue
+ForegroundNegative=$red
+ForegroundNeutral=$yellow
+ForegroundNormal=$text
+ForegroundPositive=$green
+ForegroundVisited=$mauve
+
+[General]
+ColorScheme=Quickshell
+Name=Quickshell
+
+[KDE]
+contrast=4
+EOF
+
+  # Copy as a .colors file so KDE apps (Kdenlive etc.) can reference it by name
+  local colors_dir="$HOME/.local/share/color-schemes"
+  mkdir -p "$colors_dir"
+  cp "$HOME/.config/kdeglobals" "$colors_dir/Quickshell.colors"
+
+  # Update kdenliverc if present
+  local kdenliverc="$HOME/.config/kdenliverc"
+  if [ -f "$kdenliverc" ]; then
+    sed -i \
+      -e "s|^ColorScheme=.*|ColorScheme=Quickshell|" \
+      -e "s|^ColorSchemePath=.*|ColorSchemePath=$colors_dir/Quickshell.colors|" \
+      "$kdenliverc"
+  fi
+}
+
 # ── Main ────────────────────────────────────────────────────────────────────
 switch_kitty
 gen_btop_theme
@@ -1147,6 +1753,11 @@ switch_obs
 switch_firefox
 gen_userstyles
 switch_jellyfin
+switch_obsidian
+switch_gdu
+switch_aerc
+switch_blender
+gen_kdeglobals
 gen_hyprlock_theme
 
 echo "Switched theme to: ${C[name]}"

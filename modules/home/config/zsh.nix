@@ -1,18 +1,21 @@
 { pkgs, ... }:
 
 {
-  # Required packages
-  home.packages = with pkgs; [
-    zsh
-    atuin
-    starship
-  ];
+  home.packages = [ pkgs.zsh ];
 
-  # Zsh configuration
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.zsh = {
     enable = true;
 
-    # Plugins
     plugins = [
       {
         name = "zsh-autosuggestions";
@@ -20,36 +23,33 @@
         file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
       }
       {
-        name = "zsh-syntax-highlighting";
-        src  = pkgs.zsh-syntax-highlighting;
-        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+        name = "fast-syntax-highlighting";
+        src  = pkgs.zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
 
-    # Completion setup
+    # Only rebuild completion cache if older than 24 hours
     completionInit = ''
       autoload -Uz compinit
-      compinit
+      if [[ -n ''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump(#qN.mh+24) ]]; then
+        compinit -d "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+      else
+        compinit -C -d "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+      fi
     '';
 
     initContent = ''
-      # Case insensitive completion
       zstyle ':completion:*' menu select
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-      # Atuin shell history
-      eval "$(atuin init zsh)"
+      ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-      # Starship prompt
-      eval "$(starship init zsh)"
-
-      # Run fastfetch on interactive shells only, skip inside Neovim
       if [[ -o interactive ]] && [[ -z "$NVIM" ]]; then
         fastfetch
       fi
     '';
 
-    # Aliases
     shellAliases = {
       ls   = "eza";
       ll   = "eza -l";
