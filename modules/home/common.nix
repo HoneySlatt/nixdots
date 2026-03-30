@@ -18,6 +18,12 @@
     name = "Papirus-Dark";
   };
 
+  fonts.fontconfig.enable = true;
+  home.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.bigblue-terminal
+  ];
+
   home.file."NAS".source = config.lib.file.mkOutOfStoreSymlink "/mnt/NAS";
 
   programs.direnv = {
