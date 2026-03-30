@@ -28,6 +28,8 @@
       timeoutlen = 300;
       mouse = "a";
       showmode = false;
+      # Live preview of substitutions (:s/foo/bar)
+      inccommand = "split";
     };
   };
 }

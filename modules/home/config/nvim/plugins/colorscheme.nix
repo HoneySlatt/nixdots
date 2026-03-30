@@ -41,6 +41,8 @@
           render_markdown = true,
           treesitter = true,
           which_key = true,
+          trouble = true,
+          todo_comments = true,
         },
       })
 

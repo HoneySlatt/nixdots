@@ -63,6 +63,7 @@
     gdu
     cava
     zathura
+    rustlings
     claude-code
     proton-vpn-cli
     trash-cli

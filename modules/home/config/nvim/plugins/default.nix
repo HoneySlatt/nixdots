@@ -1,5 +1,6 @@
 {
   imports = [
+    ./packages.nix
     ./colorscheme.nix
     ./editor.nix
     ./ui.nix
@@ -14,9 +15,10 @@
     ./whichkey.nix
     ./dap.nix
     ./rust.nix
+    ./trouble.nix
     ./emmet.nix
     ./markdown.nix
+    ./python.nix
     ./claude.nix
-    ./typr.nix
   ];
 }
