@@ -21,5 +21,6 @@
     ./markdown.nix
     ./python.nix
     ./claude.nix
+    ./direnv.nix
   ];
 }
