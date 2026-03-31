@@ -41,4 +41,5 @@
     };
   };
 
+  environment.systemPackages = [ pkgs.ripdrag ];
 }
