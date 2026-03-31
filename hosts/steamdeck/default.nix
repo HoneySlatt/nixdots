@@ -4,9 +4,8 @@
   imports = [
     ./hardware.nix
     ./packages.nix
-    inputs.jovian.nixosModules.default
     ../../modules/nixos/common.nix
-    ../../modules/nixos/audio.nix
+    inputs.jovian.nixosModules.default
   ];
 
   networking.hostName = "steamdeck";
