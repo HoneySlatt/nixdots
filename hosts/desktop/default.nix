@@ -8,6 +8,7 @@
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
     ../../modules/nixos/greetd.nix
+    ../../modules/nixos/hyprland.nix
     ./packages.nix
   ];
 
@@ -26,8 +27,8 @@
     enable32Bit = true;
   };
 
-  programs.hyprland.enable = true;
-
+  services.libinput.mouse.accelProfile = "flat";
+  security.pam.services.greetd.enableGnomeKeyring = true;
   services.lact.enable = true;
 
   # Focusrite low-latency
@@ -39,9 +40,6 @@
       "default.clock.max-quantum" = 512;
     };
   };
-
-  services.libinput.mouse.accelProfile = "flat";
-  security.pam.services.greetd.enableGnomeKeyring = true;
 
   system.stateVersion = "25.11";
 }
