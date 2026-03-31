@@ -85,20 +85,20 @@ Item {
                     anchors.top: BarState.isTop ? parent.top : undefined
                     anchors.bottom: BarState.isTop ? undefined : parent.bottom
                     anchors.right: parent.right
-                    anchors.rightMargin: 130
+                    anchors.rightMargin: 86
                     width: 210
                     height: contentCol.height + 24
                     clip: true
 
                     Rectangle {
                         anchors.fill: parent
-                        anchors.topMargin: BarState.isTop ? -radius : 0
+                        anchors.topMargin: 0
                         anchors.bottomMargin: BarState.isTop ? 0 : -radius
                         height: parent.height + radius
                         color: Theme.background
-                        radius: BarState.isTop ? 10 : 0
+                        radius: 10
                         border.color: Theme.separator
-                        border.width: BarState.isTop ? 1 : 0
+                        border.width: 1
                     }
 
                     // Block clicks inside from closing

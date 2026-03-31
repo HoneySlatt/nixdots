@@ -112,13 +112,13 @@ Item {
                     Rectangle {
                         id: popup
                         anchors.fill: parent
-                        anchors.topMargin: BarState.isTop ? -radius : 0
+                        anchors.topMargin: 0
                         anchors.bottomMargin: BarState.isTop ? 0 : -radius
                         height: parent.height + radius
                         color: Theme.background
-                        radius: BarState.isTop ? 10 : 0
+                        radius: 10
                         border.color: Theme.separator
-                        border.width: BarState.isTop ? 1 : 0
+                        border.width: 1
                     }
 
                     // Block clicks inside from closing

@@ -2,7 +2,7 @@
 # Switch NixOS config theme (themes.nix, kitty.nix, btop.nix) + live reload
 set -euo pipefail
 
-THEME="${1:-catppuccin}"
+THEME="${1:-pastelglow}"
 NIXCFG="$HOME/NixOS/config"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -50,11 +50,13 @@ fi
 
 # Script-specific keys per theme
 case "$THEME" in
-  catppuccin)
-    C[nvim_colorscheme]="catppuccin"
-    C[nvim_flavour]='flavour = "mocha";'
-    C[nvim_extra]='color_overrides = { mocha = { blue = "#b4befe"; }; };'
-    C[lualine_theme]="catppuccin"
+  kanagawa-lotus)
+    C[nvim_colorscheme]="kanagawa"
+    C[nvim_flavour]='' C[nvim_extra]='' C[lualine_theme]="auto"
+    ;;
+  pastelglow)
+    C[nvim_colorscheme]="pastelglow"
+    C[nvim_flavour]='' C[nvim_extra]='' C[lualine_theme]="auto"
     ;;
   rosepine)
     C[nvim_colorscheme]="rose-pine"
@@ -85,47 +87,97 @@ gen_themes_nix() {
   local let_block catppuccin_block gtk_block dconf_block kvantum_block
 
   case "$THEME" in
-    catppuccin)
-      let_block='let
-  catppuccinGtk = pkgs.catppuccin-gtk.override {
-    accents = [ "lavender" ];
-    variant = "mocha";
-  };
-  themeName = "catppuccin-mocha-lavender-standard";
-  catppuccinKvantum = pkgs.catppuccin-kvantum.override {
-    variant = "mocha";
-    accent = "lavender";
-  };
-in'
-      catppuccin_block='  catppuccin = {
-    flavor = "mocha";
-    accent = "lavender";
-    cursors.enable = true;
-  };'
-      gtk_block='  gtk = {
+    kanagawa-lotus)
+      let_block=''
+      catppuccin_block=''
+      gtk_block=$(cat << GTKEOF
+  gtk = {
     enable = true;
     theme = {
-      name = themeName;
-      package = catppuccinGtk;
+      name = "adw-gtk3";
+      package = pkgs.adw-gtk3;
     };
     iconTheme = {
-      name = "Papirus-Dark";
+      name = "Papirus-Light";
       package = pkgs.papirus-icon-theme;
     };
     font = {
       name = "JetBrainsMono Nerd Font";
       size = 10;
     };
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
-  };'
-      dconf_block='  dconf.settings."org/gnome/desktop/interface" = {
-    color-scheme = "prefer-dark";
-    gtk-theme = themeName;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 0;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 0;
+    gtk3.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
+    gtk4.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
   };
-
-  home.file.".local/share/themes/${themeName}".source =
-    "${catppuccinGtk}/share/themes/${themeName}";'
+GTKEOF
+)
+      dconf_block='  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = "prefer-light";
+    gtk-theme = "adw-gtk3";
+  };'
       kvantum_block='  qt = {
     enable = true;
     platformTheme.name = "kvantum";
@@ -134,11 +186,116 @@ in'
 
   xdg.configFile."Kvantum/kvantum.kvconfig".text = '"''"'
     [General]
-    theme=catppuccin-mocha-lavender
-  '"''"';
+    theme=quickshell-theme
+  '"''"';'
+      ;;
+    pastelglow)
+      let_block=''
+      catppuccin_block=''
+      gtk_block=$(cat << GTKEOF
+  gtk = {
+    enable = true;
+    theme = {
+      name = "adw-gtk3";
+      package = pkgs.adw-gtk3;
+    };
+    iconTheme = {
+      name = "Papirus-Light";
+      package = pkgs.papirus-icon-theme;
+    };
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 10;
+    };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 0;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 0;
+    gtk3.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
+    gtk4.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
+  };
+GTKEOF
+)
+      dconf_block='  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = "prefer-light";
+    gtk-theme = "adw-gtk3";
+  };'
+      kvantum_block='  qt = {
+    enable = true;
+    platformTheme.name = "kvantum";
+    style.name = "kvantum";
+  };
 
-  xdg.configFile."Kvantum/catppuccin-mocha-lavender".source =
-    "${catppuccinKvantum}/share/Kvantum/catppuccin-mocha-lavender";'
+  xdg.configFile."Kvantum/kvantum.kvconfig".text = '"''"'
+    [General]
+    theme=quickshell-theme
+  '"''"';'
       ;;
     rosepine)
       let_block=''
@@ -168,7 +325,12 @@ in'
     enable = true;
     platformTheme.name = "kvantum";
     style.name = "kvantum";
-  };'
+  };
+
+  xdg.configFile."Kvantum/kvantum.kvconfig".text = '"''"'
+    [General]
+    theme=quickshell-theme
+  '"''"';'
       ;;
     gruvbox)
       let_block=''
@@ -236,8 +398,13 @@ in'
     carbonfox)
       let_block=''
       catppuccin_block=''
-      gtk_block='  gtk = {
+      gtk_block=$(cat << GTKEOF
+  gtk = {
     enable = true;
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
@@ -248,15 +415,93 @@ in'
     };
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
-  };'
+    gtk3.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
+    gtk4.extraCss = ''
+      @define-color accent_color ${C[accent]};
+      @define-color accent_bg_color ${C[accent]};
+      @define-color accent_fg_color ${C[base]};
+      @define-color destructive_color ${C[red]};
+      @define-color destructive_bg_color ${C[red]};
+      @define-color destructive_fg_color ${C[base]};
+      @define-color success_color ${C[green]};
+      @define-color success_bg_color ${C[green]};
+      @define-color success_fg_color ${C[base]};
+      @define-color warning_color ${C[yellow]};
+      @define-color warning_bg_color ${C[yellow]};
+      @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
+      @define-color window_bg_color ${C[base]};
+      @define-color window_fg_color ${C[text]};
+      @define-color view_bg_color ${C[mantle]};
+      @define-color view_fg_color ${C[text]};
+      @define-color headerbar_bg_color ${C[crust]};
+      @define-color headerbar_fg_color ${C[text]};
+      @define-color headerbar_border_color ${C[surface0]};
+      @define-color headerbar_backdrop_color ${C[mantle]};
+      @define-color headerbar_shade_color ${C[crust]};
+      @define-color card_bg_color ${C[surface0]};
+      @define-color card_fg_color ${C[text]};
+      @define-color card_shade_color ${C[crust]};
+      @define-color dialog_bg_color ${C[base]};
+      @define-color dialog_fg_color ${C[text]};
+      @define-color popover_bg_color ${C[surface0]};
+      @define-color popover_fg_color ${C[text]};
+      @define-color sidebar_bg_color ${C[mantle]};
+      @define-color sidebar_fg_color ${C[text]};
+    '';
+  };
+GTKEOF
+)
       dconf_block='  dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = "prefer-dark";
+    gtk-theme = "adw-gtk3-dark";
   };'
       kvantum_block='  qt = {
     enable = true;
     platformTheme.name = "kvantum";
     style.name = "kvantum";
-  };'
+  };
+
+  xdg.configFile."Kvantum/kvantum.kvconfig".text = '"''"'
+    [General]
+    theme=quickshell-theme
+  '"''"';'
       ;;
     gruvbox-light)
       let_block=''
@@ -832,35 +1077,36 @@ NIXEOF
 gen_nvim_colorscheme_nix() {
   local cs="${C[nvim_colorscheme]}"
 
-  if [ "$cs" = "catppuccin" ]; then
+  if [ "$cs" = "kanagawa" ]; then
     cat > "$NIXCFG/nvim/plugins/colorscheme.nix" << 'NIXEOF'
+{ pkgs, ... }:
 {
-  programs.nixvim.colorschemes.catppuccin = {
-    enable = true;
-    settings = {
-      flavour = "mocha";
-      color_overrides = {
-        mocha = {
-          blue = "#b4befe";
+  programs.nixvim = {
+    extraPlugins = [ pkgs.vimPlugins.kanagawa-nvim ];
+    colorscheme = "kanagawa-lotus";
+    opts.background = "light";
+  };
+}
+NIXEOF
+  elif [ "$cs" = "pastelglow" ]; then
+    # TODO: run `nix-prefetch-github ankushbhagats pastel.nvim` to get the real hash
+    cat > "$NIXCFG/nvim/plugins/colorscheme.nix" << 'NIXEOF'
+{ pkgs, ... }:
+{
+  programs.nixvim = {
+    extraPlugins = [
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "pastel-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "ankushbhagats";
+          repo = "pastel.nvim";
+          rev = "67e5aa4a6f70a38a4cc2e814221c9b2f8f354749";
+          sha256 = "sha256-+6/HgHjNdiXGA8Zn2MS6gRdSCyV9v5I/bgoCf/wvnmQ=";
         };
-      };
-      integrations = {
-        gitsigns = true;
-        neotree = true;
-        treesitter = true;
-        which_key = true;
-        indent_blankline = {
-          enabled = true;
-        };
-        native_lsp = {
-          enabled = true;
-          underlines = {
-            errors = [ "undercurl" ];
-            warnings = [ "undercurl" ];
-          };
-        };
-      };
-    };
+      })
+    ];
+    colorscheme = "pastelglow";
+    opts.background = "light";
   };
 }
 NIXEOF

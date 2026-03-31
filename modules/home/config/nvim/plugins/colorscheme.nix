@@ -2,48 +2,27 @@
 {
   programs.nixvim = {
     extraPlugins = with pkgs.vimPlugins; [
-      catppuccin-nvim
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "pastel-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "ankushbhagats";
+          repo = "pastel.nvim";
+          rev = "67e5aa4a6f70a38a4cc2e814221c9b2f8f354749";
+          sha256 = "sha256-+6/HgHjNdiXGA8Zn2MS6gRdSCyV9v5I/bgoCf/wvnmQ=";
+        };
+      })
       rose-pine
       gruvbox-nvim
       nightfox-nvim
-      everforest
+      kanagawa-nvim
     ];
 
     extraConfigLua = ''
-      require("catppuccin").setup({
-        flavour = "mocha",
-        transparent_background = true,
-        color_overrides = {
-          mocha = { blue = "#b4befe" },
-        },
-        integrations = {
-          blink_cmp = true,
-          dap = true,
-          dap_ui = true,
-          gitsigns = true,
-          indent_blankline = { enabled = true },
-          markdown = true,
-          native_lsp = {
-            enabled = true,
-            underlines = {
-              errors = { "undercurl" },
-              warnings = { "undercurl" },
-              hints = { "undercurl" },
-              information = { "undercurl" },
-            },
-            virtual_text = {
-              errors = { "italic" },
-              warnings = { "italic" },
-              hints = { "italic" },
-              information = { "italic" },
-            },
-          },
-          neo_tree = true,
-          render_markdown = true,
-          treesitter = true,
-          which_key = true,
-          trouble = true,
-          todo_comments = true,
+      require("pastel").setup({
+        style = {
+          transparent = true,
+          italic = true,
+          bold = true,
         },
       })
 
@@ -111,21 +90,24 @@
         },
       })
 
-      vim.g.everforest_transparent_background = 1
-      vim.g.everforest_background = "medium"
-      vim.g.everforest_better_performance = 1
-      vim.g.everforest_enable_italic = 1
-      vim.g.everforest_diagnostic_text_highlight = 1
-      vim.g.everforest_diagnostic_virtual_text = "colored"
+      require("kanagawa").setup({
+        compile = false,
+        undercurl = true,
+        transparent = true,
+        dimInactive = false,
+        terminalColors = true,
+        theme = "lotus",
+        background = { dark = "wave", light = "lotus" },
+      })
 
       -- Dynamic colorscheme from .current-theme
       local theme_map = {
-        catppuccin        = { cs = "catppuccin", bg = "dark"  },
+        pastelglow        = { cs = "pastelglow", bg = "light" },
         rosepine          = { cs = "rose-pine",  bg = "dark"  },
         gruvbox           = { cs = "gruvbox",    bg = "dark"  },
         ["gruvbox-light"] = { cs = "gruvbox",    bg = "light" },
         carbonfox         = { cs = "carbonfox",  bg = "dark"  },
-        everforest        = { cs = "everforest", bg = "dark"  },
+        ["kanagawa-lotus"] = { cs = "kanagawa-lotus", bg = "light" },
       }
 
       vim.api.nvim_create_autocmd("ColorScheme", {
@@ -144,7 +126,7 @@
       })
 
       local f = io.open(vim.fn.expand("~/.config/quickshell/.current-theme"), "r")
-      local entry = theme_map["catppuccin"]
+      local entry = theme_map["pastelglow"]
       if f then
         local raw = f:read("*l"):gsub("%s+", "")
         f:close()

@@ -49,16 +49,16 @@
         BASE_DIR="$HOME/Pictures/Wallpapers"
 
         declare -A THEME_DIRS
-        THEME_DIRS[catppuccin]="CatppuccinMocha"
+        THEME_DIRS[pastelglow]="PastelGlow"
         THEME_DIRS[rosepine]="RosePine"
-        THEME_DIRS[everforest]="Everforest"
+        THEME_DIRS[kanagawa-lotus]="KanagawaLotus"
         THEME_DIRS[carbonfox]="Carbonfox"
         THEME_DIRS[gruvbox]="GruvboxDark"
         THEME_DIRS[gruvbox-light]="GruvboxLight"
 
         while true; do
           theme=$(cat "$THEME_FILE" 2>/dev/null | tr -d '[:space:]')
-          subdir="''${THEME_DIRS[$theme]:-CatppuccinMocha}"
+          subdir="''${THEME_DIRS[$theme]:-PastelGlow}"
           WALLPAPER_DIR="$BASE_DIR/$subdir"
 
           wallpaper=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) | shuf -n 1)

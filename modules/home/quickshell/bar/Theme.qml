@@ -5,20 +5,32 @@ import Quickshell.Io
 
 QtObject {
     // ── Theme switching ──
-    property string currentTheme: "catppuccin"
+    property string currentTheme: "pastelglow"
 
     readonly property var themes: ({
-        "catppuccin": {
-            name: "Catppuccin Mocha",
-            background: "#232332",
-            text: "#b4befe",
-            separator: "#313244",
-            warning: "#f38ba8",
-            caution: "#45475a",
-            misc: "#94e2d5",
-            process: "#89b4fa",
-            accent: "#cba6f7",
-            highlight: "#b4befe"
+        "carbonfox": {
+            name: "Carbonfox",
+            background: "#161616",
+            text: "#f2f4f8",
+            separator: "#2a2a2a",
+            warning: "#ff0000",
+            caution: "#525253",
+            misc: "#808080",
+            process: "#a0a0a0",
+            accent: "#3a3a3a",
+            highlight: "#c6c6c6"
+        },
+        "kanagawa-lotus": {
+            name: "Kanagawa Lotus",
+            background: "#f2ecbc",
+            text: "#545464",
+            separator: "#d5cea3",
+            warning: "#c84053",
+            caution: "#716e61",
+            misc: "#597b75",
+            process: "#4e8ca2",
+            accent: "#b35b79",
+            highlight: "#de9800"
         },
         "rosepine": {
             name: "Ros\u00e9 Pine",
@@ -32,6 +44,18 @@ QtObject {
             accent: "#c4a7e7",
             highlight: "#c4a7e7"
         },
+        "pastelglow": {
+            name: "Pastel Glow",
+            background: "#F8E9EE",
+            text: "#3B2730",
+            separator: "#E2C2CB",
+            warning: "#E0486B",
+            caution: "#8B6F79",
+            misc: "#63C7C8",
+            process: "#6D8CE3",
+            accent: "#B86EE6",
+            highlight: "#E0486B"
+        },
         "gruvbox": {
             name: "Gruvbox Dark",
             background: "#282828",
@@ -43,30 +67,6 @@ QtObject {
             process: "#83a598",
             accent: "#d3869b",
             highlight: "#fabd2f"
-        },
-        "everforest": {
-            name: "Everforest Dark",
-            background: "#2d3b2d",
-            text: "#d3c6aa",
-            separator: "#374637",
-            warning: "#e67e80",
-            caution: "#414f41",
-            misc: "#83c092",
-            process: "#7fbbb3",
-            accent: "#a7c080",
-            highlight: "#a7c080"
-        },
-        "carbonfox": {
-            name: "Carbonfox",
-            background: "#161616",
-            text: "#f2f4f8",
-            separator: "#2a2a2a",
-            warning: "#ff0000",
-            caution: "#525253",
-            misc: "#808080",
-            process: "#a0a0a0",
-            accent: "#3a3a3a",
-            highlight: "#c6c6c6"
         },
         "gruvbox-light": {
             name: "Gruvbox Light",
@@ -82,7 +82,7 @@ QtObject {
         }
     })
 
-    readonly property var _current: themes[currentTheme] || themes["catppuccin"]
+    readonly property var _current: themes[currentTheme] || themes["pastelglow"]
 
     // ── Colors (reactive) ──
     readonly property color background: _current.background
@@ -99,9 +99,9 @@ QtObject {
 
     // ── Wallpaper directories ──
     readonly property var wallpaperDirs: ({
-        "catppuccin": "CatppuccinMocha",
+        "pastelglow": "PastelGlow",
         "rosepine": "RosePine",
-        "everforest": "Everforest",
+        "kanagawa-lotus": "KanagawaLotus",
         "carbonfox": "Carbonfox",
         "gruvbox": "GruvboxDark",
         "gruvbox-light": "GruvboxLight"

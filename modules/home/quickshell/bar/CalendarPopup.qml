@@ -214,17 +214,24 @@ Item {
                 }
 
                 // ── Main popup panel ──
-                Rectangle {
-                    id: popup
+                Item {
+                    id: popupClip
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: BarState.isTop ? parent.top : undefined
                     anchors.bottom: BarState.isTop ? undefined : parent.bottom
                     width: 880
                     height: 520
+                    clip: true
+
+                    Rectangle {
+                    id: popup
+                    anchors.fill: parent
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: BarState.isTop ? 0 : -radius
                     color: Theme.background
-                    radius: BarState.isTop ? 16 : 0
+                    radius: 16
                     border.color: Theme.separator
-                    border.width: BarState.isTop ? 1 : 0
+                    border.width: 1
 
                     // Block clicks inside
                     MouseArea { anchors.fill: parent }
@@ -1678,6 +1685,7 @@ Item {
 
                             }
                         }
+                    }
                     }
                 }
             }

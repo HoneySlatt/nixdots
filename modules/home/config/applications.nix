@@ -172,6 +172,14 @@
       categories = [ "System" "Documentation" ];
     };
 
+    zed-editor = {
+      name       = "Zed";
+      exec       = "zeditor %F";
+      icon       = "zed";
+      comment    = "High-performance code editor";
+      categories = [ "Development" "TextEditor" ];
+    };
+
     # ─── TUI / CLI Tools ─────────────────────────────────────────────────────
 
     kitty = {

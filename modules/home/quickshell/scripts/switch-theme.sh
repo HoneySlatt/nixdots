@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Switch Nix theme — kitty, yazi, neovim, hyprland, gtk, fastfetch
 
-THEME="${1:-catppuccin}"
+THEME="${1:-pastelglow}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 declare -A C
@@ -11,19 +11,19 @@ if load_common_palette "$THEME"; then
   :
 else
   case "$THEME" in
-    everforest)
-      C[name]="Everforest Dark"
-      C[base]="#2d3b2d" C[mantle]="#283328" C[crust]="#232b23"
-      C[surface0]="#374637" C[surface1]="#414f41" C[surface2]="#4a584a"
-      C[overlay0]="#6a7b6a" C[overlay1]="#7a8b7a"
-      C[text]="#d3c6aa" C[subtext1]="#c9b99a" C[subtext0]="#b9a98a"
-      C[red]="#e67e80" C[maroon]="#e67e80" C[rosewater]="#c9b99a" C[flamingo]="#c9b99a"
-      C[pink]="#df69ba" C[mauve]="#df69ba" C[lavender]="#7fbbb3"
-      C[blue]="#7fbbb3" C[sapphire]="#7fbbb3" C[sky]="#7fbbb3"
-      C[teal]="#83c092" C[green]="#a7c080" C[yellow]="#dbbc7f"
-      C[peach]="#e69875" C[orange]="#e69875"
-      C[accent]="#a7c080"
-      C[overlay2]="#8a9b8a"
+    kanagawa-lotus)
+      C[name]="Kanagawa Lotus"
+      C[base]="#f2ecbc" C[mantle]="#e5ddb0" C[crust]="#dcd5ac"
+      C[surface0]="#d5cea3" C[surface1]="#e7dba0" C[surface2]="#dcd7ba"
+      C[overlay0]="#716e61" C[overlay1]="#8a8980"
+      C[text]="#545464" C[subtext1]="#43436c" C[subtext0]="#716e61"
+      C[red]="#c84053" C[maroon]="#d7474b" C[rosewater]="#e7dba0" C[flamingo]="#d9a594"
+      C[pink]="#b35b79" C[mauve]="#766b90" C[lavender]="#624c83"
+      C[blue]="#4d699b" C[sapphire]="#6693bf" C[sky]="#4e8ca2"
+      C[teal]="#597b75" C[green]="#6f894e" C[yellow]="#de9800"
+      C[peach]="#cc6d00" C[orange]="#e98a00"
+      C[accent]="#b35b79"
+      C[overlay2]="#a09cac"
       ;;
     carbonfox)
       C[name]="Carbonfox"
@@ -48,10 +48,11 @@ fi
 
 # Script-specific keys per theme
 case "$THEME" in
-  catppuccin)
-    C[cat_accent]="lavender" C[kitty_theme]="catppuccin-mocha"
-    C[gtk_theme]="catppuccin-mocha-lavender-standard" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="CatppuccinMocha"
+  pastelglow)
+    C[cat_accent]="pink" C[kitty_theme]="pastelglow"
+    C[gtk_theme]="Gruvbox-Light" C[gtk_scheme]="prefer-light"
+    C[icon_theme]="Papirus-Light"
+    C[wallpaper_dir]="PastelGlow"
     ;;
   rosepine)
     C[cat_accent]="lavender" C[kitty_theme]="rose-pine"
@@ -63,10 +64,11 @@ case "$THEME" in
     C[gtk_theme]="Gruvbox-Dark" C[gtk_scheme]="prefer-dark"
     C[wallpaper_dir]="GruvboxDark"
     ;;
-  everforest)
-    C[cat_accent]="green" C[kitty_theme]="everforest"
-    C[gtk_theme]="Gruvbox-Dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="Everforest"
+  kanagawa-lotus)
+    C[cat_accent]="pink" C[kitty_theme]="kanagawa-lotus"
+    C[gtk_theme]="adw-gtk3" C[gtk_scheme]="prefer-light"
+    C[icon_theme]="Papirus-Light"
+    C[wallpaper_dir]="KanagawaLotus"
     ;;
   carbonfox)
     C[cat_accent]="mauve" C[kitty_theme]="carbonfox" C[hypr_accent]="#3a3a3a" C[accent_ui]="#3a3a3a"
@@ -167,12 +169,12 @@ gen_yazi_theme() {
 nvim_reload() {
   local cs bg
   case "$THEME" in
-      catppuccin)    cs="catppuccin" bg="dark"  ;;
+      pastelglow)    cs="pastelglow" bg="light" ;;
     rosepine)      cs="rose-pine"  bg="dark"  ;;
     gruvbox)       cs="gruvbox"    bg="dark"  ;;
     gruvbox-light) cs="gruvbox"    bg="light" ;;
     carbonfox)     cs="carbonfox"  bg="dark"  ;;
-    everforest)    cs="everforest" bg="dark"  ;;
+    kanagawa-lotus) cs="kanagawa-lotus" bg="light" ;;
   esac
   local uid
   uid=$(id -u)
@@ -729,7 +731,8 @@ version: "1.0"
 EOF
 
   cat > "$theme_dir/quickshell.scss" << EOF
-body.body--dark {
+body.body--dark,
+body.body--light {
   --accent:   ${C[accent_ui]:-${C[accent]}};
   --text:     ${C[text]};
   --subtext1: ${C[subtext1]};
@@ -1197,10 +1200,21 @@ switch_jellyfin() {
 
   local css
   case "$THEME" in
-    catppuccin)
-      css="@import url('https://jellyfin.catppuccin.com/theme.css');
-@import url('https://jellyfin.catppuccin.com/catppuccin-mocha.css');
-:root { --main-color: var(--lavender); }" ;;
+    pastelglow)
+      css=":root {
+    --main-color: ${C[accent]};
+    --main-background: ${C[base]};
+    --main-background-transparent: ${C[base]}dd;
+    --dark-background: ${C[crust]};
+    --second-background: ${C[mantle]};
+    --hover-background: ${C[surface0]};
+    --main-text: ${C[text]};
+    --white-text: ${C[text]};
+    --dimmer-text: ${C[overlay1]};
+    --red-color: ${C[red]};
+    --green-color: ${C[green]};
+    --yellow-color: ${C[yellow]};
+}" ;;
     gruvbox-light)
       css="@import url('https://jellyfin.catppuccin.com/theme.css');
 @import url('https://jellyfin.catppuccin.com/catppuccin-latte.css');
@@ -1980,6 +1994,29 @@ EOF
   sed -i "s|\"mode\": \"[^\"]*\"|\"mode\": \"$mode\"|" "$settings"
 }
 
+# ── GIMP ────────────────────────────────────────────────────────────────────
+gen_gimp_theme() {
+  local gimp_css="$HOME/.config/GIMP/3.0/gimp.css"
+  cat > "$gimp_css" << EOF
+@define-color fg-color               ${C[text]};
+@define-color bg-color               ${C[base]};
+@define-color border-color           ${C[crust]};
+@define-color dimmed-fg-color        ${C[subtext0]};
+@define-color disabled-fg-color      ${C[overlay1]};
+@define-color disabled-button-color  ${C[overlay0]};
+@define-color hover-color            ${C[surface1]};
+@define-color widget-bg-color        ${C[mantle]};
+@define-color selected-color         ${C[surface0]};
+@define-color extreme-bg-color       ${C[crust]};
+@define-color extreme-selected-color ${C[surface0]};
+@define-color strong-border-color    ${C[mantle]};
+@define-color stronger-border-color  ${C[surface1]};
+@define-color edge-border-color      ${C[crust]};
+@define-color scrollbar-slider-color ${C[overlay1]};
+@define-color scrollbar-trough-color ${C[base]};
+EOF
+}
+
 # ── Main ────────────────────────────────────────────────────────────────────
 switch_kitty
 gen_btop_theme
@@ -2005,5 +2042,6 @@ switch_blender
 gen_kdeglobals
 gen_hyprlock_theme
 switch_zed
+gen_gimp_theme
 
 echo "Switched theme to: ${C[name]}"
