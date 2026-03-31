@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./mount.nix
     ./tailscale.nix
     ./jellyfin.nix
     ./kavita.nix
