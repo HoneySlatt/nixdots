@@ -40,7 +40,7 @@
     };
   };
 
-  home.file."NAS".source = config.lib.file.mkOutOfStoreSymlink "/mnt/ssd2";
+  systemd.tmpfiles.rules = ["L /home/honey/NAS - - - - /mnt/ssd2"];
 
   system.stateVersion = "25.11";
 }
