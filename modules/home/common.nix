@@ -13,9 +13,13 @@
     x11.enable = true;
   };
 
-  gtk.iconTheme = {
-    package = pkgs.papirus-icon-theme;
-    name = "Papirus-Dark";
+  gtk = {
+    enable = true;
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+    gtk4.theme = null;
   };
 
   fonts.fontconfig.enable = true;
