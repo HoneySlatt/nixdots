@@ -4,6 +4,7 @@
   wayland.windowManager.hyprland.settings = {
     exec-once = [
       "systemctl --user start hyprpolkitagent"
+      "hyprlock"
       "qs -c bar"
       "awww-daemon"
       "sleep 1 && wallpaper-rotation"
