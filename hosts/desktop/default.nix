@@ -4,8 +4,8 @@
   imports = [
     ./hardware.nix
     ./packages.nix
-    ../../NAS
     ./services/sunshine.nix
+    ../../modules/nixos/nas
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
     ../../modules/nixos/hyprland.nix

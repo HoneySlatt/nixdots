@@ -18,7 +18,7 @@
       # Single share exposing the full NAS disk
       # iOS apps (Panels, etc.) can navigate to Mangas/, PDF/, Books/, etc.
       "NAS" = {
-        "path"        = "/mnt/NAS";
+        "path"        = "/mnt/ssd2";
         "browseable"  = "yes";
         "read only"   = "no";
         "guest ok"    = "no";
