@@ -14,7 +14,7 @@
     ./hyprlock.nix
   ];
 
-  programs.hyprland = {
+  wayland.windowManager.hyprland = {
     enable = true;
 
     settings = {
