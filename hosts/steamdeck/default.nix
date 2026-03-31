@@ -5,6 +5,7 @@
     ./hardware.nix
     ./packages.nix
     ../../modules/nixos/common.nix
+    ../../modules/nixos/audio.nix
     inputs.jovian.nixosModules.default
   ];
 

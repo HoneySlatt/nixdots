@@ -6,6 +6,7 @@
     ../../NAS
     ./services/sunshine.nix
     ../../modules/nixos/common.nix
+    ../../modules/nixos/audio.nix
     ../../modules/nixos/greetd.nix
     ./packages.nix
   ];
