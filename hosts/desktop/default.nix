@@ -42,12 +42,5 @@
   services.libinput.mouse.accelProfile = "flat";
   security.pam.services.greetd.enableGnomeKeyring = true;
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    package = pkgs.millennium-steam;
-  };
-
   system.stateVersion = "25.11";
 }
