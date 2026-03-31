@@ -12,6 +12,7 @@
     extraConfigLua = ''
       require("catppuccin").setup({
         flavour = "mocha",
+        transparent_background = true,
         color_overrides = {
           mocha = { blue = "#b4befe" },
         },
@@ -59,7 +60,7 @@
         styles = {
           bold = true,
           italic = true,
-          transparency = false,
+          transparency = true,
         },
       })
 
@@ -88,7 +89,7 @@
 
       require("nightfox").setup({
         options = {
-          transparent = false,
+          transparent = true,
           terminal_colors = true,
           dim_inactive = { enabled = false },
           styles = {
@@ -110,6 +111,7 @@
         },
       })
 
+      vim.g.everforest_transparent_background = 1
       vim.g.everforest_background = "medium"
       vim.g.everforest_better_performance = 1
       vim.g.everforest_enable_italic = 1
@@ -130,6 +132,9 @@
         pattern = "carbonfox",
         callback = function()
           vim.schedule(function()
+            vim.api.nvim_set_hl(0, "Normal",       { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "NormalNC",     { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "NormalFloat",  { bg = "NONE" })
             vim.api.nvim_set_hl(0, "lualine_a_normal", { fg = "#161616", bg = "#c6c6c6", bold = true })
             vim.api.nvim_set_hl(0, "lualine_b_normal", { fg = "#f2f4f8", bg = "#3a3a3a" })
             vim.api.nvim_set_hl(0, "lualine_y_normal", { fg = "#f2f4f8", bg = "#3a3a3a" })
