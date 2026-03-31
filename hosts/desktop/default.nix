@@ -4,8 +4,8 @@
   imports = [
     ./hardware.nix
     ./packages.nix
-    ./services/sunshine.nix
     ../../modules/nixos/nas
+    ../../modules/nixos/services
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
     ../../modules/nixos/hyprland.nix
@@ -39,8 +39,6 @@
       "default.clock.max-quantum" = 512;
     };
   };
-
-  systemd.tmpfiles.rules = ["L /home/honey/NAS - - - - /mnt/ssd2"];
 
   system.stateVersion = "25.11";
 }

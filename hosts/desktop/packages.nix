@@ -5,8 +5,8 @@
     inputs.awww.overlays.default
     inputs.millennium.overlays.default
     (final: prev: {
-      steam-metadata-editor = final.callPackage ./pkgs/steam-metadata-editor.nix { };
-      pwasio = final.callPackage ./pkgs/pwasio.nix { };
+      steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
+      pwasio = final.callPackage ../../modules/home/pkgs/pwasio.nix { };
     })
   ];
 
