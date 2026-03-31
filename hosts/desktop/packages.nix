@@ -55,7 +55,6 @@
     protonmail-bridge
 
     # Others
-    ripdrag
     jellyfin-mpv-shim
     wineWow64Packages.stagingFull
 
