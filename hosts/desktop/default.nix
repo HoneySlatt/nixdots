@@ -3,13 +3,13 @@
 {
   imports = [
     ./hardware.nix
+    ./packages.nix
     ../../NAS
     ./services/sunshine.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
     ../../modules/nixos/greetd.nix
     ../../modules/nixos/hyprland.nix
-    ./packages.nix
   ];
 
   networking.hostName = "NixBTW";
