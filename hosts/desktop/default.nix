@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -9,6 +9,16 @@
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
     ../../modules/nixos/hyprland.nix
+  ];
+
+  # TODO: remove when claude-code 2.1.88 tarball is fixed in nixos-unstable and remove inputs from the top of the config too
+  nixpkgs.overlays = [
+    (final: prev: {
+      claude-code = (import inputs.nixpkgs-unstable {
+        system = prev.system;
+        config.allowUnfree = true;
+      }).claude-code;
+    })
   ];
 
   networking.hostName = "NixBTW";

@@ -139,6 +139,7 @@ Item {
         }
     }
 
+
     Variants {
         model: Quickshell.screens
 
@@ -1286,6 +1287,7 @@ Item {
                                         }
                                     }
                                 }
+
                             }
 
                             }

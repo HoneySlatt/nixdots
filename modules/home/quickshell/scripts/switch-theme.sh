@@ -11,20 +11,6 @@ if load_common_palette "$THEME"; then
   :
 else
   case "$THEME" in
-    kanagawa-lotus)
-      C[name]="Kanagawa Lotus"
-      C[base]="#f2ecbc" C[mantle]="#e5ddb0" C[crust]="#dcd5ac"
-      C[surface0]="#d5cea3" C[surface1]="#e7dba0" C[surface2]="#dcd7ba"
-      C[overlay0]="#716e61" C[overlay1]="#8a8980"
-      C[text]="#545464" C[subtext1]="#43436c" C[subtext0]="#716e61"
-      C[red]="#c84053" C[maroon]="#d7474b" C[rosewater]="#e7dba0" C[flamingo]="#d9a594"
-      C[pink]="#b35b79" C[mauve]="#766b90" C[lavender]="#624c83"
-      C[blue]="#4d699b" C[sapphire]="#6693bf" C[sky]="#4e8ca2"
-      C[teal]="#597b75" C[green]="#6f894e" C[yellow]="#de9800"
-      C[peach]="#cc6d00" C[orange]="#e98a00"
-      C[accent]="#b35b79"
-      C[overlay2]="#a09cac"
-      ;;
     carbonfox)
       C[name]="Carbonfox"
       C[base]="#161616" C[mantle]="#121212" C[crust]="#121212"
@@ -64,11 +50,10 @@ case "$THEME" in
     C[gtk_theme]="Gruvbox-Dark" C[gtk_scheme]="prefer-dark"
     C[wallpaper_dir]="GruvboxDark"
     ;;
-  kanagawa-lotus)
-    C[cat_accent]="pink" C[kitty_theme]="kanagawa-lotus"
-    C[gtk_theme]="adw-gtk3" C[gtk_scheme]="prefer-light"
-    C[icon_theme]="Papirus-Light"
-    C[wallpaper_dir]="KanagawaLotus"
+  everforest)
+    C[cat_accent]="green" C[kitty_theme]="everforest-dark"
+    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
+    C[wallpaper_dir]="Everforest"
     ;;
   carbonfox)
     C[cat_accent]="mauve" C[kitty_theme]="carbonfox" C[hypr_accent]="#3a3a3a" C[accent_ui]="#3a3a3a"
@@ -174,7 +159,7 @@ nvim_reload() {
     gruvbox)       cs="gruvbox"    bg="dark"  ;;
     gruvbox-light) cs="gruvbox"    bg="light" ;;
     carbonfox)     cs="carbonfox"  bg="dark"  ;;
-    kanagawa-lotus) cs="kanagawa-lotus" bg="light" ;;
+    everforest) cs="everforest" bg="dark" ;;
   esac
   local uid
   uid=$(id -u)

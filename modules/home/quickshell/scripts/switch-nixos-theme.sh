@@ -50,8 +50,8 @@ fi
 
 # Script-specific keys per theme
 case "$THEME" in
-  kanagawa-lotus)
-    C[nvim_colorscheme]="kanagawa"
+  everforest)
+    C[nvim_colorscheme]="everforest"
     C[nvim_flavour]='' C[nvim_extra]='' C[lualine_theme]="auto"
     ;;
   pastelglow)
@@ -87,26 +87,26 @@ gen_themes_nix() {
   local let_block catppuccin_block gtk_block dconf_block kvantum_block
 
   case "$THEME" in
-    kanagawa-lotus)
+    everforest)
       let_block=''
       catppuccin_block=''
       gtk_block=$(cat << GTKEOF
   gtk = {
     enable = true;
     theme = {
-      name = "adw-gtk3";
+      name = "adw-gtk3-dark";
       package = pkgs.adw-gtk3;
     };
     iconTheme = {
-      name = "Papirus-Light";
+      name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
     font = {
       name = "JetBrainsMono Nerd Font";
       size = 10;
     };
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = 0;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 0;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk3.extraCss = ''
       @define-color accent_color ${C[accent]};
       @define-color accent_bg_color ${C[accent]};
@@ -120,6 +120,9 @@ gen_themes_nix() {
       @define-color warning_color ${C[yellow]};
       @define-color warning_bg_color ${C[yellow]};
       @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
       @define-color window_bg_color ${C[base]};
       @define-color window_fg_color ${C[text]};
       @define-color view_bg_color ${C[mantle]};
@@ -152,6 +155,9 @@ gen_themes_nix() {
       @define-color warning_color ${C[yellow]};
       @define-color warning_bg_color ${C[yellow]};
       @define-color warning_fg_color ${C[base]};
+      @define-color error_color ${C[red]};
+      @define-color error_bg_color ${C[red]};
+      @define-color error_fg_color ${C[base]};
       @define-color window_bg_color ${C[base]};
       @define-color window_fg_color ${C[text]};
       @define-color view_bg_color ${C[mantle]};
@@ -175,8 +181,8 @@ gen_themes_nix() {
 GTKEOF
 )
       dconf_block='  dconf.settings."org/gnome/desktop/interface" = {
-    color-scheme = "prefer-light";
-    gtk-theme = "adw-gtk3";
+    color-scheme = "prefer-dark";
+    gtk-theme = "adw-gtk3-dark";
   };'
       kvantum_block='  qt = {
     enable = true;
@@ -1077,14 +1083,14 @@ NIXEOF
 gen_nvim_colorscheme_nix() {
   local cs="${C[nvim_colorscheme]}"
 
-  if [ "$cs" = "kanagawa" ]; then
+  if [ "$cs" = "everforest" ]; then
     cat > "$NIXCFG/nvim/plugins/colorscheme.nix" << 'NIXEOF'
 { pkgs, ... }:
 {
   programs.nixvim = {
-    extraPlugins = [ pkgs.vimPlugins.kanagawa-nvim ];
-    colorscheme = "kanagawa-lotus";
-    opts.background = "light";
+    extraPlugins = [ pkgs.vimPlugins.everforest ];
+    colorscheme = "everforest";
+    opts.background = "dark";
   };
 }
 NIXEOF

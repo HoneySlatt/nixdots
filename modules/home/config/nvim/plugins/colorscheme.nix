@@ -14,7 +14,7 @@
       rose-pine
       gruvbox-nvim
       nightfox-nvim
-      kanagawa-nvim
+      everforest
     ];
 
     extraConfigLua = ''
@@ -90,15 +90,6 @@
         },
       })
 
-      require("kanagawa").setup({
-        compile = false,
-        undercurl = true,
-        transparent = true,
-        dimInactive = false,
-        terminalColors = true,
-        theme = "lotus",
-        background = { dark = "wave", light = "lotus" },
-      })
 
       -- Dynamic colorscheme from .current-theme
       local theme_map = {
@@ -107,7 +98,7 @@
         gruvbox           = { cs = "gruvbox",    bg = "dark"  },
         ["gruvbox-light"] = { cs = "gruvbox",    bg = "light" },
         carbonfox         = { cs = "carbonfox",  bg = "dark"  },
-        ["kanagawa-lotus"] = { cs = "kanagawa-lotus", bg = "light" },
+        everforest        = { cs = "everforest", bg = "dark"  },
       }
 
       vim.api.nvim_create_autocmd("ColorScheme", {

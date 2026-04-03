@@ -34,8 +34,6 @@
       cursor_trail_decay           = "0.1 0.2";
       cursor_trail_start_threshold = 1;
 
-      kitty_mod = "ctrl";
-
       wayland_titlebar_color = "system";
     };
   };

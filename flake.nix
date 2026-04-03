@@ -24,6 +24,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    # pinned for nodePackages.less used by quickshell userstyle compiler
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # claude-code 2.1.88 tarball 404 in nixos-unstable, use nixpkgs-unstable until fixed
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -38,6 +42,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; }; # needed to pass nixpkgs-stable to home modules
             home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
             home-manager.users.honey = import ./modules/home/desktop.nix;
           }

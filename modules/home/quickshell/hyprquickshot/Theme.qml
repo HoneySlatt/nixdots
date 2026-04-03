@@ -22,10 +22,10 @@ QtObject {
             warning: "#fb4934", caution: "#504945", misc: "#8ec07c",
             process: "#83a598", accent: "#d3869b", highlight: "#fabd2f"
         },
-        "kanagawa-lotus": {
-            background: "#f2ecbc", text: "#545464", separator: "#d5cea3",
-            warning: "#c84053", caution: "#716e61", misc: "#597b75",
-            process: "#4e8ca2", accent: "#b35b79", highlight: "#de9800"
+        "everforest": {
+            background: "#2d353b", text: "#d3c6aa", separator: "#343f44",
+            warning: "#e67e80", caution: "#3d484d", misc: "#83c092",
+            process: "#7fbbb3", accent: "#a7c080", highlight: "#dbbc7f"
         },
         "carbonfox": {
             background: "#161616", text: "#f2f4f8", separator: "#2a2a2a",

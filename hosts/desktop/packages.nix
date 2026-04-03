@@ -7,6 +7,8 @@
     (final: prev: {
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
       pwasio = final.callPackage ../../modules/home/pkgs/pwasio.nix { };
+      couik = final.callPackage ../../modules/home/pkgs/couik.nix { };
+      pomo = final.callPackage ../../modules/home/pkgs/pomo.nix { };
     })
   ];
 
@@ -60,6 +62,8 @@
 
     # Custom pkgs
     steam-metadata-editor
+    couik
+    pomo
   ];
 
   programs.steam = {

@@ -8,6 +8,8 @@ QtObject {
 
     property int volume: 0
     property bool muted: false
+    property var sinks: []
+    property string defaultSink: ""
 
     function volUp() { root._volUpProc.running = true; }
     function volDown() { root._volDownProc.running = true; }
@@ -54,6 +56,48 @@ QtObject {
     readonly property var _setVolProc: Process {
         running: false
         onExited: root._volumeProc.running = true
+    }
+
+    function setDefaultSink(name) {
+        root._setDefaultSinkProc.command = ["pactl", "set-default-sink", name];
+        root._setDefaultSinkProc.running = true;
+    }
+
+    function refreshSinks() {
+        root._sinksProc.running = true;
+        root._defaultSinkProc.running = true;
+    }
+
+    readonly property var _sinksProc: Process {
+        command: ["pactl", "list", "short", "sinks"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let lines = this.text.trim().split("\n").filter(l => l.trim() !== "");
+                root.sinks = lines.map(l => {
+                    let parts = l.split("\t");
+                    return { id: parts[0] || "", name: parts[1] || "" };
+                });
+            }
+        }
+    }
+
+    readonly property var _defaultSinkProc: Process {
+        command: ["pactl", "get-default-sink"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.defaultSink = this.text.trim();
+            }
+        }
+    }
+
+    readonly property var _setDefaultSinkProc: Process {
+        running: false
+        onExited: {
+            root.refreshSinks();
+            root._volumeProc.running = true;
+        }
     }
 
     readonly property var _subscribeProc: Process {

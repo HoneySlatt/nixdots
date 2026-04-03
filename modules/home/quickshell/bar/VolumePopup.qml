@@ -19,6 +19,7 @@ Item {
             property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
 
             color: "transparent"
+            property bool showDevices: false
 
             WlrLayershell.namespace: "quickshell:volumepopup"
             WlrLayershell.layer: WlrLayer.Overlay
@@ -46,6 +47,7 @@ Item {
                     } else {
                         grabTimer.stop();
                         grab.active = false;
+                        root.showDevices = false;
                     }
                 }
             }
@@ -86,7 +88,7 @@ Item {
                     anchors.bottom: BarState.isTop ? undefined : parent.bottom
                     anchors.right: parent.right
                     anchors.rightMargin: 86
-                    width: 210
+                    width: 240
                     height: contentCol.height + 24
                     clip: true
 
@@ -199,29 +201,122 @@ Item {
                             }
                         }
 
-                        // ── Mute button ──
+                        // ── Output devices button ──
 
                         Rectangle {
                             width: parent.width
                             height: 28
                             radius: 6
-                            color: muteMa.containsMouse ? Theme.separator : "transparent"
+                            color: devicesMa.containsMouse ? Theme.separator : "transparent"
 
-                            Text {
+                            Row {
                                 anchors.centerIn: parent
-                                text: VolumeState.muted ? "\uf026  Unmute" : "\uf028  Mute"
-                                color: VolumeState.muted ? Theme.caution : Theme.text
-                                font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontSize - 1
-                                font.weight: Theme.fontWeight
+                                spacing: 6
+
+                                Text {
+                                    text: "\uf028"
+                                    color: Theme.misc
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSize - 1
+                                    font.weight: Theme.fontWeight
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Text {
+                                    text: "Output devices"
+                                    color: Theme.text
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSize - 1
+                                    font.weight: Theme.fontWeight
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Text {
+                                    text: root.showDevices ? "\uf0d8" : "\uf0d7"
+                                    color: Theme.misc
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSize - 2
+                                    font.weight: Theme.fontWeight
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
                             }
 
                             MouseArea {
-                                id: muteMa
+                                id: devicesMa
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onClicked: VolumeState.toggleMute()
+                                onClicked: {
+                                    root.showDevices = !root.showDevices;
+                                    if (root.showDevices)
+                                        VolumeState.refreshSinks();
+                                }
+                            }
+                        }
+
+                        // ── Sink list ──
+
+                        Column {
+                            visible: root.showDevices
+                            width: parent.width
+                            spacing: 2
+
+                            Repeater {
+                                model: VolumeState.sinks
+
+                                delegate: Rectangle {
+                                    required property var modelData
+                                    width: parent.width
+                                    height: 26
+                                    radius: 5
+                                    color: {
+                                        if (modelData.name === VolumeState.defaultSink)
+                                            return Qt.rgba(Theme.misc.r, Theme.misc.g, Theme.misc.b, 0.18);
+                                        if (sinkMa.containsMouse)
+                                            return Theme.separator;
+                                        return "transparent";
+                                    }
+
+                                    Row {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: 6
+                                        anchors.rightMargin: 6
+                                        spacing: 6
+
+                                        Text {
+                                            text: modelData.name === VolumeState.defaultSink ? "\uf058" : "\uf10c"
+                                            color: modelData.name === VolumeState.defaultSink ? Theme.misc : Theme.separator
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSize - 3
+                                            font.weight: Theme.fontWeight
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        Text {
+                                            text: {
+                                                let n = modelData.name;
+                                                n = n.replace(/^alsa_output\./, "");
+                                                n = n.replace(/\.(analog|digital)-(stereo|surround.*)$/, "");
+                                                return n;
+                                            }
+                                            color: modelData.name === VolumeState.defaultSink ? Theme.misc : Theme.text
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSize - 2
+                                            font.weight: Theme.fontWeight
+                                            width: parent.width - 22
+                                            elide: Text.ElideRight
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                    }
+
+                                    MouseArea {
+                                        id: sinkMa
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: VolumeState.setDefaultSink(modelData.name)
+                                    }
+                                }
                             }
                         }
                     }

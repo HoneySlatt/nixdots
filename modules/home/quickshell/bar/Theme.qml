@@ -20,17 +20,17 @@ QtObject {
             accent: "#3a3a3a",
             highlight: "#c6c6c6"
         },
-        "kanagawa-lotus": {
-            name: "Kanagawa Lotus",
-            background: "#f2ecbc",
-            text: "#545464",
-            separator: "#d5cea3",
-            warning: "#c84053",
-            caution: "#716e61",
-            misc: "#597b75",
-            process: "#4e8ca2",
-            accent: "#b35b79",
-            highlight: "#de9800"
+        "everforest": {
+            name: "Everforest Dark",
+            background: "#2d353b",
+            text: "#d3c6aa",
+            separator: "#343f44",
+            warning: "#e67e80",
+            caution: "#3d484d",
+            misc: "#83c092",
+            process: "#7fbbb3",
+            accent: "#a7c080",
+            highlight: "#dbbc7f"
         },
         "rosepine": {
             name: "Ros\u00e9 Pine",
@@ -101,7 +101,7 @@ QtObject {
     readonly property var wallpaperDirs: ({
         "pastelglow": "PastelGlow",
         "rosepine": "RosePine",
-        "kanagawa-lotus": "KanagawaLotus",
+        "everforest": "Everforest",
         "carbonfox": "Carbonfox",
         "gruvbox": "GruvboxDark",
         "gruvbox-light": "GruvboxLight"
