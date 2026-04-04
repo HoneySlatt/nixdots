@@ -47,7 +47,6 @@
     cava
     fastfetch
     imv
-    basalt
     zathura
     rustlings
     claude-code

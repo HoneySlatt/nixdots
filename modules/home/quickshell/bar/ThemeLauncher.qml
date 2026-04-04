@@ -32,8 +32,8 @@ Item {
 
             anchors { top: true; bottom: true; left: true; right: true }
 
-            readonly property int cardW: 340
-            readonly property int cardH: 140
+            readonly property int cardW: 420
+            readonly property int cardH: 170
             property int selectedIndex: 0
 
             onVisibleChanged: {

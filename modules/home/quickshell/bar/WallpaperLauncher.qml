@@ -8,7 +8,6 @@ Item {
     id: launcherScope
 
     property var wallpapers: []
-
     readonly property var themeDirs: ({
         "pastelglow":    "PastelGlow",
         "rosepine":      "RosePine",
@@ -18,6 +17,7 @@ Item {
         "everforest":    "Everforest"
     })
 
+    // Read list of wallpapers for current theme
     Process {
         id: findProc
         running: false
@@ -27,18 +27,22 @@ Item {
         }
         onExited: {
             const lines = findProc.buffer.trim().split("\n").filter(l => l.length > 0);
-            launcherScope.wallpapers = lines;
             findProc.buffer = "";
-            const mid = Math.floor(lines.length / 2);
-            carousel.currentIndex = mid;
-            carousel.positionViewAtIndex(mid, ListView.Center);
+            launcherScope.wallpapers = lines;
         }
     }
+
 
     Process {
         id: applyProc
         running: false
         command: []
+        onExited: WallpaperLauncherState.close()
+    }
+
+    function applyWallpaper(path) {
+        applyProc.command = ["awww", "img", path, "--transition-type", "wave", "--transition-duration", "2"];
+        applyProc.running = true;
     }
 
     Variants {
@@ -62,25 +66,22 @@ Item {
 
             anchors { top: true; bottom: true; left: true; right: true }
 
-            readonly property int cardW: 320
-            readonly property int cardH: 180
+            readonly property int cardW: 640
+            readonly property int cardH: 360
             property int selectedIndex: 0
+
 
             onVisibleChanged: {
                 if (visible) {
                     launcherScope.wallpapers = [];
                     root.selectedIndex = 0;
                     const dir = launcherScope.themeDirs[Theme.currentTheme] ?? "Carbonfox";
-                    const path = "/home/honey/Pictures/Wallpapers/" + dir;
-                    findProc.command = ["find", path, "-type", "f",
+                    findProc.command = ["find", "/home/honey/Pictures/Wallpapers/" + dir, "-type", "f",
                         "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"];
                     findProc.running = true;
                 }
             }
 
-            onSelectedIndexChanged: {
-                carousel.positionViewAtIndex(selectedIndex, ListView.Center);
-            }
 
             MouseArea {
                 anchors.fill: parent
@@ -96,12 +97,8 @@ Item {
                         WallpaperLauncherState.close();
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        if (launcherScope.wallpapers.length > 0) {
-                            applyProc.command = ["awww", "img", launcherScope.wallpapers[root.selectedIndex],
-                                "--transition-type", "wave", "--transition-duration", "2"];
-                            applyProc.running = true;
-                            WallpaperLauncherState.close();
-                        }
+                        if (launcherScope.wallpapers.length > 0)
+                            launcherScope.applyWallpaper(launcherScope.wallpapers[root.selectedIndex]);
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Right) {
                         if (root.selectedIndex < launcherScope.wallpapers.length - 1)
@@ -126,14 +123,21 @@ Item {
                 spacing: 20
                 clip: false
                 interactive: false
+                highlightMoveDuration: 0
 
                 preferredHighlightBegin: (width - root.cardW) / 2
                 preferredHighlightEnd:   (width + root.cardW) / 2
                 highlightRangeMode: ListView.StrictlyEnforceRange
 
-                Behavior on contentX {
-                    SmoothedAnimation { velocity: 1200 }
+                onCountChanged: {
+                    if (count > 0) {
+                        Qt.callLater(function() {
+                            root.selectedIndex = Math.floor(carousel.count / 2);
+                            carousel.positionViewAtIndex(root.selectedIndex, ListView.Center);
+                        });
+                    }
                 }
+
 
                 delegate: Item {
                     id: card
@@ -192,32 +196,13 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if (card.isSelected) {
-                                applyProc.command = ["awww", "img", modelData,
-                                    "--transition-type", "wave", "--transition-duration", "2"];
-                                applyProc.running = true;
-                                WallpaperLauncherState.close();
-                            } else {
+                            if (card.isSelected)
+                                launcherScope.applyWallpaper(modelData);
+                            else
                                 root.selectedIndex = index;
-                            }
                         }
                     }
                 }
-            }
-
-            // Wallpaper filename below carousel
-            Text {
-                anchors.top: carousel.bottom
-                anchors.topMargin: 12
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: {
-                    const p = launcherScope.wallpapers[root.selectedIndex] ?? "";
-                    return p.split("/").pop();
-                }
-                color: Theme.text
-                font.family: Theme.fontFamily
-                font.pointSize: 12
-                horizontalAlignment: Text.AlignHCenter
             }
         }
     }
