@@ -44,6 +44,14 @@ ShellRoot {
         active: CalendarPopupState.visible
         source: "CalendarPopup.qml"
     }
+    Loader {
+        active: SteamLauncherState.visible
+        source: "SteamLauncher.qml"
+    }
+    Loader {
+        active: ThemeLauncherState.visible
+        source: "ThemeLauncher.qml"
+    }
 
 
     Variants {
@@ -77,6 +85,22 @@ ShellRoot {
 
         function call() {
             PowerMenuState.toggle();
+        }
+    }
+
+    IpcHandler {
+        target: "toggleSteamLauncher"
+
+        function call() {
+            SteamLauncherState.toggle();
+        }
+    }
+
+    IpcHandler {
+        target: "toggleThemeLauncher"
+
+        function call() {
+            ThemeLauncherState.toggle();
         }
     }
 

@@ -9,7 +9,6 @@ QtObject {
     property int volume: 0
     property bool muted: false
     property var sinks: []
-    property string defaultSink: ""
 
     function volUp() { root._volUpProc.running = true; }
     function volDown() { root._volDownProc.running = true; }
@@ -58,36 +57,25 @@ QtObject {
         onExited: root._volumeProc.running = true
     }
 
-    function setDefaultSink(name) {
-        root._setDefaultSinkProc.command = ["pactl", "set-default-sink", name];
+    function setDefaultSink(sinkId) {
+        root._setDefaultSinkProc.command = ["wpctl", "set-default", sinkId];
         root._setDefaultSinkProc.running = true;
     }
 
     function refreshSinks() {
         root._sinksProc.running = true;
-        root._defaultSinkProc.running = true;
     }
 
     readonly property var _sinksProc: Process {
-        command: ["pactl", "list", "short", "sinks"]
+        command: ["sh", "-c", "wpctl status | awk '/^Audio/{a=1} a && /Sinks:/{b=1; next} a && b && /[0-9]+\\./{isdef=($0~/\\*/?\"1\":\"0\"); match($0,/[0-9]+\\./); nid=substr($0,RSTART,RLENGTH-1); rest=substr($0,RSTART+RLENGTH); gsub(/ \\[vol:.*/,\"\",rest); gsub(/^[ \\t]+|[ \\t]+$/,\"\",rest); print nid \"\\t\" isdef \"\\t\" rest} a && b && /Sources:/{exit}'"]
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
                 let lines = this.text.trim().split("\n").filter(l => l.trim() !== "");
                 root.sinks = lines.map(l => {
                     let parts = l.split("\t");
-                    return { id: parts[0] || "", name: parts[1] || "" };
-                });
-            }
-        }
-    }
-
-    readonly property var _defaultSinkProc: Process {
-        command: ["pactl", "get-default-sink"]
-        running: false
-        stdout: StdioCollector {
-            onStreamFinished: {
-                root.defaultSink = this.text.trim();
+                    return { sinkId: parts[0] || "", active: parts[1] === "1", label: parts[2] || "" };
+                }).filter(s => s.label !== "");
             }
         }
     }

@@ -1285,7 +1285,7 @@ gen_hyprland_borders() {
   sed -i \
     -e "s/\"col.active_border\" = \"rgba(.*)\"/\"col.active_border\" = \"rgba(${active_hex}ff)\"/" \
     -e "s/\"col.inactive_border\" = \"rgba(.*)\"/\"col.inactive_border\" = \"rgba(${inactive_hex}ff)\"/" \
-    "$HOME/NixOS/hyprland/settings.nix"
+    "$HOME/NixOS/modules/home/hyprland/settings.nix"
 }
 
 # ── Live reload ─────────────────────────────────────────────────────────────

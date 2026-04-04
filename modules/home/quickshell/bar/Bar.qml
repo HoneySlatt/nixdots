@@ -11,10 +11,11 @@ PanelWindow {
 
     readonly property bool isTop: BarState.isTop
 
-    // Hide bar when launcher is open on this monitor
+    // Hide bar when certain launchers are open on this monitor
     readonly property HyprlandMonitor barMonitor: Hyprland.monitorFor(bar.screen)
     property bool powerMenuOnThisScreen: PowerMenuState.visible && (Hyprland.focusedMonitor?.id === barMonitor?.id)
-    visible: !powerMenuOnThisScreen
+    property bool steamLauncherOnThisScreen: SteamLauncherState.visible && (Hyprland.focusedMonitor?.id === barMonitor?.id)
+    visible: !powerMenuOnThisScreen && !steamLauncherOnThisScreen
 
 
     anchors {

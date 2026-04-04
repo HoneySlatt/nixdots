@@ -20,7 +20,6 @@
     # Desktop Apps
     cider-2
     vesktop
-    zed-editor
     obs-studio
     obsidian
     blender
@@ -48,6 +47,7 @@
     cava
     fastfetch
     imv
+    basalt
     zathura
     rustlings
     claude-code

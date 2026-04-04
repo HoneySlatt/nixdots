@@ -120,16 +120,32 @@ Item {
                             width: parent.width
                             spacing: 6
 
-                            Text {
-                                text: {
-                                    if (VolumeState.muted) return "\uf026";
-                                    if (VolumeState.volume <= 30) return "\uf027";
-                                    return "\uf028";
+                            Item {
+                                implicitWidth: iconText.implicitWidth
+                                implicitHeight: iconText.implicitHeight
+
+                                Text {
+                                    id: iconText
+                                    text: {
+                                        if (VolumeState.muted) return "\uf026";
+                                        if (VolumeState.volume <= 30) return "\uf027";
+                                        return "\uf028";
+                                    }
+                                    color: VolumeState.muted ? Theme.caution : Theme.misc
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSize + 2
+                                    font.weight: Theme.fontWeight
+                                    opacity: muteIconMa.containsMouse ? 0.6 : 1.0
+                                    Behavior on opacity { NumberAnimation { duration: 80 } }
                                 }
-                                color: VolumeState.muted ? Theme.caution : Theme.misc
-                                font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontSize + 2
-                                font.weight: Theme.fontWeight
+
+                                MouseArea {
+                                    id: muteIconMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: VolumeState.toggleMute()
+                                }
                             }
 
                             Text {
@@ -214,7 +230,7 @@ Item {
                                 spacing: 6
 
                                 Text {
-                                    text: "\uf028"
+                                    text: "\uf025"
                                     color: Theme.misc
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSize - 1
@@ -256,66 +272,55 @@ Item {
 
                         // ── Sink list ──
 
-                        Column {
-                            visible: root.showDevices
-                            width: parent.width
-                            spacing: 2
+                        Repeater {
+                            model: root.showDevices ? VolumeState.sinks : []
 
-                            Repeater {
-                                model: VolumeState.sinks
+                            delegate: Rectangle {
+                                required property var modelData
+                                width: contentCol.width
+                                height: 26
+                                radius: 5
+                                color: {
+                                    if (modelData.active)
+                                        return Qt.rgba(Theme.misc.r, Theme.misc.g, Theme.misc.b, 0.18);
+                                    if (sinkMa.containsMouse)
+                                        return Theme.separator;
+                                    return "transparent";
+                                }
 
-                                delegate: Rectangle {
-                                    required property var modelData
-                                    width: parent.width
-                                    height: 26
-                                    radius: 5
-                                    color: {
-                                        if (modelData.name === VolumeState.defaultSink)
-                                            return Qt.rgba(Theme.misc.r, Theme.misc.g, Theme.misc.b, 0.18);
-                                        if (sinkMa.containsMouse)
-                                            return Theme.separator;
-                                        return "transparent";
+                                Row {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 6
+                                    anchors.rightMargin: 6
+                                    spacing: 6
+
+                                    Text {
+                                        text: modelData.active ? "\uf058" : "\uf10c"
+                                        color: modelData.active ? Theme.misc : Theme.separator
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: Theme.fontSize - 3
+                                        font.weight: Theme.fontWeight
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
 
-                                    Row {
-                                        anchors.fill: parent
-                                        anchors.leftMargin: 6
-                                        anchors.rightMargin: 6
-                                        spacing: 6
-
-                                        Text {
-                                            text: modelData.name === VolumeState.defaultSink ? "\uf058" : "\uf10c"
-                                            color: modelData.name === VolumeState.defaultSink ? Theme.misc : Theme.separator
-                                            font.family: Theme.fontFamily
-                                            font.pixelSize: Theme.fontSize - 3
-                                            font.weight: Theme.fontWeight
-                                            anchors.verticalCenter: parent.verticalCenter
-                                        }
-
-                                        Text {
-                                            text: {
-                                                let n = modelData.name;
-                                                n = n.replace(/^alsa_output\./, "");
-                                                n = n.replace(/\.(analog|digital)-(stereo|surround.*)$/, "");
-                                                return n;
-                                            }
-                                            color: modelData.name === VolumeState.defaultSink ? Theme.misc : Theme.text
-                                            font.family: Theme.fontFamily
-                                            font.pixelSize: Theme.fontSize - 2
-                                            font.weight: Theme.fontWeight
-                                            width: parent.width - 22
-                                            elide: Text.ElideRight
-                                            anchors.verticalCenter: parent.verticalCenter
-                                        }
+                                    Text {
+                                        text: modelData.label
+                                        color: modelData.active ? Theme.misc : Theme.text
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: Theme.fontSize - 2
+                                        font.weight: Theme.fontWeight
+                                        width: parent.width - 22
+                                        elide: Text.ElideRight
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
+                                }
 
-                                    MouseArea {
-                                        id: sinkMa
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: VolumeState.setDefaultSink(modelData.name)
-                                    }
+                                MouseArea {
+                                    id: sinkMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: VolumeState.setDefaultSink(modelData.sinkId)
                                 }
                             }
                         }

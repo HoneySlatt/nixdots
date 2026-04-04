@@ -1,11 +1,36 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 
 Item {
     id: launcherScope
+
+    Process {
+        id: gamesProc
+        command: ["steam-games"]
+        running: false
+        property string buffer: ""
+        stdout: SplitParser {
+            onRead: data => gamesProc.buffer += data
+        }
+        onExited: {
+            try {
+                launcherScope.allGames = JSON.parse(gamesProc.buffer);
+            } catch (e) {
+                launcherScope.allGames = [];
+            }
+            gamesProc.buffer = "";
+        }
+    }
+
+    property var allGames: []
+
+    Component.onCompleted: {
+        gamesProc.running = true;
+    }
 
     Variants {
         model: Quickshell.screens
@@ -15,55 +40,58 @@ Item {
 
             required property var modelData
             screen: modelData
-            visible: SmallLauncherState.visible && monitorIsFocused
+            visible: SteamLauncherState.visible && monitorIsFocused
 
             readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.screen)
             property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
 
             color: "transparent"
 
-            WlrLayershell.namespace: "quickshell:launcher"
+            WlrLayershell.namespace: "quickshell:steam-launcher"
             WlrLayershell.layer: WlrLayer.Overlay
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
             anchors { top: true; bottom: true; left: true; right: true }
 
-            property string searchQuery: ""
             property int selectedIndex: 0
-            property var sortedApps: []
-            property var filteredApps: []
+            property string searchQuery: ""
+            property var filteredGames: []
 
-            readonly property int cardW: 120
-            readonly property int cardH: 120
-
-            function rebuildList() {
-                let apps = [];
-                let seen = new Set();
-                for (let i = 0; i < sourceRepeater.count; i++) {
-                    let item = sourceRepeater.itemAt(i);
-                    if (!item || item.modelData.noDisplay) continue;
-                    const key = item.modelData.id ?? item.modelData.name ?? "";
-                    if (seen.has(key)) continue;
-                    seen.add(key);
-                    apps.push(item.modelData);
-                }
-                apps.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
-                sortedApps = apps;
-                filterList();
-            }
+            readonly property int cardW: 220
+            readonly property int cardH: 330
 
             function filterList() {
                 if (searchQuery.length === 0) {
-                    filteredApps = sortedApps;
-                    selectedIndex = Math.floor(filteredApps.length / 2);
+                    filteredGames = launcherScope.allGames;
+                    selectedIndex = Math.floor(filteredGames.length / 2);
                 } else {
-                    filteredApps = sortedApps.filter(app =>
-                        app.name?.toLowerCase().includes(searchQuery)
+                    filteredGames = launcherScope.allGames.filter(g =>
+                        g.name?.toLowerCase().includes(searchQuery)
                     );
                     selectedIndex = 0;
                 }
                 carousel.currentIndex = selectedIndex;
                 carousel.positionViewAtIndex(selectedIndex, ListView.Center);
+            }
+
+            function launchGame(appid) {
+                Qt.openUrlExternally("steam://rungameid/" + appid);
+                SteamLauncherState.close();
+            }
+
+            onVisibleChanged: {
+                if (visible) {
+                    searchField.text = "";
+                    root.searchQuery = "";
+                    // Don't reassign filteredGames here — that resets the ListView model
+                    // and breaks the currentIndex binding. filterList() already kept it up to date.
+                    root.selectedIndex = Math.floor(root.filteredGames.length / 2);
+                }
+            }
+
+            Connections {
+                target: launcherScope
+                function onAllGamesChanged() { root.filterList(); }
             }
 
             onSearchQueryChanged: filterList()
@@ -72,48 +100,30 @@ Item {
                 carousel.positionViewAtIndex(selectedIndex, ListView.Center);
             }
 
-            Connections {
-                target: SmallLauncherState
-                function onVisibleChanged() {
-                    if (SmallLauncherState.visible) {
-                        searchField.text = "";
-                        root.searchQuery = "";
-                        rebuildList();
-                    }
+            // Dark overlay — click outside closes
+            Rectangle {
+                anchors.fill: parent
+                color: Qt.rgba(0, 0, 0, 0.75)
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: SteamLauncherState.close()
                 }
             }
 
-            Item {
-                visible: false
-                Repeater {
-                    id: sourceRepeater
-                    model: DesktopEntries.applications
-                    Item { required property var modelData }
-                    Component.onCompleted: root.rebuildList()
-                    onCountChanged: root.rebuildList()
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: SmallLauncherState.close()
-            }
-
+            // Keyboard handler
             Item {
                 anchors.fill: parent
-                focus: SmallLauncherState.visible
+                focus: SteamLauncherState.visible
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Escape) {
-                        SmallLauncherState.close();
+                        SteamLauncherState.close();
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        if (root.filteredApps.length > 0) {
-                            root.filteredApps[root.selectedIndex].execute();
-                            SmallLauncherState.close();
-                        }
+                        if (root.filteredGames.length > 0)
+                            root.launchGame(root.filteredGames[root.selectedIndex].appid);
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Right) {
-                        if (root.selectedIndex < root.filteredApps.length - 1)
+                        if (root.selectedIndex < root.filteredGames.length - 1)
                             root.selectedIndex++;
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Left) {
@@ -130,17 +140,18 @@ Item {
                 }
             }
 
+            // Carousel
             ListView {
                 id: carousel
                 anchors.centerIn: parent
-                anchors.verticalCenterOffset: -20
-                width: 1240
-                height: root.cardH + 60
+                anchors.verticalCenterOffset: -30
+                width: parent.width
+                height: root.cardH + 40
                 orientation: ListView.Horizontal
-                model: root.filteredApps
+                model: root.filteredGames
                 currentIndex: root.selectedIndex
                 spacing: 20
-                clip: true
+                clip: false
                 interactive: false
 
                 preferredHighlightBegin: (width - root.cardW) / 2
@@ -180,53 +191,65 @@ Item {
 
                     Rectangle {
                         anchors.fill: parent
-                        radius: 16
+                        radius: 10
                         color: Theme.separator
                         clip: true
-                        border.color: Theme.highlight
-                        border.width: card.offset === 0 ? 3 : 0
 
                         Image {
-                            anchors.centerIn: parent
-                            width: parent.width * 0.65
-                            height: parent.height * 0.65
-                            source: {
-                                const icon = modelData.icon ?? "";
-                                return icon.startsWith("/") ? icon : Quickshell.iconPath(icon || "application-x-executable", "application-x-executable");
-                            }
-                            sourceSize: Qt.size(80, 80)
+                            anchors.fill: parent
+                            source: modelData.art ? "file://" + modelData.art : ""
+                            fillMode: Image.PreserveAspectCrop
                             smooth: true
                             asynchronous: true
-                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        // Fallback icon
+                        Text {
+                            anchors.centerIn: parent
+                            text: ""
+                            font.family: "BigBlueTerm437 Nerd Font"
+                            font.pointSize: 36
+                            color: Theme.text
+                            opacity: 0.3
+                            visible: parent.children[0].status !== Image.Ready
+                        }
+
+                        // Selected highlight border
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: 10
+                            color: "transparent"
+                            border.color: Theme.highlight
+                            border.width: card.offset === 0 ? 3 : 0
                         }
                     }
 
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if (card.offset === 0) {
-                                modelData.execute();
-                                SmallLauncherState.close();
-                            } else {
+                            if (card.offset === 0)
+                                root.launchGame(modelData.appid);
+                            else
                                 root.selectedIndex = index;
-                            }
                         }
                     }
                 }
             }
 
+            // Game name below carousel
             Text {
                 anchors.top: carousel.bottom
-                anchors.topMargin: 12
+                anchors.topMargin: 16
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: root.filteredApps[root.selectedIndex]?.name ?? ""
+                text: root.filteredGames[root.selectedIndex]?.name ?? ""
                 color: Theme.text
                 font.family: Theme.fontFamily
-                font.pointSize: 14
+                font.pointSize: 16
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
             }
 
+            // Search bar
             Rectangle {
                 anchors.bottom: carousel.top
                 anchors.bottomMargin: 24
@@ -253,7 +276,7 @@ Item {
                     Text {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
-                        text: "> Search apps..."
+                        text: "> Search games..."
                         color: Theme.text
                         opacity: 0.3
                         font: searchField.font
