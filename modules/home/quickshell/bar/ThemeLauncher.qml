@@ -1,49 +1,14 @@
 import QtQuick
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 
 Item {
     id: launcherScope
 
-    property string currentTheme: ""
-
-    readonly property var themes: [
-        { key: "pastelglow",    name: "Pastel Glow",   base: "#F8E9EE", surface: "#EBCFD7", accent: "#E0486B", text: "#3B2730" },
-        { key: "rosepine",      name: "Rosé Pine",     base: "#191724", surface: "#26233a", accent: "#c4a7e7", text: "#e0def4" },
-        { key: "gruvbox",       name: "Gruvbox Dark",  base: "#282828", surface: "#3c3836", accent: "#fabd2f", text: "#ebdbb2" },
-        { key: "gruvbox-light", name: "Gruvbox Light", base: "#fbf1c7", surface: "#ebdbb2", accent: "#d79921", text: "#3c3836" },
-        { key: "everforest",    name: "Everforest",    base: "#2d353b", surface: "#343f44", accent: "#a7c080", text: "#d3c6aa" },
-        { key: "carbonfox",     name: "Carbonfox",     base: "#161616", surface: "#222222", accent: "#f2f4f8", text: "#f2f4f8" },
-    ]
-
-    Process {
-        id: readThemeProc
-        command: ["cat", "/home/honey/.config/quickshell/.current-theme"]
-        running: false
-        property string buffer: ""
-        stdout: SplitParser {
-            onRead: data => readThemeProc.buffer += data
-        }
-        onExited: {
-            launcherScope.currentTheme = readThemeProc.buffer.trim();
-            readThemeProc.buffer = "";
-            const idx = launcherScope.themes.findIndex(t => t.key === launcherScope.currentTheme);
-            if (idx >= 0) {
-                carousel.currentIndex = idx;
-                carousel.positionViewAtIndex(idx, ListView.Center);
-            }
-        }
-    }
-
-    Process {
-        id: switchProc
-        running: false
-        command: []
-        onExited: {
-            launcherScope.currentTheme = launcherScope.themes[carousel.currentIndex].key;
-        }
+    function applyTheme(key) {
+        Theme.setTheme(key);
+        ThemeLauncherState.close();
     }
 
     Variants {
@@ -67,14 +32,16 @@ Item {
 
             anchors { top: true; bottom: true; left: true; right: true }
 
-            readonly property int cardW: 190
-            readonly property int cardH: 280
+            readonly property int cardW: 340
+            readonly property int cardH: 140
             property int selectedIndex: 0
 
             onVisibleChanged: {
                 if (visible) {
-                    readThemeProc.running = true;
-                    root.selectedIndex = carousel.currentIndex;
+                    const idx = Theme.themeKeys.indexOf(Theme.currentTheme);
+                    root.selectedIndex = idx >= 0 ? idx : 0;
+                    carousel.currentIndex = root.selectedIndex;
+                    carousel.positionViewAtIndex(root.selectedIndex, ListView.Center);
                 }
             }
 
@@ -96,13 +63,10 @@ Item {
                         ThemeLauncherState.close();
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        const t = launcherScope.themes[root.selectedIndex];
-                        switchProc.command = ["/home/honey/.config/quickshell/scripts/switch-theme.sh", t.key];
-                        switchProc.running = true;
-                        ThemeLauncherState.close();
+                        launcherScope.applyTheme(Theme.themeKeys[root.selectedIndex]);
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Right) {
-                        if (root.selectedIndex < launcherScope.themes.length - 1)
+                        if (root.selectedIndex < Theme.themeKeys.length - 1)
                             root.selectedIndex++;
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Left) {
@@ -119,7 +83,7 @@ Item {
                 width: parent.width
                 height: root.cardH + 60
                 orientation: ListView.Horizontal
-                model: launcherScope.themes
+                model: Theme.themeKeys
                 currentIndex: root.selectedIndex
                 spacing: 24
                 clip: false
@@ -138,15 +102,16 @@ Item {
                     width: root.cardW
                     height: root.cardH
 
-                    required property var modelData
+                    required property string modelData
                     required property int index
 
                     property int offset: index - carousel.currentIndex
                     property real absOff: Math.abs(offset)
                     property real cardScale: Math.max(0.55, 1.0 - absOff * 0.18)
                     property real cardOpacity: Math.max(0.35, 1.0 - absOff * 0.22)
-                    property bool isCurrent: modelData.key === launcherScope.currentTheme
+                    property bool isCurrent: Theme.currentTheme === modelData
                     property bool isSelected: offset === 0
+                    property var t: Theme.themes[modelData]
 
                     opacity: cardOpacity
                     z: 10 - absOff
@@ -167,84 +132,132 @@ Item {
 
                     Rectangle {
                         anchors.fill: parent
-                        radius: 14
-                        color: modelData.base
+                        radius: 12
+                        color: card.t.separator
+                        border.color: card.isSelected ? card.t.text : "transparent"
+                        border.width: card.isSelected ? 2 : 0
 
-                        // Accent stripe at top
-                        Rectangle {
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            height: 10
-                            radius: 14
-                            color: modelData.accent
-                            Rectangle {
-                                anchors.bottom: parent.bottom
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                height: 7
-                                color: modelData.accent
-                            }
-                        }
+                        Behavior on border.color { ColorAnimation { duration: 200 } }
 
-                        // Surface swatch in the middle
-                        Rectangle {
-                            anchors.centerIn: parent
-                            anchors.verticalCenterOffset: -16
-                            width: parent.width * 0.6
-                            height: parent.width * 0.6
-                            radius: 10
-                            color: modelData.surface
-                            border.color: modelData.accent
-                            border.width: 1
-                            opacity: 0.8
-                        }
-
-                        // Theme name
-                        Text {
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: card.isCurrent ? 28 : 16
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: modelData.name
-                            color: modelData.text
-                            font.family: Theme.fontFamily
-                            font.pointSize: 11
-                            font.bold: true
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-
-                        // Active indicator dot
-                        Rectangle {
-                            visible: card.isCurrent
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 12
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            width: 6
-                            height: 6
-                            radius: 3
-                            color: modelData.accent
-                        }
-
-                        // Selected border
-                        Rectangle {
+                        Column {
                             anchors.fill: parent
-                            radius: 14
-                            color: "transparent"
-                            border.color: modelData.accent
-                            border.width: card.isSelected ? 3 : 0
+                            anchors.margins: 10
+                            spacing: 8
+
+                            // Theme name + active badge
+                            Row {
+                                spacing: 8
+                                width: parent.width
+
+                                Text {
+                                    text: card.t.name
+                                    color: card.t.text
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSize + 1
+                                    font.weight: Font.Bold
+                                }
+
+                                Rectangle {
+                                    visible: card.isCurrent
+                                    width: activeLabel.implicitWidth + 10
+                                    height: activeLabel.implicitHeight + 4
+                                    radius: 8
+                                    color: card.t.accent
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    Text {
+                                        id: activeLabel
+                                        anchors.centerIn: parent
+                                        text: "active"
+                                        color: card.t.background
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: Theme.fontSize - 3
+                                        font.weight: Font.Bold
+                                    }
+                                }
+                            }
+
+                            // Color palette row
+                            Row {
+                                spacing: 4
+                                width: parent.width
+
+                                Repeater {
+                                    model: [
+                                        card.t.background,
+                                        card.t.separator,
+                                        card.t.caution,
+                                        card.t.text,
+                                        card.t.accent,
+                                        card.t.process,
+                                        card.t.misc,
+                                        card.t.warning
+                                    ]
+
+                                    delegate: Rectangle {
+                                        required property var modelData
+                                        width: (parent.width - 7 * 4) / 8
+                                        height: 16
+                                        radius: 4
+                                        color: modelData
+                                    }
+                                }
+                            }
+
+                            // Preview bar
+                            Rectangle {
+                                width: parent.width
+                                height: 32
+                                radius: 8
+                                color: card.t.background
+
+                                Row {
+                                    anchors.centerIn: parent
+                                    spacing: 12
+
+                                    Text {
+                                        text: "Aa"
+                                        color: card.t.text
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: Theme.fontSize
+                                        font.weight: Font.Bold
+                                    }
+
+                                    Rectangle {
+                                        width: 20; height: 12; radius: 3
+                                        color: card.t.process
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Rectangle {
+                                        width: 20; height: 12; radius: 3
+                                        color: card.t.misc
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Rectangle {
+                                        width: 20; height: 12; radius: 3
+                                        color: card.t.warning
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Rectangle {
+                                        width: 20; height: 12; radius: 3
+                                        color: card.t.accent
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+                            }
                         }
                     }
 
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if (card.isSelected) {
-                                switchProc.command = ["/home/honey/.config/quickshell/scripts/switch-theme.sh", modelData.key];
-                                switchProc.running = true;
-                                ThemeLauncherState.close();
-                            } else {
+                            if (card.isSelected)
+                                launcherScope.applyTheme(modelData);
+                            else
                                 root.selectedIndex = index;
-                            }
                         }
                     }
                 }
@@ -255,7 +268,7 @@ Item {
                 anchors.top: carousel.bottom
                 anchors.topMargin: 12
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: launcherScope.themes[root.selectedIndex]?.name ?? ""
+                text: Theme.themes[Theme.themeKeys[root.selectedIndex]]?.name ?? ""
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: 14

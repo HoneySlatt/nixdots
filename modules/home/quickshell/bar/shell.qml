@@ -52,6 +52,10 @@ ShellRoot {
         active: ThemeLauncherState.visible
         source: "ThemeLauncher.qml"
     }
+    Loader {
+        active: WallpaperLauncherState.visible
+        source: "WallpaperLauncher.qml"
+    }
 
 
     Variants {
@@ -101,6 +105,14 @@ ShellRoot {
 
         function call() {
             ThemeLauncherState.toggle();
+        }
+    }
+
+    IpcHandler {
+        target: "toggleWallpaperLauncher"
+
+        function call() {
+            WallpaperLauncherState.toggle();
         }
     }
 

@@ -20,6 +20,7 @@
       "$mainMod CTRL, W, exec, quickshell ipc -p ~/.config/quickshell/bar -n call toggleVisibility call"
       "$mainMod, G, exec, qs msg -c bar toggleSteamLauncher call"
       "$mainMod, T, exec, qs msg -c bar toggleThemeLauncher call"
+      "$mainMod SHIFT, W, exec, qs msg -c bar toggleWallpaperLauncher call"
       "$mainMod, B, exec, firefox"
       "$mainMod, M, exec, cider-2"
       "$mainMod, D, exec, vesktop"
