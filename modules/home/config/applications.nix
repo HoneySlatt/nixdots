@@ -13,7 +13,7 @@
       categories = [ "AudioVideo" "Audio" ];
     };
 
-    zen-browser = {
+    zen = {
       name       = "Zen Browser";
       exec       = "zen %U";
       icon       = "/home/honey/Pictures/Icons/zen.png";
