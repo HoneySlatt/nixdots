@@ -106,6 +106,15 @@ Item {
     // ── Position polling for media ──
     property real currentPosition: player ? player.position : 0
 
+    // Normalize length: some players (Cider) report in microseconds instead of seconds
+    readonly property real trackLength: {
+        if (!player) return 0;
+        let l = player.length;
+        if (isNaN(l) || l < 0) return 0;
+        if (l > 86400) return l / 1000000;
+        return l;
+    }
+
     readonly property var _posTimer: Timer {
         interval: 1000
         running: CalendarPopupState.visible && calendarPopup.player !== null
@@ -817,18 +826,16 @@ Item {
                                     radius: 12
 
                                     Column {
-                                        anchors.fill: parent
-                                        anchors.margins: 12
-                                        spacing: 8
-
-                                        Item { width: 1; height: 8 }
+                                        anchors.centerIn: parent
+                                        width: parent.width - 24
+                                        spacing: 14
 
                                         // Album art circle
                                         Rectangle {
                                             anchors.horizontalCenter: parent.horizontalCenter
-                                            width: 120
-                                            height: 120
-                                            radius: 60
+                                            width: 160
+                                            height: 160
+                                            radius: 80
                                             color: Theme.caution
                                             border.color: Theme.text
                                             border.width: 3
@@ -877,8 +884,6 @@ Item {
                                                 font.pixelSize: 32
                                             }
                                         }
-
-                                        Item { width: 1; height: 4 }
 
                                         // Track title
                                         Text {
@@ -1002,16 +1007,16 @@ Item {
                                 sourceComponent: Item {
                                 anchors.fill: parent
 
-                                Column {
-                                    anchors.centerIn: parent
-                                    spacing: 16
-                                    width: parent.width * 0.6
+                                RowLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 20
+                                    spacing: 40
 
-                                    // Big album art circle + cava visualizer
+                                    // Left: album art + cava visualizer
                                     Item {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        width: 280
-                                        height: 280
+                                        Layout.preferredWidth: 240
+                                        Layout.preferredHeight: 240
+                                        Layout.alignment: Qt.AlignVCenter
 
                                         Canvas {
                                             id: colorSampler
@@ -1054,13 +1059,13 @@ Item {
                                                 if (!values || values.length === 0) return;
                                                 let cx = width / 2;
                                                 let cy = height / 2;
-                                                let innerR = 103;
+                                                let innerR = 88;
                                                 let n = values.length;
                                                 let step = 2 * Math.PI / n;
                                                 let gap = step * 0.12;
                                                 for (let i = 0; i < n; i++) {
                                                     let val = Math.min(values[i] / 20.0, 1.0);
-                                                    let barH = val * 36;
+                                                    let barH = val * 30;
                                                     if (barH < 1) continue;
                                                     let midAngle = (i / n) * 2 * Math.PI - Math.PI / 2;
                                                     let a0 = midAngle - step / 2 + gap;
@@ -1078,9 +1083,9 @@ Item {
 
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width: 200
-                                            height: 200
-                                            radius: 100
+                                            width: 170
+                                            height: 170
+                                            radius: 85
                                             color: Theme.caution
                                             border.color: Theme.text
                                             border.width: 4
@@ -1118,7 +1123,6 @@ Item {
                                                 }
                                             }
 
-                                            // Fallback icon
                                             Text {
                                                 anchors.centerIn: parent
                                                 visible: !calendarPopup.player
@@ -1126,162 +1130,195 @@ Item {
                                                 text: "\u{f001}"
                                                 color: Theme.text
                                                 font.family: Theme.fontFamily
-                                                font.pixelSize: 48
-                                                }
+                                                font.pixelSize: 40
                                             }
+                                        }
                                     }
 
-                                    // Track title
-                                    Text {
-                                        width: parent.width
-                                        horizontalAlignment: Text.AlignHCenter
-                                        text: calendarPopup.player
-                                            ? calendarPopup.player.trackTitle : "No media playing"
-                                        color: Theme.text
-                                        font.family: Theme.fontFamily
-                                        font.pixelSize: Theme.fontSize + 4
-                                        font.weight: Font.Bold
-                                        elide: Text.ElideRight
-                                        maximumLineCount: 2
-                                        wrapMode: Text.WordWrap
-                                    }
-
-                                    // Artist
-                                    Text {
-                                        width: parent.width
-                                        horizontalAlignment: Text.AlignHCenter
-                                        text: calendarPopup.player
-                                            ? calendarPopup.player.trackArtist : ""
-                                        color: Theme.caution
-                                        font.family: Theme.fontFamily
-                                        font.pixelSize: Theme.fontSize + 1
-                                        font.weight: Theme.fontWeight
-                                        elide: Text.ElideRight
-                                    }
-
-                                    // ── Progress bar ──
+                                    // Right: track info + progress + controls
                                     Column {
-                                        width: parent.width
-                                        spacing: 4
+                                        Layout.fillWidth: true
+                                        Layout.alignment: Qt.AlignVCenter
+                                        spacing: 14
 
-                                        // Bar
+                                        Row {
+                                            spacing: 12
+                                            width: parent.width
+
+                                            Text {
+                                                text: "TITLE"
+                                                color: Theme.caution
+                                                font.family: Theme.fontFamily
+                                                font.pixelSize: Theme.fontSize - 1
+                                                font.weight: Theme.fontWeight
+                                                width: 56
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+
+                                            Text {
+                                                text: calendarPopup.player
+                                                    ? calendarPopup.player.trackTitle : "No media playing"
+                                                color: Theme.text
+                                                font.family: Theme.fontFamily
+                                                font.pixelSize: Theme.fontSize + 2
+                                                font.weight: Font.Bold
+                                                elide: Text.ElideRight
+                                                width: parent.width - 68
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+                                        }
+
+                                        Row {
+                                            spacing: 12
+                                            width: parent.width
+
+                                            Text {
+                                                text: "ARTIST"
+                                                color: Theme.caution
+                                                font.family: Theme.fontFamily
+                                                font.pixelSize: Theme.fontSize - 1
+                                                font.weight: Theme.fontWeight
+                                                width: 56
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+
+                                            Text {
+                                                text: calendarPopup.player
+                                                    ? calendarPopup.player.trackArtist : ""
+                                                color: Theme.text
+                                                font.family: Theme.fontFamily
+                                                font.pixelSize: Theme.fontSize + 1
+                                                font.weight: Theme.fontWeight
+                                                elide: Text.ElideRight
+                                                width: parent.width - 68
+                                                anchors.verticalCenter: parent.verticalCenter
+                                            }
+                                        }
+
                                         Rectangle {
                                             width: parent.width
-                                            height: 4
-                                            radius: 2
-                                            color: Theme.caution
+                                            height: 1
+                                            color: Theme.separator
+                                        }
+
+                                        Column {
+                                            width: parent.width
+                                            spacing: 4
 
                                             Rectangle {
-                                                width: {
-                                                    if (!calendarPopup.player || calendarPopup.player.length <= 0 || calendarPopup.player.length > 86400)
-                                                        return 0;
-                                                    return parent.width * Math.min(
-                                                        calendarPopup.currentPosition / calendarPopup.player.length, 1);
-                                                }
-                                                height: parent.height
+                                                width: parent.width
+                                                height: 4
                                                 radius: 2
-                                                color: Theme.text
-                                            }
+                                                color: Theme.caution
 
-                                            // Seek on click
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                cursorShape: Qt.PointingHandCursor
-                                                onClicked: mouse => {
-                                                    if (calendarPopup.player && calendarPopup.player.canSeek) {
-                                                        let ratio = mouse.x / parent.width;
-                                                        calendarPopup.player.position = ratio * calendarPopup.player.length;
+                                                Rectangle {
+                                                    width: {
+                                                        if (!calendarPopup.player || calendarPopup.trackLength <= 0)
+                                                            return 0;
+                                                        return parent.width * Math.min(
+                                                            calendarPopup.currentPosition / calendarPopup.trackLength, 1);
+                                                    }
+                                                    height: parent.height
+                                                    radius: 2
+                                                    color: Theme.text
+                                                }
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked: mouse => {
+                                                        if (calendarPopup.player && calendarPopup.player.canSeek) {
+                                                            let ratio = mouse.x / parent.width;
+                                                            calendarPopup.player.position = ratio * calendarPopup.trackLength;
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
 
-                                        // Timestamps
-                                        RowLayout {
-                                            width: parent.width
+                                            RowLayout {
+                                                width: parent.width
 
-                                            Text {
-                                                text: calendarPopup.formatTime(calendarPopup.currentPosition)
-                                                color: Theme.caution
-                                                font.family: Theme.fontFamily
-                                                font.pixelSize: Theme.fontSize - 2
-                                                font.weight: Theme.fontWeight
-                                            }
+                                                Text {
+                                                    text: calendarPopup.formatTime(calendarPopup.currentPosition)
+                                                    color: Theme.caution
+                                                    font.family: Theme.fontFamily
+                                                    font.pixelSize: Theme.fontSize - 2
+                                                    font.weight: Theme.fontWeight
+                                                }
 
-                                            Item { Layout.fillWidth: true }
+                                                Item { Layout.fillWidth: true }
 
-                                            Text {
-                                                text: calendarPopup.player
-                                                    ? calendarPopup.formatTime(calendarPopup.player.length) : "0:00"
-                                                color: Theme.caution
-                                                font.family: Theme.fontFamily
-                                                font.pixelSize: Theme.fontSize - 2
-                                                font.weight: Theme.fontWeight
-                                            }
-                                        }
-                                    }
-
-                                    // ── Controls ──
-                                    Row {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        spacing: 32
-
-                                        Text {
-                                            text: "\u{f04a}"
-                                            color: mediaPrevMa.containsMouse ? Theme.text : Theme.caution
-                                            font.family: Theme.fontFamily
-                                            font.pixelSize: Theme.fontSize + 6
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            MouseArea {
-                                                id: mediaPrevMa
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                                cursorShape: Qt.PointingHandCursor
-                                                onClicked: {
-                                                    if (calendarPopup.player) calendarPopup.player.previous();
+                                                Text {
+                                                    text: calendarPopup.formatTime(calendarPopup.trackLength)
+                                                    color: Theme.caution
+                                                    font.family: Theme.fontFamily
+                                                    font.pixelSize: Theme.fontSize - 2
+                                                    font.weight: Theme.fontWeight
                                                 }
                                             }
                                         }
 
-                                        Rectangle {
-                                            width: 48
-                                            height: 48
-                                            radius: 24
-                                            color: Theme.text
-                                            anchors.verticalCenter: parent.verticalCenter
+                                        Row {
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                            spacing: 32
 
                                             Text {
-                                                anchors.centerIn: parent
-                                                text: calendarPopup.player
-                                                    && calendarPopup.player.playbackState === MprisPlaybackState.Playing
-                                                    ? "\u{f04c}" : "\u{f04b}"
-                                                color: Theme.background
+                                                text: "\u{f04a}"
+                                                color: mediaPrevMa.containsMouse ? Theme.text : Theme.caution
                                                 font.family: Theme.fontFamily
-                                                font.pixelSize: Theme.fontSize + 4
-                                            }
-
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                cursorShape: Qt.PointingHandCursor
-                                                onClicked: {
-                                                    if (calendarPopup.player) calendarPopup.player.togglePlaying();
+                                                font.pixelSize: Theme.fontSize + 6
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                MouseArea {
+                                                    id: mediaPrevMa
+                                                    anchors.fill: parent
+                                                    hoverEnabled: true
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked: {
+                                                        if (calendarPopup.player) calendarPopup.player.previous();
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        Text {
-                                            text: "\u{f04e}"
-                                            color: mediaNextMa.containsMouse ? Theme.text : Theme.caution
-                                            font.family: Theme.fontFamily
-                                            font.pixelSize: Theme.fontSize + 6
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            MouseArea {
-                                                id: mediaNextMa
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                                cursorShape: Qt.PointingHandCursor
-                                                onClicked: {
-                                                    if (calendarPopup.player) calendarPopup.player.next();
+                                            Rectangle {
+                                                width: 48
+                                                height: 48
+                                                radius: 24
+                                                color: Theme.text
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    text: calendarPopup.player
+                                                        && calendarPopup.player.playbackState === MprisPlaybackState.Playing
+                                                        ? "\u{f04c}" : "\u{f04b}"
+                                                    color: Theme.background
+                                                    font.family: Theme.fontFamily
+                                                    font.pixelSize: Theme.fontSize + 4
+                                                }
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked: {
+                                                        if (calendarPopup.player) calendarPopup.player.togglePlaying();
+                                                    }
+                                                }
+                                            }
+
+                                            Text {
+                                                text: "\u{f04e}"
+                                                color: mediaNextMa.containsMouse ? Theme.text : Theme.caution
+                                                font.family: Theme.fontFamily
+                                                font.pixelSize: Theme.fontSize + 6
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                MouseArea {
+                                                    id: mediaNextMa
+                                                    anchors.fill: parent
+                                                    hoverEnabled: true
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked: {
+                                                        if (calendarPopup.player) calendarPopup.player.next();
+                                                    }
                                                 }
                                             }
                                         }

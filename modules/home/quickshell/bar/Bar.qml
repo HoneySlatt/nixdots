@@ -15,7 +15,8 @@ PanelWindow {
     readonly property HyprlandMonitor barMonitor: Hyprland.monitorFor(bar.screen)
     property bool powerMenuOnThisScreen: PowerMenuState.visible && (Hyprland.focusedMonitor?.id === barMonitor?.id)
     property bool steamLauncherOnThisScreen: SteamLauncherState.visible && (Hyprland.focusedMonitor?.id === barMonitor?.id)
-    visible: !powerMenuOnThisScreen && !steamLauncherOnThisScreen
+    property bool ciderLauncherOnThisScreen: CiderLauncherState.visible && (Hyprland.focusedMonitor?.id === barMonitor?.id)
+    visible: !powerMenuOnThisScreen && !steamLauncherOnThisScreen && !ciderLauncherOnThisScreen
 
 
     anchors {

@@ -21,8 +21,9 @@
       "$mainMod, G, exec, qs msg -c bar toggleSteamLauncher call"
       "$mainMod, T, exec, qs msg -c bar toggleThemeLauncher call"
       "$mainMod, W, exec, qs msg -c bar toggleWallpaperLauncher call"
-      "$mainMod, B, exec, firefox"
+      "$mainMod, B, exec, helium"
       "$mainMod, M, exec, cider-2"
+      "$mainMod CTRL, M, exec, qs msg -c bar toggleCiderLauncher call"
       "$mainMod, D, exec, vesktop"
       "$mainMod, O, exec, obsidian"
       ''$mainMod SHIFT, O, exec, $terminal zsh -c "yazi ~/Obsidian\ Vault/"''

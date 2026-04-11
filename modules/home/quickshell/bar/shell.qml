@@ -49,6 +49,10 @@ ShellRoot {
         source: "SteamLauncher.qml"
     }
     Loader {
+        active: CiderLauncherState.visible
+        source: "CiderLauncher.qml"
+    }
+    Loader {
         active: ThemeLauncherState.visible
         source: "ThemeLauncher.qml"
     }
@@ -97,6 +101,14 @@ ShellRoot {
 
         function call() {
             SteamLauncherState.toggle();
+        }
+    }
+
+    IpcHandler {
+        target: "toggleCiderLauncher"
+
+        function call() {
+            CiderLauncherState.toggle();
         }
     }
 
