@@ -28,6 +28,7 @@
     libreoffice
     qbittorrent
     jellyfin-desktop
+    bitwarden-desktop
     kdePackages.kdenlive
 
     # Gaming

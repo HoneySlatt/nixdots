@@ -1028,6 +1028,7 @@ switch_zen() {
   cat > "$user_chrome" << EOF
 /* Quickshell theme - auto-generated, do not edit */
 :root {
+  /* Firefox base vars */
   --toolbox-bgcolor-inactive:     ${C[mantle]} !important;
   --toolbarbutton-icon-fill:      ${C[accent]} !important;
   --lwt-text-color:               ${C[text]} !important;
@@ -1043,6 +1044,16 @@ switch_zen() {
   --lwt-sidebar-background-color: ${C[crust]} !important;
   --toolbar-bgcolor:              ${C[surface0]} !important;
   --newtab-background-color:      ${C[base]} !important;
+
+  /* Zen-specific vars */
+  --zen-main-browser-background:          ${C[base]} !important;
+  --zen-main-browser-background-toolbar:  ${C[mantle]} !important;
+  --zen-colors-primary:                   ${C[accent]} !important;
+  --zen-colors-secondary:                 ${C[surface0]} !important;
+  --zen-colors-tertiary:                  ${C[crust]} !important;
+  --zen-colors-border:                    ${C[surface1]} !important;
+  --zen-appcontent-background:            ${C[base]} !important;
+  --zen-dialog-background:                ${C[mantle]} !important;
 }
 
 #permissions-granted-icon {
@@ -1073,6 +1084,32 @@ hbox#titlebar {
 
 .urlbarView-url {
   color: ${C[accent]} !important;
+}
+
+/* Toolbar */
+#navigator-toolbox,
+#nav-bar,
+#toolbar-menubar,
+#PersonalToolbar {
+  background-color: ${C[mantle]} !important;
+  color: ${C[text]} !important;
+  border-color: ${C[surface1]} !important;
+}
+
+/* Zen sidebar */
+#zen-sidebar-box,
+#zen-sidebar-top-buttons,
+.zen-sidebar-tab-strip-container {
+  background-color: ${C[mantle]} !important;
+  color: ${C[text]} !important;
+}
+
+#zen-sidebar-box .tabbrowser-tab {
+  color: ${C[text]} !important;
+}
+
+#zen-sidebar-box .tabbrowser-tab[selected] {
+  background-color: ${C[surface0]} !important;
 }
 EOF
 
