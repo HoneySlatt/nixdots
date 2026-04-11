@@ -13,10 +13,10 @@
       categories = [ "AudioVideo" "Audio" ];
     };
 
-    firefox = {
-      name       = "Firefox";
-      exec       = "firefox %U";
-      icon       = "firefox";
+    zen-browser = {
+      name       = "Zen Browser";
+      exec       = "zen %U";
+      icon       = "/home/honey/Pictures/Icons/zen.png";
       comment    = "Browse the web";
       categories = [ "Network" "WebBrowser" ];
     };

@@ -1004,9 +1004,9 @@ EOF
 }
 
 
-# ── Firefox ──────────────────────────────────────────────────────────────────
-switch_firefox() {
-  local profile_dir="$HOME/.config/mozilla/firefox/oracgdsh.default"
+# ── Zen Browser ──────────────────────────────────────────────────────────────
+switch_zen() {
+  local profile_dir="$HOME/.zen/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.zen/profiles.ini" 2>/dev/null)"
   local chrome_dir="$profile_dir/chrome"
   local user_js="$profile_dir/user.js"
   local user_chrome="$chrome_dir/userChrome.css"
@@ -1118,7 +1118,7 @@ EOF
 gen_userstyles() {
   local cache_dir="$HOME/.config/quickshell/scripts/userstyles-cache"
   local compile_js="$HOME/.config/quickshell/scripts/compile-userstyle.js"
-  local user_content="$HOME/.config/mozilla/firefox/oracgdsh.default/chrome/userContent.css"
+  local user_content="$HOME/.zen/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.zen/profiles.ini" 2>/dev/null)/chrome/userContent.css"
   local helium_css="$HOME/.config/quickshell/scripts/helium-userstyles.user.css"
 
   local palette
@@ -1772,7 +1772,7 @@ switch_cider
 switch_vesktop
 switch_steam
 switch_obs
-switch_firefox
+switch_zen
 gen_userstyles
 switch_jellyfin
 switch_obsidian

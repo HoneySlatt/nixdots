@@ -14,8 +14,8 @@
 
   environment.systemPackages = with pkgs; [
     # Web Browsers
-    firefox
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
     cider-2
