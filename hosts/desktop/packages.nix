@@ -25,6 +25,7 @@
     inkscape
     libreoffice
     qbittorrent
+    tutanota-desktop
     jellyfin-desktop
     bitwarden-desktop
     kdePackages.kdenlive
