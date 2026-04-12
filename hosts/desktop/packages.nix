@@ -56,6 +56,10 @@
     proton-vpn-cli
     protonmail-bridge
 
+    # Virtualisation
+    virt-manager
+    virtio-win
+
     # Others
     jellyfin-mpv-shim
     wineWow64Packages.stagingFull

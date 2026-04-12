@@ -40,5 +40,18 @@
     };
   };
 
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      swtpm.enable = true;
+      ovmf.enable = true;
+    };
+  };
+
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  users.users.honey.extraGroups = [ "libvirtd" "kvm" ];
+
   system.stateVersion = "25.11";
 }
