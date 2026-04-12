@@ -23,10 +23,6 @@
       url = "github:AlvaroParker/helium-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     # pinned for nodePackages.less used by quickshell userstyle compiler
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";

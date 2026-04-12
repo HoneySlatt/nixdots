@@ -7,15 +7,13 @@
     (final: prev: {
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
       pwasio = final.callPackage ../../modules/home/pkgs/pwasio.nix { };
-      couik = final.callPackage ../../modules/home/pkgs/couik.nix { };
-      pomo = final.callPackage ../../modules/home/pkgs/pomo.nix { };
     })
   ];
 
   environment.systemPackages = with pkgs; [
     # Web Browsers
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    librewolf
 
     # Desktop Apps
     cider-2
@@ -42,7 +40,6 @@
     fd
     bat
     eza
-    aerc
     btop
     gdu
     cava
@@ -54,7 +51,6 @@
     ani-cli
     trash-cli
     proton-vpn-cli
-    protonmail-bridge
 
     # Virtualisation
     virt-manager
@@ -66,8 +62,6 @@
 
     # Custom pkgs
     steam-metadata-editor
-    couik
-    pomo
   ];
 
   programs.steam = {

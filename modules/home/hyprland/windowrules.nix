@@ -9,7 +9,7 @@
       "match:class ^(mpv)$, fullscreen on"
       "match:class ^(org\\.prismlauncher\\.PrismLauncher)$, float on"
       "opacity 1.0 override 1.0 override, match:class ^(helium)$"
-      "opacity 1.0 override 1.0 override, match:class ^(zen)$"
+      "opacity 1.0 override 1.0 override, match:class ^(librewolf)$"
       "opacity 1.0 override 1.0 override, match:class ^(obsidian|electron)$"
     ];
   };

@@ -1004,9 +1004,9 @@ EOF
 }
 
 
-# ── Zen Browser ──────────────────────────────────────────────────────────────
-switch_zen() {
-  local profile_dir="$HOME/.zen/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.zen/profiles.ini" 2>/dev/null)"
+# ── LibreWolf ────────────────────────────────────────────────────────────────
+switch_librewolf() {
+  local profile_dir="$HOME/.librewolf/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.librewolf/profiles.ini" 2>/dev/null)"
   local chrome_dir="$profile_dir/chrome"
   local user_js="$profile_dir/user.js"
   local user_chrome="$chrome_dir/userChrome.css"
@@ -1028,7 +1028,6 @@ switch_zen() {
   cat > "$user_chrome" << EOF
 /* Quickshell theme - auto-generated, do not edit */
 :root {
-  /* Firefox base vars */
   --toolbox-bgcolor-inactive:     ${C[mantle]} !important;
   --toolbarbutton-icon-fill:      ${C[accent]} !important;
   --lwt-text-color:               ${C[text]} !important;
@@ -1044,16 +1043,6 @@ switch_zen() {
   --lwt-sidebar-background-color: ${C[crust]} !important;
   --toolbar-bgcolor:              ${C[surface0]} !important;
   --newtab-background-color:      ${C[base]} !important;
-
-  /* Zen-specific vars */
-  --zen-main-browser-background:          ${C[base]} !important;
-  --zen-main-browser-background-toolbar:  ${C[mantle]} !important;
-  --zen-colors-primary:                   ${C[accent]} !important;
-  --zen-colors-secondary:                 ${C[surface0]} !important;
-  --zen-colors-tertiary:                  ${C[crust]} !important;
-  --zen-colors-border:                    ${C[surface1]} !important;
-  --zen-appcontent-background:            ${C[base]} !important;
-  --zen-dialog-background:                ${C[mantle]} !important;
 }
 
 #permissions-granted-icon {
@@ -1086,7 +1075,6 @@ hbox#titlebar {
   color: ${C[accent]} !important;
 }
 
-/* Toolbar */
 #navigator-toolbox,
 #nav-bar,
 #toolbar-menubar,
@@ -1094,22 +1082,6 @@ hbox#titlebar {
   background-color: ${C[mantle]} !important;
   color: ${C[text]} !important;
   border-color: ${C[surface1]} !important;
-}
-
-/* Zen sidebar */
-#zen-sidebar-box,
-#zen-sidebar-top-buttons,
-.zen-sidebar-tab-strip-container {
-  background-color: ${C[mantle]} !important;
-  color: ${C[text]} !important;
-}
-
-#zen-sidebar-box .tabbrowser-tab {
-  color: ${C[text]} !important;
-}
-
-#zen-sidebar-box .tabbrowser-tab[selected] {
-  background-color: ${C[surface0]} !important;
 }
 EOF
 
@@ -1155,7 +1127,7 @@ EOF
 gen_userstyles() {
   local cache_dir="$HOME/.config/quickshell/scripts/userstyles-cache"
   local compile_js="$HOME/.config/quickshell/scripts/compile-userstyle.js"
-  local user_content="$HOME/.zen/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.zen/profiles.ini" 2>/dev/null)/chrome/userContent.css"
+  local user_content="$HOME/.librewolf/$(awk -F= '/^Path=/{print $2; exit}' "$HOME/.librewolf/profiles.ini" 2>/dev/null)/chrome/userContent.css"
   local helium_css="$HOME/.config/quickshell/scripts/helium-userstyles.user.css"
 
   local palette
@@ -1809,7 +1781,7 @@ switch_cider
 switch_vesktop
 switch_steam
 switch_obs
-switch_zen
+switch_librewolf
 gen_userstyles
 switch_jellyfin
 switch_obsidian

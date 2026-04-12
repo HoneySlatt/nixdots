@@ -13,10 +13,10 @@
       categories = [ "AudioVideo" "Audio" ];
     };
 
-    zen = {
-      name       = "Zen Browser";
-      exec       = "zen %U";
-      icon       = "/home/honey/Pictures/Icons/zen.png";
+    librewolf = {
+      name       = "LibreWolf";
+      exec       = "librewolf %U";
+      icon       = "librewolf";
       comment    = "Browse the web";
       categories = [ "Network" "WebBrowser" ];
     };
@@ -196,23 +196,6 @@
       icon       = "/home/honey/Pictures/Icons/yazi.png";
       comment    = "Blazing fast terminal file manager";
       categories = [ "System" "FileManager" ];
-    };
-
-    ani-cli = {
-      name       = "AniCLI";
-      exec       = "kitty -e ani-cli";
-      icon       = "/home/honey/Pictures/Icons/onepiece.png";
-      comment    = "Anime streaming CLI";
-      categories = [ "AudioVideo" "Video" ];
-    };
-
-    aerc = {
-      name       = "AERC";
-      exec       = "kitty -e aerc";
-      icon       = "/home/honey/Pictures/Icons/aerc.png";
-      comment    = "TUI Email Client";
-      mimeType   = [ "x-scheme-handler/mailto" ];
-      categories = [ "Network" "Email" ];
     };
 
     # ─── Others (hidden overrides) ───────────────────────────────────────────
