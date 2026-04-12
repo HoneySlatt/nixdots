@@ -8,7 +8,7 @@
     "fl-studio" = {
       name       = "FL Studio";
       exec       = "env WINEPREFIX=/home/honey/.config/flstudio VK_ICD_FILENAMES=/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json WINEDLLPATH=/etc/profiles/per-user/honey/lib/wine LD_LIBRARY_PATH=/etc/profiles/per-user/honey/lib/wine/x86_64-unix wine \"/home/honey/.config/flstudio/drive_c/Program Files/Image-Line/FL Studio 2025/FL64.exe\"";
-      icon       = "974E_FL64.0";
+      icon       = "/home/honey/Pictures/Icons/flstudio.png";
       comment    = "Digital Audio Workstation";
       categories = [ "AudioVideo" "Audio" ];
     };
@@ -115,6 +115,30 @@
       categories = [ "Office" "TextEditor" ];
     };
 
+
+    "tutanota-desktop" = {
+      name       = "Tuta Mail";
+      exec       = "tutanota-desktop --no-sandbox %U";
+      icon       = "/home/honey/Pictures/Icons/tuta.png";
+      comment    = "Encrypted email client";
+      categories = [ "Network" "Email" ];
+    };
+
+    virt-manager = {
+      name       = "Virtual Machine Manager";
+      exec       = "virt-manager";
+      icon       = "/home/honey/Pictures/Icons/virtualbox.png";
+      comment    = "Manage virtual machines";
+      categories = [ "System" "Emulator" ];
+    };
+
+    bitwarden = {
+      name       = "Bitwarden";
+      exec       = "bitwarden %U";
+      icon       = "/home/honey/Pictures/Icons/bitwarden.png";
+      comment    = "Password manager";
+      categories = [ "Network" "Security" ];
+    };
 
     startcenter = {
       name       = "LibreOffice";
