@@ -40,6 +40,7 @@
     fd
     bat
     eza
+    ripgrep
     btop
     gdu
     cava
