@@ -50,11 +50,17 @@
       fi
     '';
 
+    sessionVariables = {
+      BAT_PAGER = "";
+    };
+
     shellAliases = {
       ls   = "eza";
       ll   = "eza -l";
       la   = "eza -la";
       tree = "eza --tree";
+      cat  = "bat";
+      grep = "rg";
     };
   };
 }
