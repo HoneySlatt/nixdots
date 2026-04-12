@@ -25,6 +25,7 @@
       "$mainMod CTRL, M, exec, qs msg -c bar toggleCiderLauncher call"
       "$mainMod, D, exec, vesktop"
       "$mainMod, O, exec, obsidian"
+      "$mainMod SHIFT, M, exec, tutanota-desktop --no-sandbox %U"
       ''$mainMod SHIFT, O, exec, $terminal zsh -c "yazi ~/Obsidian\ Vault/"''
       "$mainMod SHIFT, N, exec, jellyfin-desktop"
       "$mainMod SHIFT, V, exec, toggle-protonvpn"
