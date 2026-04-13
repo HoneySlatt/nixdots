@@ -86,16 +86,18 @@ FreezeScreen {
         const scaledHeight = Math.round(height * scale)
 
         const picturesDir = Quickshell.env("HQS_DIR") || Quickshell.env("XDG_SCREENSHOTS_DIR") || Quickshell.env("XDG_PICTURES_DIR") || (Quickshell.env("HOME") + "/Pictures")
-
-        const now = new Date()
-        const timestamp = Qt.formatDateTime(now, "yyyy-MM-dd_hh-mm-ss")
-        const outputPath = `${picturesDir}/Screenshots/Screenshot_${timestamp}.png`
+        const screenshotsDir = `${picturesDir}/Screenshots`
 
         screenshotProcess.command = ["sh", "-c",
-            `mkdir -p "$(dirname "${outputPath}")" && ` +
-            `magick "${tempPath}" -crop ${scaledWidth}x${scaledHeight}+${scaledX}+${scaledY} "${outputPath}" && ` +
-            `wl-copy < "${outputPath}" && ` +
-            `rm "${tempPath}"`
+            `dir="${screenshotsDir}"; ` +
+            `mkdir -p "$dir"; ` +
+            `last=$(ls "$dir"/Screenshot_*.png 2>/dev/null | grep -oE '[0-9]+\\.png' | grep -oE '^[0-9]+' | sort -n | tail -1); ` +
+            `n=$(( \${last:-0} + 1 )); ` +
+            `out="$dir/Screenshot_$n.png"; ` +
+            `magick "${tempPath}" -crop ${scaledWidth}x${scaledHeight}+${scaledX}+${scaledY} "$out" && ` +
+            `wl-copy < "$out" && ` +
+            `rm "${tempPath}" && ` +
+            `notify-send -i "$out" "Screenshot" "Screenshot_$n.png"`
         ]
 
         screenshotProcess.running = true
@@ -104,18 +106,17 @@ FreezeScreen {
 
     function processRecording(x, y, width, height) {
         const videosDir = Quickshell.env("XDG_VIDEOS_DIR") || (Quickshell.env("HOME") + "/Videos")
-        const now = new Date()
-        const timestamp = Qt.formatDateTime(now, "yyyy-MM-dd_hh-mm-ss")
-        const outputPath = `${videosDir}/Screencasts/Screencast_${timestamp}.mp4`
+        const screencastsDir = `${videosDir}/Screencasts`
 
         const screenX = activeScreen ? activeScreen.x : 0
         const screenY = activeScreen ? activeScreen.y : 0
 
-        const baseCmd = `AUDIO=$(pactl get-default-sink).monitor; mkdir -p "$(dirname '${outputPath}')" && `
+        const baseCmd = `AUDIO=$(pactl get-default-sink).monitor; dir="${screencastsDir}"; mkdir -p "$dir"; last=$(ls "$dir"/Screencast_*.mp4 2>/dev/null | grep -oE '[0-9]+\\.mp4' | grep -oE '^[0-9]+' | sort -n | tail -1); n=$(( \${last:-0} + 1 )); out="$dir/Screencast_$n.mp4"; `
         const wfFlags = `--audio="$AUDIO" -c libx264rgb -x bgr0 -p crf=15 -p preset=ultrafast`
+        const notifyCmd = `; notify-send -i video-x-generic "Screencast" "Screencast_$n.mp4"`
         const cmd = mode === "screen"
-            ? ["sh", "-c", baseCmd + `wf-recorder -o '${hyprlandMonitor.name}' ${wfFlags} -f '${outputPath}'`]
-            : ["sh", "-c", baseCmd + `wf-recorder -g '${screenX + x},${screenY + y} ${width}x${height}' ${wfFlags} -f '${outputPath}'`]
+            ? ["sh", "-c", baseCmd + `wf-recorder -o '${hyprlandMonitor.name}' ${wfFlags} -f "$out"` + notifyCmd]
+            : ["sh", "-c", baseCmd + `wf-recorder -g '${screenX + x},${screenY + y} ${width}x${height}' ${wfFlags} -f "$out"` + notifyCmd]
 
         Quickshell.execDetached(["rm", "-f", tempPath])
         Quickshell.execDetached(cmd)

@@ -11,8 +11,8 @@
     # GENERAL LAYOUT
     # ==================
     general = {
-      gaps_in = 8;
-      gaps_out = 8;
+      gaps_in = 4;
+      gaps_out = 4;
       border_size = 2;
       "col.active_border" = "rgba(c4a7e7ff)";
       "col.inactive_border" = "rgba(26233aff)";
@@ -23,7 +23,7 @@
     # DECORATION
     # ==================
     decoration = {
-      rounding = 12;
+      rounding = 0;
       active_opacity = 1.0;
       inactive_opacity = 0.9;
 
