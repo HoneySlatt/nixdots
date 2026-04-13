@@ -667,8 +667,9 @@ Item {
                                                 days.push({ day: i, current: true });
                                             }
 
-                                            // Next month padding (fill to 42 = 6 rows)
-                                            let remaining = 42 - days.length;
+                                            // Next month padding (fill to minimum complete row)
+                                            let rowsNeeded = Math.ceil(days.length / 7);
+                                            let remaining = rowsNeeded * 7 - days.length;
                                             for (let i = 1; i <= remaining; i++) {
                                                 days.push({ day: i, current: false });
                                             }
@@ -774,6 +775,7 @@ Item {
                                                 spacing: 0
 
                                                 readonly property var calDays: calendarRect.calendarDays()
+                                                readonly property int rowCount: Math.ceil(calDays.length / 7)
                                                 readonly property int todayDay: new Date().getDate()
                                                 readonly property int todayMonth: new Date().getMonth()
                                                 readonly property int todayYear: new Date().getFullYear()
@@ -787,7 +789,7 @@ Item {
                                                         required property var modelData
                                                         required property int index
                                                         width: (calendarCol.width) / 7
-                                                        height: (calendarCol.height - 48) / 7
+                                                        height: (calendarCol.height - 48) / dayGrid.rowCount
 
                                                         readonly property bool isToday: modelData.current
                                                             && modelData.day === dayGrid.todayDay
