@@ -20,7 +20,7 @@
     ./emmet.nix
     ./markdown.nix
     ./python.nix
-    ./claude.nix
+    ./opencode.nix
     ./direnv.nix
   ];
 }

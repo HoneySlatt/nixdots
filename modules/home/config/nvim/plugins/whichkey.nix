@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       spec = [
-        { __unkeyed-1 = "<leader>a"; group = "AI (Claude)"; }
+        { __unkeyed-1 = "<leader>a"; group = "AI (OpenCode)"; }
         { __unkeyed-1 = "<leader>b"; group = "Buffer"; }
         { __unkeyed-1 = "<leader>c"; group = "Code"; }
         { __unkeyed-1 = "<leader>d"; group = "Debug"; }

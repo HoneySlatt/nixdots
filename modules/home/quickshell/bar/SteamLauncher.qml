@@ -191,7 +191,7 @@ Item {
 
                     Rectangle {
                         anchors.fill: parent
-                        radius: 10
+                        radius: 0
                         color: Theme.separator
                         clip: true
 
@@ -217,7 +217,7 @@ Item {
                         // Selected highlight border
                         Rectangle {
                             anchors.fill: parent
-                            radius: 10
+                            radius: 0
                             color: "transparent"
                             border.color: Theme.highlight
                             border.width: card.offset === 0 ? 3 : 0

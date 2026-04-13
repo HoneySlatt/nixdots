@@ -119,15 +119,12 @@
     { mode = "n"; key = "<leader>mp"; action = "<cmd>LivePreview start<cr>"; options.desc = "Start live preview"; }
     { mode = "n"; key = "<leader>ms"; action = "<cmd>LivePreview close<cr>"; options.desc = "Stop live preview"; }
 
-    # Claude Code
-    { mode = "n"; key = "<leader>ac"; action = "<cmd>ClaudeCode<cr>";              options.desc = "Toggle Claude"; }
-    { mode = "n"; key = "<leader>af"; action = "<cmd>ClaudeCodeFocus<cr>";         options.desc = "Focus Claude"; }
-    { mode = "n"; key = "<leader>ar"; action = "<cmd>ClaudeCode --resume<cr>";     options.desc = "Resume Claude"; }
-    { mode = "n"; key = "<leader>aC"; action = "<cmd>ClaudeCode --continue<cr>";   options.desc = "Continue Claude"; }
-    { mode = "n"; key = "<leader>am"; action = "<cmd>ClaudeCodeSelectModel<cr>";   options.desc = "Select model"; }
-    { mode = "n"; key = "<leader>ab"; action = "<cmd>ClaudeCodeAdd %<cr>";         options.desc = "Add current buffer"; }
-    { mode = "v"; key = "<leader>as"; action = "<cmd>ClaudeCodeSend<cr>";          options.desc = "Send to Claude"; }
-    { mode = "n"; key = "<leader>aa"; action = "<cmd>ClaudeCodeDiffAccept<cr>";    options.desc = "Accept diff"; }
-    { mode = "n"; key = "<leader>ad"; action = "<cmd>ClaudeCodeDiffDeny<cr>";      options.desc = "Reject diff"; }
+    # OpenCode
+    { mode = "n"; key = "<leader>aa"; action.__raw = ''function() require("opencode").ask("@this: ", { submit = true }) end''; options.desc = "Ask OpenCode"; }
+    { mode = "x"; key = "<leader>aa"; action.__raw = ''function() require("opencode").ask("@this: ", { submit = true }) end''; options.desc = "Ask OpenCode"; }
+    { mode = "n"; key = "<leader>ax"; action.__raw = ''function() require("opencode").select() end'';                          options.desc = "OpenCode select action"; }
+    { mode = "n"; key = "<leader>at"; action.__raw = ''function() require("opencode").toggle() end'';                            options.desc = "Toggle OpenCode"; }
+    { mode = "n"; key = "<leader>ao"; action.__raw = ''function() return require("opencode").operator("@this ") end'';            options.desc = "Add range to OpenCode"; }
+    { mode = "n"; key = "<leader>ap"; action.__raw = ''function() require("opencode").prompt("explain @this") end'';             options.desc = "Explain with OpenCode"; }
   ];
 }

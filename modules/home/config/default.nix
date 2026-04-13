@@ -8,6 +8,5 @@
     ./nvim
     ./yazi.nix
     ./mpv.nix
-    ./opencode.nix
   ];
 }
