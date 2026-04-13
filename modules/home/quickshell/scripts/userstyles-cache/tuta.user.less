@@ -156,12 +156,25 @@
       color: @mantle;
     }
 
+    /* old Tuta red #FF5353 */
     [style*="border: 2px solid rgb(255, 83, 83);"] {
       border-color: @accent !important;
     }
     [style*="color: rgb(255, 83, 83);"],
     .content-accent-fg {
       color: @accent !important;
+    }
+
+    .content-accent-bg {
+      background-color: @accent !important;
+      color: @base !important;
+    }
+
+    /* New email button */
+    button[data-testid="btn:newMail"] {
+      background-color: @accent !important;
+      color: @base !important;
+      box-shadow: none !important;
     }
 
     button.expander {

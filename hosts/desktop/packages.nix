@@ -49,6 +49,7 @@
     imv
     zathura
     rustlings
+    opencode
     claude-code
     ani-cli
     trash-cli

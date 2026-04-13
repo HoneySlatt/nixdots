@@ -116,7 +116,7 @@ QtObject {
     // ── Dimensions ──
     readonly property int barHeight: 30
     readonly property int margin: 6
-    readonly property int borderRadius: 15
+    readonly property int borderRadius: 12
     readonly property int modulePadding: 8
 
     // ── Persistence ──

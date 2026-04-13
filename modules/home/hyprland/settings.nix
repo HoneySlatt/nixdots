@@ -11,9 +11,9 @@
     # GENERAL LAYOUT
     # ==================
     general = {
-      gaps_in = 4;
-      gaps_out = 4;
-      border_size = 2;
+      gaps_in = 6;
+      gaps_out = 6;
+      border_size = 0;
       "col.active_border" = "rgba(c4a7e7ff)";
       "col.inactive_border" = "rgba(26233aff)";
       layout = "dwindle";
@@ -23,9 +23,9 @@
     # DECORATION
     # ==================
     decoration = {
-      rounding = 0;
+      rounding = 12;
       active_opacity = 1.0;
-      inactive_opacity = 0.9;
+      inactive_opacity = 1.0;
 
       shadow = {
         enabled = true;

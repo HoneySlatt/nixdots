@@ -68,5 +68,35 @@ in
         NODE_PATH="${pkgs-stable.nodePackages.less}/lib/node_modules" node "$HOME/.config/quickshell/scripts/compile-userstyle.js" "$@"
       '';
     })
+    (writeShellApplication {
+      name = "switch-tuta-theme";
+      runtimeInputs = [ pkgs.jq ];
+      text = ''
+        conf="$HOME/.config/tutanota-desktop/conf.json"
+        [ -f "$conf" ] || exit 0
+
+        theme_json="$1"
+
+        was_running=false
+        if pgrep -x tutanota-desktop > /dev/null; then
+          was_running=true
+          pkill -x tutanota-desktop
+          i=0
+          while pgrep -x tutanota-desktop > /dev/null && [ "$i" -lt 30 ]; do
+            sleep 0.1
+            i=$((i + 1))
+          done
+        fi
+
+        tmp=$(mktemp)
+        jq --argjson theme "$theme_json" \
+          '.themes = ([.themes[] | select(.themeId != "quickshell")] + [$theme]) | .selectedTheme = "quickshell"' \
+          "$conf" > "$tmp" && mv "$tmp" "$conf"
+
+        if $was_running; then
+          tutanota-desktop &>/dev/null &
+        fi
+      '';
+    })
   ];
 }
