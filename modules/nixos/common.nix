@@ -29,6 +29,6 @@
 
   environment.variables = {
     EDITOR = "nvim";
-    BROWSER = "helium";
+    BROWSER = "librewolf";
   };
 }

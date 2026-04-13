@@ -20,7 +20,7 @@
       "$mainMod, G, exec, qs msg -c bar toggleSteamLauncher call"
       "$mainMod, T, exec, qs msg -c bar toggleThemeLauncher call"
       "$mainMod, W, exec, qs msg -c bar toggleWallpaperLauncher call"
-      "$mainMod, B, exec, helium"
+      "$mainMod, B, exec, librewolf"
       "$mainMod, M, exec, cider-2"
       "$mainMod CTRL, M, exec, qs msg -c bar toggleCiderLauncher call"
       "$mainMod, D, exec, vesktop"
