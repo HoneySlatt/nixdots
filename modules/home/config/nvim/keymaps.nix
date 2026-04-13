@@ -7,10 +7,10 @@
     { mode = "n"; key = "<C-l>"; action = "<C-w>l"; options.desc = "Move to right window"; }
 
     # Window resize
-    { mode = "n"; key = "<C-Up>";    action = "<cmd>resize +2<cr>";          options.desc = "Increase window height"; }
-    { mode = "n"; key = "<C-Down>";  action = "<cmd>resize -2<cr>";          options.desc = "Decrease window height"; }
-    { mode = "n"; key = "<C-Left>";  action = "<cmd>vertical resize -2<cr>"; options.desc = "Decrease window width"; }
-    { mode = "n"; key = "<C-Right>"; action = "<cmd>vertical resize +2<cr>"; options.desc = "Increase window width"; }
+    { mode = "n"; key = "<C-Up>";    action = "<cmd>resize +5<cr>";          options.desc = "Increase window height"; }
+    { mode = "n"; key = "<C-Down>";  action = "<cmd>resize -5<cr>";          options.desc = "Decrease window height"; }
+    { mode = "n"; key = "<C-Left>";  action = "<cmd>vertical resize -5<cr>"; options.desc = "Decrease window width"; }
+    { mode = "n"; key = "<C-Right>"; action = "<cmd>vertical resize +5<cr>"; options.desc = "Increase window width"; }
 
     # Buffer navigation
     { mode = "n"; key = "<S-h>";      action = "<cmd>bprevious<cr>"; options.desc = "Previous buffer"; }

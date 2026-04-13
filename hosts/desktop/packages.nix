@@ -50,7 +50,6 @@
     zathura
     rustlings
     opencode
-    claude-code
     ani-cli
     trash-cli
     proton-vpn-cli

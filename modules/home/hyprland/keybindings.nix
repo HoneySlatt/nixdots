@@ -33,7 +33,6 @@
       "$mainMod, F, fullscreen, 1"
       "$mainMod, R, exec, qs ipc -c bar call togglePowerMenu call"
       "$mainMod, C, exec, kitty -e opencode"
-      "$mainMod SHIFT, C, exec, kitty -e claude"
       "$mainMod, N, exec, kitty -e nvim"
       "$mainMod, TAB, exec, qs ipc -c bar call overview toggle"
       "ctrl alt, delete, exec, kitty -e btop"
