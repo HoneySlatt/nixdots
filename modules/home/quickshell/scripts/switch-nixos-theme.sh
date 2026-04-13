@@ -3,7 +3,7 @@
 set -euo pipefail
 
 THEME="${1:-pastelglow}"
-NIXCFG="$HOME/NixOS/config"
+NIXCFG="$HOME/NixBTW/config"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 declare -A C
@@ -1285,7 +1285,7 @@ gen_hyprland_borders() {
   sed -i \
     -e "s/\"col.active_border\" = \"rgba(.*)\"/\"col.active_border\" = \"rgba(${active_hex}ff)\"/" \
     -e "s/\"col.inactive_border\" = \"rgba(.*)\"/\"col.inactive_border\" = \"rgba(${inactive_hex}ff)\"/" \
-    "$HOME/NixOS/modules/home/hyprland/settings.nix"
+    "$HOME/NixBTW/modules/home/hyprland/settings.nix"
 }
 
 # ── Live reload ─────────────────────────────────────────────────────────────
@@ -1361,4 +1361,4 @@ gen_hyprland_borders
 live_reload
 
 echo "Switched NixOS config to: ${C[name]}"
-echo "Run 'sudo nixos-rebuild switch --flake ~/NixOS#' to fully apply."
+echo "Run 'sudo nixos-rebuild switch --flake ~/NixBTW#' to fully apply."

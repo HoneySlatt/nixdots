@@ -26,7 +26,7 @@
         dashboard.button("r", "  Recent files", ":FzfLua oldfiles<CR>"),
         dashboard.button("g", "  Find text",    ":FzfLua live_grep<CR>"),
         dashboard.button("n", "  New file",     ":enew<CR>"),
-        dashboard.button("c", "  NixOS config", ":e ~/NixOS/<CR>"),
+        dashboard.button("c", "  NixOS config", ":e ~/NixBTW/<CR>"),
         dashboard.button("q", "  Quit",         ":qa<CR>"),
       },
       opts = { spacing = 1 },
