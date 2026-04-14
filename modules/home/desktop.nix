@@ -9,5 +9,4 @@
   ];
 
   home.file."NAS" = {source = config.lib.file.mkOutOfStoreSymlink "/mnt/ssd2";};
-  home.packages = [ pkgs.pwasio ];
 }
