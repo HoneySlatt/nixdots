@@ -20,7 +20,7 @@
   users.users.honey = {
     isNormalUser = true;
     description = "Honey";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "jackaudio" "ollama" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "jackaudio" ];
   };
 
   programs.nano.enable = false;
