@@ -6,7 +6,6 @@
     inputs.millennium.overlays.default
     (final: prev: {
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
-      pwasio = final.callPackage ../../modules/home/pkgs/pwasio.nix { };
     })
   ];
 
@@ -20,6 +19,7 @@
     vesktop
     obs-studio
     obsidian
+    ardour
     blender
     gimp
     inkscape
@@ -60,7 +60,10 @@
 
     # Others
     jellyfin-mpv-shim
-    wineWow64Packages.stagingFull
+    wineWow64Packages.staging 
+    yabridge
+    yabridgectl
+
 
     # Custom pkgs
     steam-metadata-editor
