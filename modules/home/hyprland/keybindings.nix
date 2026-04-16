@@ -30,7 +30,6 @@
       "$mainMod SHIFT, N, exec, jellyfin-desktop"
       "$mainMod SHIFT, V, exec, toggle-protonvpn"
       "$mainMod CTRL, H, exec, toggle-hdr"
-      "$mainMod CTRL, C, exec, toggle-crt-shader"
       "$mainMod, F, fullscreen, 1"
       "$mainMod, R, exec, qs ipc -c bar call togglePowerMenu call"
       "$mainMod, C, exec, ghostty -e opencode"
