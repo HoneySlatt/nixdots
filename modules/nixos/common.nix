@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -21,9 +21,11 @@
     isNormalUser = true;
     description = "Honey";
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "jackaudio" ];
+    shell = pkgs.zsh;
   };
 
   programs.nano.enable = false;
+  programs.zsh.enable = true;
   programs.dconf.enable = true;
   services.gnome.gnome-keyring.enable = true;
 

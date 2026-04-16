@@ -70,6 +70,23 @@
       '';
     })
 
+    # Toggle CRT shader on/off
+    # Keybind: SUPER + CTRL + C
+    (pkgs.writeShellApplication {
+      name = "toggle-crt-shader";
+      runtimeInputs = [ pkgs.hyprland pkgs.libnotify ];
+      text = ''
+        current=$(hyprctl getoption screen_shader | head -1 | awk '{print $2}')
+        if [ "$current" = "0" ] || [ "$current" = "" ]; then
+          hyprctl keyword screen_shader "${./shaders/crt.frag}"
+          notify-send "CRT Shader" "Enabled"
+        else
+          hyprctl keyword screen_shader "[]"
+          notify-send "CRT Shader" "Disabled"
+        fi
+      '';
+    })
+
     # Toggle hyprquickshot / stop screen recording
     # Keybind: SUPER + S
     (pkgs.writeShellApplication {

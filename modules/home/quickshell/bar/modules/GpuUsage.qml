@@ -26,6 +26,6 @@ Item {
         cursorShape: Qt.PointingHandCursor
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: Quickshell.execDetached(["kitty", "-e", "btop"])
+        onClicked: Quickshell.execDetached(["ghostty", "-e", "btop"])
     }
 }

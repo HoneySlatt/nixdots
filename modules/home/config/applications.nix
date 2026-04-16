@@ -190,17 +190,9 @@
 
     # ─── TUI / CLI Tools ─────────────────────────────────────────────────────
 
-    kitty = {
-      name       = "Kitty";
-      exec       = "kitty";
-      icon       = "kitty";
-      comment    = "Fast, feature-rich terminal emulator";
-      categories = [ "System" "TerminalEmulator" ];
-    };
-
     nvim = {
       name       = "Neovim";
-      exec       = "kitty -e nvim %F";
+      exec       = "ghostty -e nvim %F";
       icon       = "nvim";
       comment    = "Hyperextensible Vim-based text editor";
       categories = [ "Utility" "TextEditor" ];
@@ -208,7 +200,7 @@
 
     yazi = {
       name       = "Yazi";
-      exec       = "kitty -e yazi %F";
+      exec       = "ghostty -e yazi %F";
       icon       = "/home/honey/Pictures/Icons/yazi.png";
       comment    = "Blazing fast terminal file manager";
       categories = [ "System" "FileManager" ];
@@ -218,7 +210,7 @@
 
     btop = {
       name      = "btop++";
-      exec      = "kitty -e btop";
+      exec      = "ghostty -e btop";
       icon      = "btop";
       comment   = "Resource monitor";
       noDisplay = true;

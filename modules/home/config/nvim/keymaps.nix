@@ -34,6 +34,9 @@
     { mode = ["n" "v" "i"]; key = "<Left>";  action = "<Nop>"; }
     { mode = ["n" "v" "i"]; key = "<Right>"; action = "<Nop>"; }
 
+    # Exit terminal mode
+    { mode = "t"; key = "<Esc><Esc>"; action = "<C-\\><C-n>"; options.desc = "Exit terminal mode"; }
+
     # Neo-tree
     { mode = "n"; key = "<leader>e"; action = "<cmd>Neotree toggle<cr>"; options.desc = "Toggle file explorer"; }
 

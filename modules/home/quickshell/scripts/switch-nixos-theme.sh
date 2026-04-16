@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Switch NixOS config theme (themes.nix, kitty.nix, btop.nix) + live reload
+# Switch NixOS config theme (themes.nix, ghostty.nix, btop.nix) + live reload
 set -euo pipefail
 
 THEME="${1:-pastelglow}"
@@ -817,121 +817,6 @@ ${kvantum_block}
 NIXEOF
 }
 
-# ── Generate kitty.nix ─────────────────────────────────────────────────────
-gen_kitty_nix() {
-  cat > "$NIXCFG/kitty.nix" << NIXEOF
-{ pkgs, ... }:
-
-{
-  programs.kitty = {
-    enable = true;
-
-    # Font settings
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 11;
-    };
-
-    # Required packages
-    extraConfig = ''
-      bold_font        JetBrainsMono NF Bold
-      italic_font      JetBrainsMono NF Italic
-      bold_italic_font JetBrainsMono NF Medium Italic
-      modify_font cell_height 118%
-    '';
-
-    settings = {
-      # Background
-      background_opacity = "0.9";
-
-      # Shell and editor
-      shell  = "zsh";
-      editor = "nvim";
-
-      # Remote control
-      allow_remote_control = "yes";
-      listen_on            = "unix:@mykitty";
-
-      # Features
-      allow_hyperlinks   = "yes";
-      shell_integration  = "enabled";
-      confirm_os_window_close = 0;
-
-      # Cursor trail
-      cursor_trail                 = 0;
-      cursor_trail_decay           = "0.1 0.2";
-      cursor_trail_start_threshold = 1;
-
-      # Keybindings modifier
-      kitty_mod = "ctrl";
-
-      # ${C[name]} colors
-      foreground           = "${C[text]}";
-      background           = "${C[base]}";
-      selection_foreground = "${C[base]}";
-      selection_background = "${C[rosewater]}";
-
-      cursor            = "${C[rosewater]}";
-      cursor_text_color = "${C[base]}";
-
-      url_color = "${C[rosewater]}";
-
-      active_border_color   = "${C[lavender]}";
-      inactive_border_color = "${C[overlay0]}";
-      bell_border_color     = "${C[yellow]}";
-
-      wayland_titlebar_color = "system";
-
-      active_tab_foreground   = "${C[crust]}";
-      active_tab_background   = "${C[mauve]}";
-      inactive_tab_foreground = "${C[text]}";
-      inactive_tab_background = "${C[mantle]}";
-      tab_bar_background      = "${C[crust]}";
-
-      mark1_foreground = "${C[base]}";
-      mark1_background = "${C[lavender]}";
-      mark2_foreground = "${C[base]}";
-      mark2_background = "${C[mauve]}";
-      mark3_foreground = "${C[base]}";
-      mark3_background = "${C[sapphire]}";
-
-      # Black
-      color0 = "${C[surface1]}";
-      color8 = "${C[surface2]}";
-
-      # Red
-      color1 = "${C[red]}";
-      color9 = "${C[red]}";
-
-      # Green
-      color2  = "${C[green]}";
-      color10 = "${C[green]}";
-
-      # Yellow
-      color3  = "${C[yellow]}";
-      color11 = "${C[yellow]}";
-
-      # Blue
-      color4  = "${C[blue]}";
-      color12 = "${C[blue]}";
-
-      # Magenta
-      color5  = "${C[pink]}";
-      color13 = "${C[pink]}";
-
-      # Cyan
-      color6  = "${C[teal]}";
-      color14 = "${C[teal]}";
-
-      # White
-      color7  = "${C[subtext1]}";
-      color15 = "${C[subtext0]}";
-    };
-  };
-}
-NIXEOF
-}
-
 # ── Generate btop.nix ──────────────────────────────────────────────────────
 gen_btop_nix() {
   cat > "$NIXCFG/btop.nix" << NIXEOF
@@ -1304,33 +1189,6 @@ live_reload() {
   if command -v swaync-client &>/dev/null; then
     swaync-client -rs 2>/dev/null || true
   fi
-
-  # Live-update kitty colors if kitty is running
-  if command -v kitty &>/dev/null; then
-    kitty @ --to unix:@mykitty set-colors \
-      foreground="${C[text]}" \
-      background="${C[base]}" \
-      cursor="${C[rosewater]}" \
-      cursor_text_color="${C[base]}" \
-      selection_foreground="${C[base]}" \
-      selection_background="${C[rosewater]}" \
-      color0="${C[surface1]}" color8="${C[surface2]}" \
-      color1="${C[red]}" color9="${C[red]}" \
-      color2="${C[green]}" color10="${C[green]}" \
-      color3="${C[yellow]}" color11="${C[yellow]}" \
-      color4="${C[blue]}" color12="${C[blue]}" \
-      color5="${C[pink]}" color13="${C[pink]}" \
-      color6="${C[teal]}" color14="${C[teal]}" \
-      color7="${C[subtext1]}" color15="${C[subtext0]}" \
-      active_border_color="${C[lavender]}" \
-      inactive_border_color="${C[overlay0]}" \
-      active_tab_foreground="${C[crust]}" \
-      active_tab_background="${C[mauve]}" \
-      inactive_tab_foreground="${C[text]}" \
-      inactive_tab_background="${C[mantle]}" \
-      tab_bar_background="${C[crust]}" \
-      2>/dev/null || true
-  fi
 }
 
 # ── Update fastfetch config colors ─────────────────────────────────────────
@@ -1351,7 +1209,6 @@ gen_fastfetch_config() {
 
 # ── Main ────────────────────────────────────────────────────────────────────
 gen_themes_nix
-gen_kitty_nix
 gen_btop_nix
 gen_nvim_colorscheme_nix
 gen_nvim_ui_nix

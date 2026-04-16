@@ -19,7 +19,7 @@
 
     settings = {
       # Default programs
-      "$terminal" = "kitty";
+      "$terminal" = "ghostty";
       "$fileManager" = "yazi";
       "$menu" = "qs msg -c bar toggleLauncher call";
 

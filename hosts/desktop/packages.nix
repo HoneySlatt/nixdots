@@ -44,6 +44,7 @@
     ripgrep
     btop
     gdu
+    glow
     cava
     fastfetch
     imv

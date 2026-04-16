@@ -8,7 +8,22 @@
     ];
 
     extraConfigLua = ''
-      vim.g.opencode_opts = {}
+      vim.g.opencode_opts = {
+        server = {
+          start = function()
+            require("opencode.terminal").open("opencode --port", {
+              split = "right",
+              width = math.floor(vim.o.columns * 0.25),
+            })
+          end,
+          toggle = function()
+            require("opencode.terminal").toggle("opencode --port", {
+              split = "right",
+              width = math.floor(vim.o.columns * 0.25),
+            })
+          end,
+        },
+      }
       vim.o.autoread = true
     '';
   };

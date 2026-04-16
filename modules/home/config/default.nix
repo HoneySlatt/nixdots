@@ -4,7 +4,7 @@
   imports = [
     ./applications.nix
     ./zsh.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./nvim
     ./yazi.nix
     ./mpv.nix
