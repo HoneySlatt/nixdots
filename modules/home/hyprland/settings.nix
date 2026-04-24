@@ -13,7 +13,7 @@
     general = {
       gaps_in = 6;
       gaps_out = 6;
-      border_size = 0;
+      border_size = 2;
       "col.active_border" = "rgba(c4a7e7ff)";
       "col.inactive_border" = "rgba(26233aff)";
       layout = "dwindle";
@@ -25,7 +25,7 @@
     decoration = {
       rounding = 12;
       active_opacity = 1.0;
-      inactive_opacity = 1.0;
+      inactive_opacity = 0.9;
 
       shadow = {
         enabled = true;

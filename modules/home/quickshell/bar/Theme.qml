@@ -116,6 +116,8 @@ QtObject {
     // ── Dimensions ──
     readonly property int barHeight: 30
     readonly property int margin: 6
+    readonly property real barOpacity: 0.9
+    readonly property real popupOpacity: 0.955
     readonly property int borderRadius: 12
     readonly property int modulePadding: 8
 

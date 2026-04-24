@@ -42,7 +42,7 @@ PanelWindow {
     Rectangle {
         id: barBackground
         anchors.fill: parent
-        color: Theme.background
+        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, Theme.barOpacity)
         radius: isTop ? Theme.borderRadius : 0
         clip: true
 

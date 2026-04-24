@@ -115,7 +115,7 @@ Item {
                         anchors.topMargin: 0
                         anchors.bottomMargin: BarState.isTop ? 0 : -radius
                         height: parent.height + radius
-                        color: Theme.background
+                        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, Theme.popupOpacity)
                         radius: 10
                         border.color: Theme.separator
                         border.width: 1

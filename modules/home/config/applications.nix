@@ -132,11 +132,11 @@
       categories = [ "Network" "Security" ];
     };
 
-    startcenter = {
-      name       = "LibreOffice";
-      exec       = "libreoffice %U";
-      icon       = "libreoffice-startcenter";
-      comment    = "LibreOffice start center";
+    onlyoffice-desktopeditors = {
+      name       = "OnlyOffice";
+      exec       = "onlyoffice-desktopeditors %U";
+      icon       = "onlyoffice-desktopeditors";
+      comment    = "ONLYOFFICE Desktop Editors";
       categories = [ "Office" ];
     };
 
@@ -284,63 +284,7 @@
       noDisplay = true;
       categories = [ "Game" "Utility" ];
     };
-
-    writer = {
-      name      = "LibreOffice Writer";
-      exec      = "libreoffice --writer %U";
-      icon      = "libreoffice-writer";
-      noDisplay = true;
-      categories = [ "Office" "WordProcessor" ];
-    };
-
-    calc = {
-      name      = "LibreOffice Calc";
-      exec      = "libreoffice --calc %U";
-      icon      = "libreoffice-calc";
-      noDisplay = true;
-      categories = [ "Office" "Spreadsheet" ];
-    };
-
-    impress = {
-      name      = "LibreOffice Impress";
-      exec      = "libreoffice --impress %U";
-      icon      = "libreoffice-impress";
-      noDisplay = true;
-      categories = [ "Office" "Presentation" ];
-    };
-
-    draw = {
-      name      = "LibreOffice Draw";
-      exec      = "libreoffice --draw %U";
-      icon      = "libreoffice-draw";
-      noDisplay = true;
-      categories = [ "Office" "Graphics" ];
-    };
-
-    math = {
-      name      = "LibreOffice Math";
-      exec      = "libreoffice --math %U";
-      icon      = "libreoffice-math";
-      noDisplay = true;
-      categories = [ "Office" ];
-    };
-
-    base = {
-      name      = "LibreOffice Base";
-      exec      = "libreoffice --base %U";
-      icon      = "libreoffice-base";
-      noDisplay = true;
-      categories = [ "Office" "Database" ];
-    };
-
-    xsltfilter = {
-      name      = "LibreOffice XSLT Filter";
-      exec      = "libreoffice";
-      icon      = "libreoffice-startcenter";
-      noDisplay = true;
-      categories = [ "Office" ];
-    };
-  };
+     };
 
   xdg.mimeApps = {
     enable = true;

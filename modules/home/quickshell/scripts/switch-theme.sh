@@ -1155,7 +1155,7 @@ gen_userstyles() {
 ==/UserStyle== */
 EOF
 
-  local sites=(youtube twitch twitter instagram reddit github codeberg tuta claude anilist startpage wikipedia deepseek)
+  local sites=(youtube twitch twitter instagram reddit github codeberg tuta claude anilist duckduckgo wikipedia chatgpt)
   for site in "${sites[@]}"; do
     local less_file="$cache_dir/$site.user.less"
     [ -f "$less_file" ] || continue

@@ -8,7 +8,7 @@
     ../../modules/nixos/services
     ../../modules/nixos/common.nix
     ../../modules/nixos/audio.nix
-    ../../modules/nixos/ly.nix
+    ../../modules/nixos/greetd.nix
     ../../modules/nixos/hyprland.nix
   ];
 
@@ -28,7 +28,7 @@
   };
 
   services.libinput.mouse.accelProfile = "flat";
-  security.pam.services.ly.enableGnomeKeyring = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
   services.lact.enable = true;
 
   # Focusrite low-latency

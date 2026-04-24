@@ -11,7 +11,6 @@
     imagemagick
     wf-recorder
     wl-clipboard
-    cliphist
     hyprpolkitagent
     hyprpicker
     playerctl

@@ -23,16 +23,16 @@
     blender
     gimp
     inkscape
-    libreoffice
     qbittorrent
     tutanota-desktop
     jellyfin-desktop
     bitwarden-desktop
+    onlyoffice-desktopeditors
     kdePackages.kdenlive
 
     # Gaming
     ryubing
-    xivlauncher
+    #xivlauncher
     prismlauncher
 
     # TUI/CLI
@@ -50,6 +50,7 @@
     imv
     zathura
     rustlings
+    claude-code
     opencode
     ani-cli
     trash-cli

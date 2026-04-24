@@ -84,7 +84,7 @@ Item {
                 width: col.implicitWidth + 24
                 height: col.implicitHeight + 24
                 radius: BarState.isTop ? Theme.borderRadius : 0
-                color: Theme.background
+                color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, Theme.popupOpacity)
                 border.color: Qt.rgba(Theme.separator.r, Theme.separator.g, Theme.separator.b, 0.6)
                 border.width: BarState.isTop ? 1 : 0
 
