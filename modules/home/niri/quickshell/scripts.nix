@@ -1,0 +1,450 @@
+{ pkgs, ... }:
+
+let
+  shellDir = "$HOME/NixOS/modules/home/niri/quickshell/config";
+
+  readProfile = ''
+    STATE_FILE="$HOME/.config/quickshell/.current-shell"
+    profile="modern"
+
+    if [ -f "$STATE_FILE" ]; then
+      profile="$(tr -d '[:space:]' < "$STATE_FILE")"
+    fi
+  '';
+
+  qsIpc = modern: tui: ''
+    ${readProfile}
+
+    case "$profile" in
+      tui) ${tui} ;;
+      *) ${modern} ;;
+    esac
+  '';
+in
+{
+  home.packages = [
+    (pkgs.writeShellApplication {
+      name = "steam-games";
+      runtimeInputs = [ pkgs.jq ];
+      text = ''
+        steam_dir="$HOME/.local/share/Steam"
+        grid_dir="$steam_dir/userdata/303776471/config/grid"
+        cache_dir="$steam_dir/appcache/librarycache"
+        lines=()
+
+        mapfile -t lib_paths < <(grep -oP '(?<="path"\t{1,8}")([^"]+)' "$steam_dir/config/libraryfolders.vdf" 2>/dev/null | sort -u)
+        [[ ''${#lib_paths[@]} -eq 0 ]] && lib_paths=("$steam_dir")
+
+        resolve_art() {
+          local appid="$1"
+          for ext in png jpg; do
+            [[ -f "$grid_dir/''${appid}p.$ext" ]] && echo "$grid_dir/''${appid}p.$ext" && return
+          done
+          for ext in jpg png; do
+            [[ -f "$cache_dir/''${appid}/library_600x900.$ext" ]] && echo "$cache_dir/''${appid}/library_600x900.$ext" && return
+          done
+          echo ""
+        }
+
+        for lib in "''${lib_paths[@]}"; do
+          for acf in "$lib/steamapps"/appmanifest_*.acf; do
+            [[ -f "$acf" ]] || continue
+
+            appid=$(grep -m1 '"appid"' "$acf" | grep -oP '(?<=")\d+(?=")' || true)
+            name=$(grep -m1 '"name"' "$acf" | sed 's/.*"name"[[:space:]]*"\([^"]*\)".*/\1/' || true)
+
+            [[ -z "$appid" || -z "$name" ]] && continue
+
+            case "$name" in
+              Proton*|"Steam Linux Runtime"*|"Steamworks Common"*|"Steam VR"*) continue ;;
+            esac
+
+            art=$(resolve_art "$appid")
+            lines+=("$(jq -n --arg a "$appid" --arg n "$name" --arg i "$art" '{appid:$a,name:$n,art:$i}')")
+          done
+        done
+
+        if [[ ''${#lines[@]} -eq 0 ]]; then
+          echo "[]"
+        else
+          printf '%s\n' "''${lines[@]}" | jq -s 'sort_by(.name | ascii_downcase)'
+        fi
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "qs-compile-userstyle";
+      runtimeInputs = [ pkgs.nodejs pkgs.lessc ];
+      text = ''
+        LESS_MODULE_PATH="${pkgs.lessc}/lib/lessc/packages/less" node "$HOME/.config/quickshell/themes/compile-userstyle.js" "$@"
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "qs-userstyles-server";
+      runtimeInputs = [ pkgs.python3 ];
+      text = ''
+        exec python3 -m http.server 48531 --bind 127.0.0.1 --directory "$HOME/.config/quickshell/themes"
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "switch-tuta-theme";
+      runtimeInputs = [ pkgs.jq ];
+      text = ''
+        conf="$HOME/.config/tutanota-desktop/conf.json"
+        [ -f "$conf" ] || exit 0
+
+        theme_json="$1"
+        was_running=false
+
+        if pgrep -f '(^|/)tutanota-desktop($| )' > /dev/null; then
+          was_running=true
+          pkill -f '(^|/)tutanota-desktop($| )'
+          i=0
+          while pgrep -f '(^|/)tutanota-desktop($| )' > /dev/null && [ "$i" -lt 30 ]; do
+            sleep 0.1
+            i=$((i + 1))
+          done
+        fi
+
+        tmp=$(mktemp)
+        jq --argjson theme "$theme_json" \
+          '.themes = ([((.themes // [])[]) | select(.themeId != "quickshell")] + [$theme]) | .selectedTheme = "quickshell"' \
+          "$conf" > "$tmp" && mv "$tmp" "$conf"
+
+        if $was_running; then
+          tutanota-desktop &>/dev/null &
+        fi
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "switch-kopuz-theme";
+      runtimeInputs = [ pkgs.jq ];
+      text = ''
+        conf="$HOME/.config/kopuz/config.json"
+        [ -f "$conf" ] || exit 0
+
+        theme_name="$1"
+        bg="$2"
+        raised="$3"
+        surface="$4"
+        text_color="$5"
+        text_muted="$6"
+        accent="$7"
+        accent_soft="$8"
+        accent_alt="$9"
+        accent_deep="''${10}"
+        highlight="''${11}"
+        highlight_dark="''${12}"
+        progress="''${13}"
+        danger="''${14}"
+
+        tmp=$(mktemp "$conf.XXXXXX")
+        trap 'rm -f "$tmp"' EXIT
+
+        jq \
+          --arg name "$theme_name" \
+          --arg bg "$bg" \
+          --arg raised "$raised" \
+          --arg surface "$surface" \
+          --arg text "$text_color" \
+          --arg text_muted "$text_muted" \
+          --arg accent "$accent" \
+          --arg accent_soft "$accent_soft" \
+          --arg accent_alt "$accent_alt" \
+          --arg accent_deep "$accent_deep" \
+          --arg highlight "$highlight" \
+          --arg highlight_dark "$highlight_dark" \
+          --arg progress "$progress" \
+          --arg danger "$danger" \
+          '.theme = "quickshell"
+            | .custom_themes = (.custom_themes // {})
+            | .custom_themes.quickshell = {
+                name: $name,
+                vars: {
+                  "bg": $bg,
+                  "raised": $raised,
+                  "surface": $surface,
+                  "text": $text,
+                  "text-muted": $text_muted,
+                  "accent": $accent,
+                  "accent-soft": $accent_soft,
+                  "accent-alt": $accent_alt,
+                  "accent-deep": $accent_deep,
+                  "highlight": $highlight,
+                  "highlight-dark": $highlight_dark,
+                  "progress": $progress,
+                  "danger": $danger
+                }
+              }' "$conf" > "$tmp" && mv "$tmp" "$conf"
+
+        trap - EXIT
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-tailscale";
+      text = ''
+        ${pkgs.bash}/bin/bash "$HOME/NixOS/modules/home/niri/quickshell/config/scripts/toggle-tailscale-exit-node.sh" "$@"
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "tailscale-exit-nodes";
+      runtimeInputs = [ pkgs.jq ];
+      text = ''
+        ${pkgs.bash}/bin/bash "$HOME/NixOS/modules/home/niri/quickshell/config/scripts/tailscale-exit-nodes.sh"
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-nsfw";
+      text = ''
+        NSFW_FILE="$HOME/.config/quickshell/.nsfw-enabled"
+        if [ -f "$NSFW_FILE" ] && [ "$(cat "$NSFW_FILE" | tr -d '[:space:]')" = "true" ]; then
+          echo "false" > "$NSFW_FILE"
+          notify-send "NSFW" "Disabled"
+        else
+          echo "true" > "$NSFW_FILE"
+          notify-send "NSFW" "Enabled"
+        fi
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "wallpaper-rotation";
+      text = ''
+        THEME_FILE="$HOME/.config/quickshell/.current-theme"
+        NSFW_FILE="$HOME/.config/quickshell/.nsfw-enabled"
+        BASE_DIR="$HOME/Pictures/Wallpapers"
+
+        declare -A THEME_DIRS
+        THEME_DIRS[pastelglow]="PastelGlow"
+        THEME_DIRS[rosepine]="RosePine"
+        THEME_DIRS[everforest]="Everforest"
+        THEME_DIRS[carbonfox]="Carbonfox"
+        THEME_DIRS[gruvbox]="GruvboxDark"
+        THEME_DIRS[gruvbox-light]="GruvboxLight"
+
+        while true; do
+          theme=$(cat "$THEME_FILE" 2>/dev/null | tr -d '[:space:]')
+          subdir="''${THEME_DIRS[$theme]:-PastelGlow}"
+          wallpaper_dir="$BASE_DIR/$subdir"
+          nsfw_enabled=$(cat "$NSFW_FILE" 2>/dev/null | tr -d '[:space:]')
+
+          if [ "$nsfw_enabled" = "true" ]; then
+            wallpaper=$(find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) 2>/dev/null | grep '\[NSFW\]' | shuf -n 1)
+          else
+            wallpaper=$(find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) 2>/dev/null | grep -v '\[NSFW\]' | shuf -n 1)
+          fi
+
+          if [ -n "$wallpaper" ]; then
+            awww img "$wallpaper" --transition-type wave --transition-duration 2
+          fi
+
+          sleep 300
+        done
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-quickshell";
+      text = ''
+        shell_dir="${shellDir}"
+        state_file="$shell_dir/.current-shell"
+        current="modern"
+
+        if [ -f "$state_file" ]; then
+          current="$(tr -d '[:space:]' < "$state_file")"
+        fi
+
+        if [ "$current" = "tui" ]; then
+          target="modern"
+        else
+          target="tui"
+        fi
+
+        quickshell kill -c modern --any-display || true
+        quickshell kill -c tui --any-display || true
+        sleep 0.2
+
+        ln -sfnT "$shell_dir" "$HOME/.config/quickshell"
+        printf '%s\n' "$target" > "$state_file"
+        apply-font-profile
+        "$HOME/.config/quickshell/themes/switch-theme.sh" --shell >/dev/null 2>&1 || true
+        nohup qs -c "$target" >/dev/null 2>&1 &
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-bar-position";
+      text = qsIpc
+        ''quickshell ipc -p "$HOME/.config/quickshell/modern" -n call togglePosition call''
+        ''quickshell ipc -c tui call tuiTogglePosition call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-launcher";
+      text = qsIpc
+        ''quickshell ipc -p "$HOME/.config/quickshell/modern" -n call toggleLauncher call''
+        ''quickshell ipc -c tui call tuiToggleAppLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-theme-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call toggleThemeLauncher call''
+        ''quickshell ipc -c tui call tuiToggleThemeLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-wallpaper-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call toggleWallpaperLauncher call''
+        ''quickshell ipc -c tui call tuiToggleWallpaperLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-game-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call toggleSteamLauncher call''
+        ''quickshell ipc -c tui call tuiToggleGameLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-music-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call toggleMusicLauncher call''
+        ''quickshell ipc -c tui call tuiToggleMusicLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-vpn-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call toggleVpnLauncher call''
+        ''quickshell ipc -c tui call tuiToggleVpnLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-power-launcher";
+      text = qsIpc
+        ''quickshell ipc -c modern call togglePowerMenu call''
+        ''quickshell ipc -c tui call tuiTogglePowerLauncher call'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-overview";
+      text = qsIpc
+        ''quickshell ipc -c modern call overview toggle''
+        ''quickshell ipc -c tui call overview toggle'';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "toggle-browser";
+      text = qsIpc ''helium'' ''firefox'';
+    })
+
+    
+
+    (pkgs.writeShellApplication {
+      name = "lock-screen";
+      text = ''
+        if pgrep -x swaylock > /dev/null; then
+          exit 0
+        fi
+
+        if [ ! -f "$HOME/.config/swaylock/config" ]; then
+          THEME_FILE="$HOME/.config/quickshell/.current-theme"
+          THEME="carbonfox"
+          if [ -f "$THEME_FILE" ]; then
+            THEME="$(tr -d '[:space:]' < "$THEME_FILE")"
+          fi
+          THEMES_DIR="$HOME/.config/quickshell/themes"
+          if [ -f "$THEMES_DIR/switch-theme.sh" ]; then
+            bash "$THEMES_DIR/switch-theme.sh" "$THEME" >/dev/null 2>&1 || true
+          fi
+        fi
+
+        swaylock
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "apply-font-profile";
+      text = ''
+        ${readProfile}
+
+        case "$profile" in
+          tui)
+            FONT="IosevkaTerm Nerd Font Mono"
+            FONT_NAME="IosevkaTerm Nerd Font Mono 11"
+            FSIZE=12
+            BOLD="IosevkaTerm Nerd Font Mono"
+            ITALIC="IosevkaTerm Nerd Font Mono"
+            BOLD_ITALIC="IosevkaTerm Nerd Font Mono"
+            ;;
+          *)
+            FONT="JetBrainsMono Nerd Font"
+            FONT_NAME="JetBrainsMono Nerd Font 10"
+            FSIZE=11
+            BOLD="JetBrainsMono Nerd Font"
+            ITALIC="JetBrainsMono Nerd Font"
+            BOLD_ITALIC="JetBrainsMono Nerd Font"
+            ;;
+        esac
+
+        mkdir -p "$HOME/.config/alacritty"
+        cat > "$HOME/.config/alacritty/fonts.toml" << AEOF
+# Font profile: $profile - auto-generated by apply-font-profile
+[font]
+normal = { family = "$FONT", style = "Regular" }
+bold = { family = "$BOLD", style = "Bold" }
+italic = { family = "$ITALIC", style = "Italic" }
+bold_italic = { family = "$BOLD_ITALIC", style = "Medium Italic" }
+size = ''${FSIZE}.0
+AEOF
+
+        mkdir -p "$HOME/.config/gtk-3.0"
+        if [ -f "$HOME/.config/gtk-3.0/settings.ini" ]; then
+          sed -i "s/^gtk-font-name=.*/gtk-font-name=$FONT_NAME/" "$HOME/.config/gtk-3.0/settings.ini"
+        else
+          cat > "$HOME/.config/gtk-3.0/settings.ini" << EOF
+[Settings]
+gtk-font-name=$FONT_NAME
+EOF
+        fi
+
+        dconf write /org/gnome/desktop/interface/font-name "'$FONT_NAME'" 2>/dev/null || true
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "start-quickshell";
+      text = ''
+        shell_dir="${shellDir}"
+        state_file="$shell_dir/.current-shell"
+        profile="modern"
+
+        if [ -f "$state_file" ]; then
+          profile="$(tr -d '[:space:]' < "$state_file")"
+        fi
+
+        case "$profile" in
+          tui) ;;
+          *) profile="modern" ;;
+        esac
+
+        quickshell kill -c modern --any-display || true
+        quickshell kill -c tui --any-display || true
+        sleep 0.2
+
+        ln -sfnT "$shell_dir" "$HOME/.config/quickshell"
+        apply-font-profile
+        "$HOME/.config/quickshell/themes/switch-theme.sh" --shell >/dev/null 2>&1 || true
+        nohup qs -c "$profile" >/dev/null 2>&1 &
+      '';
+    })
+  ];
+}

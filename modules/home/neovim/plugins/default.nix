@@ -1,0 +1,26 @@
+{
+  imports = [
+    ./packages.nix
+    ./dashboard.nix
+    ./colorscheme.nix
+    ./editor.nix
+    ./ui.nix
+    ./completion.nix
+    ./lsp.nix
+    ./treesitter.nix
+    ./fzf.nix
+    ./git.nix
+    ./format.nix
+    ./lint.nix
+    ./terminal.nix
+    ./whichkey.nix
+    ./dap.nix
+    ./rust.nix
+    ./trouble.nix
+    ./emmet.nix
+    ./markdown.nix
+    ./python.nix
+    ./opencode.nix
+    ./direnv.nix
+  ];
+}
