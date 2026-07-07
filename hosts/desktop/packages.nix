@@ -45,6 +45,7 @@
     cmake
 
     # Gaming
+    heroic
     ppsspp
     ryubing
     protonplus

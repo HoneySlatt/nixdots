@@ -16,6 +16,7 @@
   boot = {
     loader = {
       systemd-boot.enable = false;
+      timeout = 1;
       efi.canTouchEfiVariables = true;
       limine = {
         enable = true;
