@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Switch theme — kitty, yazi, nvim, gtk, qt, hyprland, wallpaper,
-# discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, blender, kdeglobals,
+# discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, cider, blender, kdeglobals,
 # hyprlock, tuta, opencode
 
 SHELL_ONLY=false
@@ -115,6 +115,7 @@ switch_firefox
 gen_userstyles
 switch_jellyfin
 switch_kopuz
+switch_cider
 switch_blender
 gen_kdeglobals
 gen_hyprlock_theme

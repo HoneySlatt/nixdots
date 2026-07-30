@@ -6,6 +6,7 @@
   home.stateVersion = "25.11";
 
   home.pointerCursor = {
+    enable = true;
     package = pkgs.phinger-cursors;
     name = "phinger-cursors-dark";
     size = 24;

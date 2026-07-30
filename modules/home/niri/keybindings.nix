@@ -33,7 +33,7 @@
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
-    "Mod+C".action.spawn = [ "alacritty" "-e" "claude" ];
+    "Mod+C".action.spawn = [ "helium" "--profile-directory=Default" "--app-id=cadlkienfkclaiaibeoongdcgmdikeeg" ];
     "Mod+Shift+C".action.spawn = [ "alacritty" "-e" "codex" ];
     "Mod+Ctrl+C".action.spawn = [ "alacritty" "-e" "opencode" ];
     "Mod+N".action.spawn = [ "alacritty" "-e" "nvim" ];

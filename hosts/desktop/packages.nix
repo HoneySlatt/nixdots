@@ -16,6 +16,7 @@
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
+    kopuz
     cider-2
     obs-studio
     blender
@@ -29,7 +30,6 @@
     tutanota-desktop
     jellyfin-desktop
     kdePackages.kdenlive
-    inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Developpement
     git

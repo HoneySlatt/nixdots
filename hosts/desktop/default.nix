@@ -10,7 +10,7 @@
       ../../modules/nixos/services
       ../../modules/nixos/greetd.nix
       ../../modules/nixos/audio.nix
-      ../../modules/nixos/hyprland.nix
+      ../../modules/nixos/niri.nix
     ];
 
   boot = {
@@ -46,6 +46,7 @@
     xserver.videoDrivers = [ "amdgpu" ];
     libinput.mouse.accelProfile = "flat";
     lact.enable = true;
+    flatpak.enable = true;
   };
 
   # Enable the X11 windowing system.

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Switch theme — kitty, yazi, nvim, gtk, qt, niri, wallpaper,
 # discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, blender, kdeglobals,
-# swaylock, tuta, opencode, vibe
+# swaylock, tuta, opencode, cider, vibe
 
 SHELL_ONLY=false
 THEME="${1:-pastelglow}"
@@ -114,6 +114,7 @@ switch_firefox
 gen_userstyles
 switch_jellyfin
 switch_kopuz
+switch_cider
 switch_blender
 gen_kdeglobals
 gen_swaylock_config

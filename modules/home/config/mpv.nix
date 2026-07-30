@@ -21,22 +21,32 @@
       # Required when using a custom OSC script
       osc = "no";
 
-      target-colorspace-hint = "no";
-      target-trc             = "srgb";
+      # Keep mpv output SDR; HDR sources are tone-mapped instead of triggering HDR.
+      target-colorspace-hint      = "auto";
+      target-colorspace-hint-mode = "target";
+      target-trc                  = "srgb";
+      target-prim                 = "bt.709";
+      tone-mapping                = "bt.2446a";
+      hdr-compute-peak            = "yes";
+      gamut-mapping-mode          = "perceptual";
 
-      scale            = "ewa_lanczossharp";
-      cscale           = "spline36";
-      dscale           = "mitchell";
-      linear-upscaling = "yes";
-    };
-
-    profiles = {
-      hdr-content = {
-        profile-cond           = ''p["video-params/sig-peak"] > 1'';
-        target-colorspace-hint = "yes";
-        target-trc             = "pq";
-        target-prim            = "bt.2020";
-      };
+      scale               = "ewa_lanczossharp";
+      cscale              = "spline36";
+      dscale              = "mitchell";
+      scale-antiring      = 0.6;
+      cscale-antiring     = 0.6;
+      dscale-antiring     = 0.6;
+      sigmoid-upscaling   = "yes";
+      correct-downscaling = "yes";
+      linear-downscaling  = "yes";
+      linear-upscaling    = "yes";
+      dither              = "fruit";
+      dither-depth        = "auto";
+      deband              = "yes";
+      deband-iterations   = 1;
+      deband-threshold    = 32;
+      deband-range        = 16;
+      deband-grain        = 24;
     };
 
     bindings = {
@@ -111,18 +121,30 @@
     keep-open=yes
     cursor-autohide=1000
     osc=no
-    target-colorspace-hint=no
+    target-colorspace-hint=auto
+    target-colorspace-hint-mode=target
     target-trc=srgb
+    target-prim=bt.709
+    tone-mapping=bt.2446a
+    hdr-compute-peak=yes
+    gamut-mapping-mode=perceptual
     scale=ewa_lanczossharp
     cscale=spline36
     dscale=mitchell
+    scale-antiring=0.6
+    cscale-antiring=0.6
+    dscale-antiring=0.6
+    sigmoid-upscaling=yes
+    correct-downscaling=yes
+    linear-downscaling=yes
     linear-upscaling=yes
-
-    [hdr-content]
-    profile-cond=p["video-params/sig-peak"] > 1
-    target-colorspace-hint=yes
-    target-trc=pq
-    target-prim=bt.2020
+    dither=fruit
+    dither-depth=auto
+    deband=yes
+    deband-iterations=1
+    deband-threshold=32
+    deband-range=16
+    deband-grain=24
   '';
 
   home.file.".config/jellyfin-mpv-shim/input.conf".text = ''
@@ -175,4 +197,3 @@
     hwdec=yes
   '';
 }
-
