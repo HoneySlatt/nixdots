@@ -19,9 +19,9 @@ in
   wayland.windowManager.hyprland.settings = {
     bind = [
       # App launchers
-      (bind "CTRL + SHIFT + T" (exec "alacritty"))
+      (bind "CTRL + SHIFT + T" (exec "rio"))
       (bind "SUPER + Q" (mkLuaInline "hl.dsp.window.close()"))
-      (bind "SUPER + E" (exec "alacritty -e yazi"))
+      (bind "SUPER + E" (exec "rio -e yazi"))
       (bind "SUPER + SHIFT + E" (exec "nautilus"))
       (bind "SUPER + V" (mkLuaInline "hl.dsp.window.float({ action = 'toggle' })"))
       (bind "SUPER + SPACE" (exec "toggle-launcher"))
@@ -48,11 +48,11 @@ in
       (bind "SUPER + SHIFT +G" (exec "steam"))
       (bind "SUPER + F" (mkLuaInline "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })"))
       (bind "SUPER + C" (exec "helium --profile-directory=Default --app-id=cadlkienfkclaiaibeoongdcgmdikeeg"))
-      (bind "SUPER + SHIFT + C" (exec "alacritty -e codex"))
-      (bind "SUPER + CTRL + C" (exec "alacritty -e opencode"))
-      (bind "SUPER + N" (exec "alacritty -e nvim"))
+      (bind "SUPER + SHIFT + C" (exec "rio -e codex"))
+      (bind "SUPER + CTRL + C" (exec "rio -e opencode"))
+      (bind "SUPER + N" (exec "rio -e nvim"))
       (bind "SUPER + SHIFT + N" (exec "zeditor"))
-      (bind "CTRL + ALT + DELETE" (exec "alacritty -e btop"))
+      (bind "CTRL + ALT + DELETE" (exec "rio -e btop"))
 
       # Move focus with HJKL
       (bind "SUPER + H" (focus "left"))

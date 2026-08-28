@@ -19,6 +19,10 @@
       url = "github:AlvaroParker/helium-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kopuz = {
+      url = "github:Kopuz-org/kopuz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     nixvim = {
       url = "github:nix-community/nixvim";

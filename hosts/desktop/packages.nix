@@ -11,12 +11,11 @@
   environment.systemPackages = with pkgs; [
     
     # Web Browsers
-    ladybird
     firefox
     inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
-    kopuz
+    inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
     cider-2
     obs-studio
     blender

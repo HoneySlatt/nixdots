@@ -79,6 +79,8 @@
       tree = "eza --tree";
       cat  = "bat";
       grep = "rg";
+      "g++" = "g++ -Wall -Wextra -Werror -std=c++20";
+      gcc = "gcc -Wall -Wextra -Werror";
     };
   };
 }
