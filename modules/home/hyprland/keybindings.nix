@@ -7,64 +7,167 @@ let
   bind = key: action: { _args = [ key action ]; };
   bindWith = key: action: options: { _args = [ key action options ]; };
 
+  luaAction = code: mkLuaInline ''
+    function()
+      ${code}
+    end
+  '';
+  luaActionExpr = code: ''
+    function()
+      ${code}
+    end
+  '';
+
+  execExpr = command: "hl.dsp.exec_cmd(${luaString command})";
   exec = command: mkLuaInline "hl.dsp.exec_cmd(${luaString command})";
-  dispatch = dispatcher: exec "hyprctl dispatch ${dispatcher}";
-  focus = direction: mkLuaInline "hl.dsp.focus({ direction = ${luaString direction} })";
-  moveWindow = direction: mkLuaInline "hl.dsp.window.move({ direction = ${luaString direction} })";
+  noOpExpr = "hl.dsp.no_op()";
+  focusExpr = direction: "hl.dsp.focus({ direction = ${luaString direction} })";
+  moveWindowExpr = direction: "hl.dsp.window.move({ direction = ${luaString direction} })";
+  workspaceRefExpr = reference: "hl.dsp.focus({ workspace = ${luaString reference} })";
+  moveToWorkspaceRefExpr = reference: "hl.dsp.window.move({ workspace = ${luaString reference} })";
+  monitorWorkspaceExpr = action: offset: luaActionExpr ''
+    local active = hl.get_active_workspace()
+    if active then
+      local target = active.id + ${toString offset}
+      if target > 0 then
+        hl.dispatch(${action})
+      end
+    end
+  '';
+  monitorWorkspacePrev = action: monitorWorkspaceExpr action (-2);
+  monitorWorkspaceNext = action: monitorWorkspaceExpr action 2;
+  layoutExpr = message: "hl.dsp.layout(${luaString message})";
+  layoutAware = scrollingAction: dwindleAction: luaAction ''
+    local workspace = hl.get_active_workspace()
+    if workspace and workspace.tiled_layout == "scrolling" then
+      hl.animation({
+        leaf = "workspaces",
+        enabled = true,
+        speed = 5,
+        bezier = "default",
+        style = "slidevert",
+      })
+      hl.dispatch(${scrollingAction})
+    else
+      hl.animation({
+        leaf = "workspaces",
+        enabled = true,
+        speed = 5,
+        bezier = "default",
+        style = "slide",
+      })
+      hl.dispatch(${dwindleAction})
+    end
+  '';
+  toggleLayout = luaAction ''
+    local active = hl.get_active_workspace()
+    local target = "scrolling"
+    if active and active.tiled_layout == "scrolling" then
+      target = "dwindle"
+    end
+    local animation = "slide"
+    if target == "scrolling" then
+      animation = "slidevert"
+    end
+
+    hl.exec_cmd("printf '%s' " .. target .. " > ~/.config/hypr/layout-mode")
+
+    hl.config({ general = { layout = target } })
+    hl.animation({
+      leaf = "workspaces",
+      enabled = true,
+      speed = 5,
+      bezier = "default",
+      style = animation,
+    })
+
+    for i = 1, 10 do
+      local monitor = "DP-2"
+      if i % 2 == 0 then
+        monitor = "DP-3"
+      end
+
+      hl.workspace_rule({
+        workspace = tostring(i),
+        monitor = monitor,
+        layout = target,
+        animation = animation,
+      })
+    end
+
+    hl.notification.create({
+      text = "Layout: " .. target,
+      timeout = 1500,
+    })
+  '';
   workspace = number: mkLuaInline "hl.dsp.focus({ workspace = ${toString number} })";
-  workspaceRef = reference: mkLuaInline "hl.dsp.focus({ workspace = ${luaString reference} })";
   moveToWorkspace = number: mkLuaInline "hl.dsp.window.move({ workspace = ${toString number} })";
 in
 {
   wayland.windowManager.hyprland.settings = {
     bind = [
       # App launchers
-      (bind "CTRL + SHIFT + T" (exec "rio"))
+      (bind "CTRL + SHIFT + T" (exec "ghostty"))
       (bind "SUPER + Q" (mkLuaInline "hl.dsp.window.close()"))
-      (bind "SUPER + E" (exec "rio -e yazi"))
+      (bind "SUPER + E" (exec "ghostty -e yazi"))
       (bind "SUPER + SHIFT + E" (exec "nautilus"))
       (bind "SUPER + V" (mkLuaInline "hl.dsp.window.float({ action = 'toggle' })"))
       (bind "SUPER + SPACE" (exec "toggle-launcher"))
       (bind "SUPER + T" (exec "toggle-theme-launcher"))
       (bind "SUPER + W" (exec "toggle-wallpaper-launcher"))
       (bind "SUPER + G" (exec "toggle-game-launcher"))
-      (bind "SUPER + M" (exec "toggle-music-launcher"))
-      (bind "SUPER + R" (exec "toggle-power-launcher"))
+      (bind "SUPER + SHIFT + M" (exec "toggle-music-launcher"))
+      (bind "SUPER + P" (exec "toggle-power-launcher"))
+      (bind "SUPER + R" (layoutAware (layoutExpr "colresize +conf") (execExpr "toggle-power-launcher")))
+      (bind "SUPER + SHIFT + R" (layoutAware (layoutExpr "colresize -conf") noOpExpr))
+      (bind "SUPER + CTRL + SHIFT + R" (layoutAware (layoutExpr "fit active") noOpExpr))
       (bind "SUPER + TAB" (exec "toggle-overview"))
       (bind "SUPER + B" (exec "helium"))
       (bind "SUPER + SHIFT + B" (exec "firefox"))
-      (bind "SUPER + SHIFT + M" (exec "kopuz"))
+      (bind "SUPER + M" (exec "kopuz"))
       (bind "SUPER + SHIFT + T" (exec "toggle-quickshell"))
+      (bind "SUPER + SHIFT + Q" (exec "toggle-quickshell"))
       (bind "SUPER + SHIFT + W" (exec "toggle-bar-position"))
       (bind "SUPER + SHIFT + V" (exec "toggle-tailscale"))
       (bind "SUPER + CTRL + V" (exec "toggle-vpn-launcher"))
       (bind "SUPER + U" (exec "toggle-nsfw"))
       (bind "SUPER + S" (exec "hyprquickshot-toggle"))
+      (bind "SUPER + SHIFT + S" toggleLayout)
       (bind "SUPER + SHIFT + P" (exec "hyprpicker"))
       (bind "SUPER + D" (exec "discord"))
       (bind "SUPER + SHIFT + D" (exec "element-desktop"))
       (bind "CTRL + SHIFT + M" (exec "tutanota-desktop --no-sandbox %U"))
       (bind "SUPER + CTRL + N" (exec "jellyfin-desktop"))
       (bind "SUPER + SHIFT +G" (exec "steam"))
-      (bind "SUPER + F" (mkLuaInline "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })"))
-      (bind "SUPER + C" (exec "helium --profile-directory=Default --app-id=cadlkienfkclaiaibeoongdcgmdikeeg"))
-      (bind "SUPER + SHIFT + C" (exec "rio -e codex"))
-      (bind "SUPER + CTRL + C" (exec "rio -e opencode"))
-      (bind "SUPER + N" (exec "rio -e nvim"))
+      (bind "SUPER + F" (layoutAware (layoutExpr "fit active") "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })"))
+      (bind "SUPER + C" (exec "ghostty -e codex"))
+      (bind "SUPER + SHIFT + C" (exec "helium https://chatgpt.com"))
+      (bind "SUPER + CTRL + C" (exec "ghostty -e opencode"))
+      (bind "SUPER + N" (exec "ghostty -e nvim"))
       (bind "SUPER + SHIFT + N" (exec "zeditor"))
-      (bind "CTRL + ALT + DELETE" (exec "rio -e btop"))
+      (bind "CTRL + ALT + DELETE" (exec "ghostty -e btop"))
+      (bind "SUPER + Escape" (exec "lock-screen"))
+      (bind "SUPER + SHIFT + Escape" (mkLuaInline "hl.dsp.exit()"))
 
-      # Move focus with HJKL
-      (bind "SUPER + H" (focus "left"))
-      (bind "SUPER + L" (focus "right"))
-      (bind "SUPER + K" (focus "up"))
-      (bind "SUPER + J" (focus "down"))
+      # Move focus/workspaces with HJKL
+      (bind "SUPER + H" (layoutAware (layoutExpr "focus l") (focusExpr "left")))
+      (bind "SUPER + L" (layoutAware (layoutExpr "focus r") (focusExpr "right")))
+      (bind "SUPER + K" (layoutAware (monitorWorkspacePrev "hl.dsp.focus({ workspace = target, on_current_monitor = true })") (focusExpr "up")))
+      (bind "SUPER + J" (layoutAware (monitorWorkspaceNext "hl.dsp.focus({ workspace = target, on_current_monitor = true })") (focusExpr "down")))
+      (bind "SUPER + CTRL + K" (layoutAware (layoutExpr "focus u") (workspaceRefExpr "e-1")))
+      (bind "SUPER + CTRL + J" (layoutAware (layoutExpr "focus d") (workspaceRefExpr "e+1")))
 
       # Move windows with Shift + HJKL
-      (bind "SUPER + SHIFT + H" (moveWindow "left"))
-      (bind "SUPER + SHIFT + L" (moveWindow "right"))
-      (bind "SUPER + SHIFT + K" (moveWindow "up"))
-      (bind "SUPER + SHIFT + J" (moveWindow "down"))
+      (bind "SUPER + SHIFT + H" (layoutAware (layoutExpr "swapcol l") (moveWindowExpr "left")))
+      (bind "SUPER + SHIFT + L" (layoutAware (layoutExpr "swapcol r") (moveWindowExpr "right")))
+      (bind "SUPER + SHIFT + K" (layoutAware (monitorWorkspacePrev "hl.dsp.window.move({ workspace = target })") (moveWindowExpr "up")))
+      (bind "SUPER + SHIFT + J" (layoutAware (monitorWorkspaceNext "hl.dsp.window.move({ workspace = target })") (moveWindowExpr "down")))
+      (bind "SUPER + CTRL + SHIFT + K" (layoutAware (moveWindowExpr "up") noOpExpr))
+      (bind "SUPER + CTRL + SHIFT + J" (layoutAware (moveWindowExpr "down") noOpExpr))
+      (bind "SUPER + minus" (layoutAware (layoutExpr "colresize -0.1") noOpExpr))
+      (bind "SUPER + equal" (layoutAware (layoutExpr "colresize +0.1") noOpExpr))
+      (bind "SUPER + SHIFT + minus" (layoutAware (layoutExpr "colresize -0.1") noOpExpr))
+      (bind "SUPER + SHIFT + equal" (layoutAware (layoutExpr "colresize +0.1") noOpExpr))
 
       # Focus workspace
       (bind "SUPER + 1" (workspace 1))
@@ -90,9 +193,7 @@ in
       (bind "SUPER + SHIFT + 9" (moveToWorkspace 9))
       (bind "SUPER + SHIFT + 0" (moveToWorkspace 10))
 
-      # Scroll workspaces up/down (works in both dwindle and scrolling)
-      (bind "SUPER + CTRL + J" (mkLuaInline "hl.dsp.focus({ workspace = 'e+1' })"))
-      (bind "SUPER + CTRL + K" (mkLuaInline "hl.dsp.focus({ workspace = 'e-1' })"))
+      # Scroll workspaces up/down
       (bind "SUPER + mouse_down" (mkLuaInline "hl.dsp.focus({ workspace = 'e+1' })"))
       (bind "SUPER + mouse_up" (mkLuaInline "hl.dsp.focus({ workspace = 'e-1' })"))
 

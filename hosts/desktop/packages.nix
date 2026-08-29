@@ -16,7 +16,6 @@
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
-    cider-2
     obs-studio
     blender
     gimp

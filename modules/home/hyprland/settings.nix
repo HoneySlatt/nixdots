@@ -53,8 +53,29 @@ in
         column_width = 0.5;
         focus_fit_method = 1;
         follow_focus = true;
+        follow_min_visible = 0.4;
         explicit_column_widths = "0.333, 0.5, 0.667, 1.0";
+        fullscreen_on_one_column = true;
         direction = "right";
+      };
+
+      plugin.scrolloverview = {
+        gesture_distance = 300;
+        scale = 0.5;
+        workspace_gap = 100;
+        layout = "vertical";
+        wallpaper = 2;
+        blur = true;
+        input = {
+          scroll_event_delay = 150;
+          scrolling_mode = 2;
+          drag_mode = 0;
+          drag_threshold = 10;
+        };
+        shadow = {
+          enabled = true;
+          range = 50;
+        };
       };
 
       misc = {

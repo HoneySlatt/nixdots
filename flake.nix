@@ -28,6 +28,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    scrolloverview = {
+      url = "github:yayuuu/hyprland-scroll-overview";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {

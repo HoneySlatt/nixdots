@@ -3,12 +3,12 @@
 {
   programs.niri.settings.binds = {
     # ── App launchers ────────────────────────────────────────────────────
-    "Ctrl+Shift+T".action.spawn = "alacritty";
+    "Ctrl+Shift+T".action.spawn = "ghostty";
     "Mod+Q" = {
       action.close-window = { };
       repeat = false;
     };
-    "Mod+E".action.spawn = [ "alacritty" "-e" "yazi" ];
+    "Mod+E".action.spawn = [ "ghostty" "-e" "yazi" ];
     "Mod+Shift+E".action.spawn = "nautilus";
     "Mod+V".action.toggle-window-floating = { };
     "Mod+Space".action.spawn = "toggle-launcher";
@@ -33,12 +33,12 @@
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
-    "Mod+C".action.spawn = [ "helium" "--profile-directory=Default" "--app-id=cadlkienfkclaiaibeoongdcgmdikeeg" ];
-    "Mod+Shift+C".action.spawn = [ "alacritty" "-e" "codex" ];
-    "Mod+Ctrl+C".action.spawn = [ "alacritty" "-e" "opencode" ];
-    "Mod+N".action.spawn = [ "alacritty" "-e" "nvim" ];
+    "Mod+C".action.spawn = [ "ghostty" "-e" "codex" ];
+    "Mod+Shift+C".action.spawn = [ "helium" "https://chatgpt.com" ];
+    "Mod+Ctrl+C".action.spawn = [ "ghostty" "-e" "opencode" ];
+    "Mod+N".action.spawn = [ "ghostty" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";
-    "Ctrl+Alt+Delete".action.spawn = [ "alacritty" "-e" "btop" ];
+    "Ctrl+Alt+Delete".action.spawn = [ "ghostty" "-e" "btop" ];
 
     # ── Focus / Move ─────────────────────────────────────────────────────
     "Mod+H".action.focus-column-left = { };

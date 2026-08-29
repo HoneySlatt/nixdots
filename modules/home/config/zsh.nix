@@ -38,6 +38,7 @@
     # Only rebuild completion cache if older than 24 hours
     completionInit = ''
       autoload -Uz compinit
+      mkdir -p "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
       if [[ -n ''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump(#qN.mh+24) ]]; then
         compinit -d "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
       else

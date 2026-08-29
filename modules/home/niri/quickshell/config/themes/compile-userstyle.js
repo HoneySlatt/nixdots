@@ -80,7 +80,7 @@ const checkboxVars = checkboxDefaults.join('\n');
 // Strip ==UserStyle== header block, replace CDN import with local, strip stray @var lines
 const cleaned = src
   .replace(/\/\* ==UserStyle==[\s\S]*?==\/UserStyle== \*\//m, '')
-  .replace(/@import\s+"https:\/\/userstyles\.catppuccin\.com\/lib\/lib\.less";\n?/,
+  .replace(/@import\s+"https:\/\/userstyles\.catppuccin\.com\/lib\/(?:lib|std\/v1)\.less";\n?/,
            `@import "${libDir}/lib.less";\n${checkboxVars}\n${paletteOverride}`)
   .replace(/@preprocessor\s+\S+;?/g, '')
   .replace(/@var\s+\S+[^\n]*/g, '');

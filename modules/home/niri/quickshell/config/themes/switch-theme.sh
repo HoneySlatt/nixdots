@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Switch theme — kitty, yazi, nvim, gtk, qt, niri, wallpaper,
+# Switch theme — btop, ghostty, kitty, yazi, nvim, gtk, qt, niri, wallpaper,
 # discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, blender, kdeglobals,
 # swaylock, tuta, opencode, cider, vibe
 
@@ -97,7 +97,8 @@ if [ "$SHELL_ONLY" = true ]; then
 fi
 
 # ── Main ────────────────────────────────────────────────────────────────────
-switch_alacritty
+switch_btop
+switch_ghostty
 switch_rio
 gen_yazi_theme
 nvim_reload

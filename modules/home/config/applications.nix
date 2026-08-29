@@ -91,7 +91,7 @@ xdg.desktopEntries = {
 
     nvim = {
       name       = "Neovim";
-      exec       = "alacritty -e nvim %F";
+      exec       = "ghostty -e nvim %F";
       icon       = "nvim";
       comment    = "Hyperextensible Vim-based text editor";
       categories = [ "Utility" "TextEditor" ];
@@ -99,7 +99,7 @@ xdg.desktopEntries = {
 
     #Helix = {
       #name       = "Helix";
-      #exec       = "alacritty -e hx %F";
+      #exec       = "ghostty -e hx %F";
       #icon       = "helix";
       #comment    = "Post-modern modal text editor";
       #categories = [ "Utility" "TextEditor" ];
@@ -107,7 +107,7 @@ xdg.desktopEntries = {
 
     yazi = {
       name       = "Yazi";
-      exec       = "alacritty -e yazi %F";
+      exec       = "ghostty -e yazi %F";
       icon       = "/home/honey/Pictures/Icons/yazi.png";
       comment    = "Blazing fast terminal file manager";
       categories = [ "System" "FileManager" ];
@@ -117,7 +117,7 @@ xdg.desktopEntries = {
 
     bottom = {
       name      = "Bottom";
-      exec      = "alacritty -e btm";
+      exec      = "ghostty -e btm";
       icon      = "btm";
       comment   = "Resource monitor";
       noDisplay = true;
