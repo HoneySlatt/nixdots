@@ -78,6 +78,28 @@ in
         };
       };
 
+      plugin.hymission = {
+        only_active_workspace = 1;
+        only_active_monitor = 1;
+        workspace_change_keeps_overview = 1;
+
+        layout_engine_onlycurrentworkspace = "natural";
+        selected_expand_scale = 1.0;
+        hover_expand_scale = 1.0;
+        overview_focus_follows_mouse = 1;
+        show_focus_indicator = 1;
+
+        workspace_strip_anchor = "top";
+        workspace_strip_empty_mode = "existing";
+        workspace_strip_thickness = 160;
+        workspace_strip_gap = 24;
+        hide_bar_when_strip = 1;
+
+        backdrop_blur = 1;
+        backdrop_color = "rgba(00000000)";
+        toggle_switch_mode = 0;
+      };
+
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;

@@ -7,9 +7,9 @@
       "confirm-before-quit" = false;
       theme = "switch-theme";
       "line-height" = 1.18;
-      window = {
-        opacity = 0.9;
-      };
+      #window = {
+        #opacity = 0.9;
+      #};
       fonts = {
         size = 14;
         family = "JetBrainsMono Nerd Font";

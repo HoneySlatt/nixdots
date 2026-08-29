@@ -403,22 +403,15 @@ in
       name = "toggle-overview";
       runtimeInputs = [ pkgs.hyprland pkgs.jq ];
       text = ''
-        scrolling_only=false
-        if [[ "''${1-}" == "--scrolling-only" ]]; then
-          scrolling_only=true
-        fi
-
         active_layout="$(hyprctl -j activeworkspace 2>/dev/null | jq -r '.tiledLayout // empty' 2>/dev/null || true)"
         if [[ -z "$active_layout" && -f "$HOME/.config/hypr/layout-mode" ]]; then
           active_layout="$(tr -d '[:space:]' < "$HOME/.config/hypr/layout-mode")"
         fi
 
         if [[ "$active_layout" == "scrolling" ]]; then
-          hyprctl dispatch scrolloverview:overview "toggle all"
-        elif [[ "$scrolling_only" == false ]]; then
-          ${qsIpc
-            ''quickshell ipc -c modern call overview toggle''
-            ''quickshell ipc -c tui call overview toggle''}
+          hyprctl eval 'hl.dispatch(hl.plugin.scrolloverview.overview("toggle all"))'
+        else
+          hyprctl eval 'hl.dispatch(hl.plugin.hymission.toggle("onlycurrentworkspace"))'
         fi
       '';
     })

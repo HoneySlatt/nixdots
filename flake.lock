@@ -112,6 +112,23 @@
         "type": "github"
       }
     },
+    "hymission": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785138890,
+        "narHash": "sha256-1Hn1Op3vKJZZoM4mg0fmCl8zvy8wGp15uINeDDFc/vA=",
+        "owner": "gfhdhytghd",
+        "repo": "hymission",
+        "rev": "9f7fb1b04136b3a45962e1c67abf291a836235a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gfhdhytghd",
+        "ref": "v0.5.0-v0.56.0",
+        "repo": "hymission",
+        "type": "github"
+      }
+    },
     "jovian": {
       "inputs": {
         "nix-github-actions": "nix-github-actions",
@@ -347,6 +364,7 @@
       "inputs": {
         "helium": "helium",
         "home-manager": "home-manager",
+        "hymission": "hymission",
         "jovian": "jovian",
         "kopuz": "kopuz",
         "millennium": "millennium",

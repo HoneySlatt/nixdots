@@ -32,6 +32,32 @@ let
       platforms = pkgs.lib.platforms.linux;
     };
   };
+
+  hymission = pkgs.hyprlandPlugins.mkHyprlandPlugin {
+    hyprland = pkgs.hyprland;
+    pluginName = "hymission";
+    version = "0.5.0";
+    src = inputs.hymission;
+    nativeBuildInputs = [ pkgs.cmake ];
+    buildInputs = [ pkgs.lua5_4 ];
+
+    cmakeFlags = [ "-DBUILD_TESTING=ON" ];
+    doCheck = true;
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/lib"
+      cp libhymission.so "$out/lib/libhymission.so"
+      runHook postInstall
+    '';
+
+    meta = {
+      description = "Mission Control style overview plugin for Hyprland";
+      homepage = "https://github.com/gfhdhytghd/hymission";
+      license = pkgs.lib.licenses.gpl3Only;
+      platforms = pkgs.lib.platforms.linux;
+    };
+  };
 in
 {
   imports = [
@@ -52,6 +78,6 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "lua";
-    plugins = [ scrolloverview ];
+    plugins = [ scrolloverview hymission ];
   };
 }

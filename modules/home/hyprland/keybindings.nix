@@ -100,6 +100,14 @@ let
       timeout = 1500,
     })
   '';
+  toggleOverview = luaAction ''
+    local workspace = hl.get_active_workspace()
+    if workspace and workspace.tiled_layout == "scrolling" then
+      hl.plugin.scrolloverview.overview("toggle all")
+    else
+      hl.plugin.hymission.toggle("onlycurrentworkspace")
+    end
+  '';
   workspace = number: mkLuaInline "hl.dsp.focus({ workspace = ${toString number} })";
   moveToWorkspace = number: mkLuaInline "hl.dsp.window.move({ workspace = ${toString number} })";
 in
@@ -121,7 +129,7 @@ in
       (bind "SUPER + R" (layoutAware (layoutExpr "colresize +conf") (execExpr "toggle-power-launcher")))
       (bind "SUPER + SHIFT + R" (layoutAware (layoutExpr "colresize -conf") noOpExpr))
       (bind "SUPER + CTRL + SHIFT + R" (layoutAware (layoutExpr "fit active") noOpExpr))
-      (bind "SUPER + TAB" (exec "toggle-overview"))
+      (bind "SUPER + TAB" toggleOverview)
       (bind "SUPER + B" (exec "helium"))
       (bind "SUPER + SHIFT + B" (exec "firefox"))
       (bind "SUPER + M" (exec "kopuz"))

@@ -1,15 +1,32 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home.packages = [ pkgs.waycorner ];
 
   xdg.configFile."waycorner/config.toml".text = ''
     [scrolling-overview]
-    enter_command = ["toggle-overview", "--scrolling-only"]
+    enter_command = ["toggle-overview"]
     locations = ["top_left"]
     size = 2
     timeout_ms = 0
   '';
+
+  systemd.user.services.waycorner = {
+    Unit = {
+      Description = "Wayland hot corners";
+      After = [ "hyprland-session.target" ];
+      PartOf = [ "hyprland-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.waycorner}/bin/waycorner";
+      Environment = [ "PATH=${config.home.profileDirectory}/bin" ];
+      Restart = "always";
+      RestartSec = 1;
+    };
+
+    Install.WantedBy = [ "hyprland-session.target" ];
+  };
 
   wayland.windowManager.hyprland.extraLuaFiles."scrolloverview".content = ''
     local lastWorkspaceScrollBind

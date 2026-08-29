@@ -32,6 +32,10 @@
       url = "github:yayuuu/hyprland-scroll-overview";
       flake = false;
     };
+    hymission = {
+      url = "github:gfhdhytghd/hymission/v0.5.0-v0.56.0";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
