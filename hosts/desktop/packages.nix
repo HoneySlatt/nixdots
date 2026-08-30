@@ -43,8 +43,6 @@
     cmake
 
     # Gaming
-    heroic
-    ppsspp
     ryubing
     protonplus
     xivlauncher
@@ -63,6 +61,7 @@
     fastfetch
     imv
     codex
+    claude-code
     opencode
     trash-cli
 

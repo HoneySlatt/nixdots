@@ -123,5 +123,9 @@
     { mode = "n"; key = "<leader>at"; action.__raw = ''function() require("opencode").toggle() end'';                            options.desc = "Toggle OpenCode"; }
     { mode = "n"; key = "<leader>ao"; action.__raw = ''function() return require("opencode").operator("@this ") end'';            options.desc = "Add range to OpenCode"; }
     { mode = "n"; key = "<leader>ap"; action.__raw = ''function() require("opencode").prompt("explain @this") end'';             options.desc = "Explain with OpenCode"; }
+
+    # Claude Code and Codex
+    { mode = "n"; key = "<leader>ac"; action = "<cmd>ClaudeCode<cr>"; options.desc = "Toggle Claude Code"; }
+    { mode = "n"; key = "<leader>ad"; action = "<cmd>CodexToggle<cr>"; options.desc = "Toggle Codex"; }
   ];
 }

@@ -411,7 +411,7 @@ in
         if [[ "$active_layout" == "scrolling" ]]; then
           hyprctl eval 'hl.dispatch(hl.plugin.scrolloverview.overview("toggle all"))'
         else
-          hyprctl eval 'hl.dispatch(hl.plugin.hymission.toggle("onlycurrentworkspace"))'
+          hyprctl eval 'hl.plugin.hymission.toggle("onlycurrentworkspace")'
         fi
       '';
     })

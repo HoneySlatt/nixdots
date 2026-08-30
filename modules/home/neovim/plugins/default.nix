@@ -21,6 +21,8 @@
     ./markdown.nix
     ./python.nix
     ./opencode.nix
+    ./agents.nix
     ./direnv.nix
+    ./wakatime.nix
   ];
 }

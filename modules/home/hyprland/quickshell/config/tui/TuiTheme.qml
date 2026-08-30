@@ -1,12 +1,14 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 QtObject {
     id: root
 
     property string currentTheme: "carbonfox"
+    property int themeRequestSequence: 0
 
     readonly property var themes: ({
         "carbonfox": {
@@ -106,10 +108,9 @@ QtObject {
     function setTheme(key) {
         if (!themes.hasOwnProperty(key)) return;
         currentTheme = key;
-        writer.themeKey = key;
-        writer.running = true;
-        switcher.themeKey = key;
-        switcher.running = true;
+        themeRequestSequence = (themeRequestSequence + 1) % 100;
+        const requestId = Math.floor(Date.now() * 100) + themeRequestSequence;
+        Quickshell.execDetached(["/home/honey/.config/quickshell/themes/switch-theme.sh", key, requestId.toString()]);
     }
 
     function toggleNsfw() {
@@ -149,18 +150,6 @@ QtObject {
         running: true
         repeat: true
         onTriggered: { root.nsfwReader.running = false; root.nsfwReader.running = true; }
-    }
-
-    readonly property var writer: Process {
-        property string themeKey: ""
-        command: ["sh", "-c", "printf '%s\\n' '" + themeKey + "' > '" + root.themeFile + "'"]
-        running: false
-    }
-
-    readonly property var switcher: Process {
-        property string themeKey: ""
-        command: ["/home/honey/.config/quickshell/themes/switch-theme.sh", themeKey]
-        running: false
     }
 
     readonly property var nsfwWriter: Process {

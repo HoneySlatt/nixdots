@@ -1,11 +1,13 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 QtObject {
     // ── Theme switching ──
     property string currentTheme: "pastelglow"
+    property int _themeRequestSequence: 0
 
     readonly property var themes: ({
         "carbonfox": {
@@ -179,25 +181,12 @@ QtObject {
         _nsfwWriter.running = true;
     }
 
-    readonly property var _writer: Process {
-        property string themeKey: ""
-        command: ["sh", "-c", "echo '" + themeKey + "' > '" + _themeFile + "'"]
-        running: false
-    }
-
-    readonly property var _switcher: Process {
-        property string themeKey: ""
-        command: ["/home/honey/.config/quickshell/themes/switch-theme.sh", themeKey]
-        running: false
-    }
-
     function setTheme(key) {
         if (themes.hasOwnProperty(key)) {
             currentTheme = key;
-            _writer.themeKey = key;
-            _writer.running = true;
-            _switcher.themeKey = key;
-            _switcher.running = true;
+            _themeRequestSequence = (_themeRequestSequence + 1) % 100;
+            const requestId = Math.floor(Date.now() * 100) + _themeRequestSequence;
+            Quickshell.execDetached(["/home/honey/.config/quickshell/themes/switch-theme.sh", key, requestId.toString()]);
         }
     }
 }

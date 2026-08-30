@@ -6,6 +6,7 @@
     ./config
     ./zed
     ./neovim
+    ./helix
     ./hyprland
     ./hyprland/quickshell
   ];

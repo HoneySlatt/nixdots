@@ -84,10 +84,10 @@ in
         workspace_change_keeps_overview = 1;
 
         layout_engine_onlycurrentworkspace = "natural";
-        selected_expand_scale = 1.0;
         hover_expand_scale = 1.0;
         overview_focus_follows_mouse = 1;
-        show_focus_indicator = 1;
+        show_focus_indicator = 0;
+        window_decoration_enabled = 0;
 
         workspace_strip_anchor = "top";
         workspace_strip_empty_mode = "existing";

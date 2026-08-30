@@ -33,8 +33,8 @@
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
-    "Mod+C".action.spawn = [ "ghostty" "-e" "codex" ];
-    "Mod+Shift+C".action.spawn = [ "helium" "https://chatgpt.com" ];
+    "Mod+C".action.spawn = [ "ghostty" "-e" "claude" ];
+    "Mod+Shift+C".action.spawn = [ "ghossty" "-e" "codex" ];
     "Mod+Ctrl+C".action.spawn = [ "ghostty" "-e" "opencode" ];
     "Mod+N".action.spawn = [ "ghostty" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";

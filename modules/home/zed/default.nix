@@ -5,6 +5,7 @@
     ./settings.nix
     ./keymaps.nix
     ./languages.nix
+    ./agents.nix
     ./themes.nix
     ./debug.nix
   ];
@@ -20,6 +21,7 @@
       "git-firefly"
       "make"
       "github-actions"
+      "wakatime"
     ];
   };
 }
