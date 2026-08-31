@@ -19,6 +19,7 @@
     obs-studio
     blender
     gimp
+    obsidian
     inkscape
     libreoffice
     qbittorrent
@@ -43,6 +44,7 @@
     # Gaming
     heroic
     xivlauncher
+    protonplus
     prismlauncher
 
     # TUI/CLI

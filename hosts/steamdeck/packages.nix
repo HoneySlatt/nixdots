@@ -6,17 +6,16 @@
     brave-origin
 
     # Desktops Apps
-    vesktop
+    discord
+    protonplus
     moonlight-qt
-    jellyfin-desktop
 
     # Gaming
-    ryubing
+    heroic
     xivlauncher
 
     # TUI/CLI
     git
     neovim
-    opencode
   ];
 }
