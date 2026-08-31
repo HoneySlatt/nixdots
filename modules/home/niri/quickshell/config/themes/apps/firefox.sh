@@ -86,43 +86,6 @@ hbox#titlebar {
   border-color: ${C[surface1]} !important;
 }
 
-/* Auto-hide top bar */
-#navigator-toolbox {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 10000 !important;
-  transform: translate3d(0, calc(-100% + 4px), 0) !important;
-  will-change: transform !important;
-  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.2s !important;
-  pointer-events: auto !important;
-}
-
-#navigator-toolbox:hover,
-#navigator-toolbox:focus-within {
-  transform: translate3d(0, 0, 0) !important;
-  transition-delay: 0s !important;
-}
-
-#navigator-toolbox:not(:hover):not(:focus-within) #urlbar,
-#navigator-toolbox:not(:hover):not(:focus-within) #urlbar-container,
-#navigator-toolbox:not(:hover):not(:focus-within) #searchbar {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.12s ease-out !important;
-}
-
-#navigator-toolbox:hover #urlbar,
-#navigator-toolbox:hover #urlbar-container,
-#navigator-toolbox:hover #searchbar,
-#navigator-toolbox:focus-within #urlbar,
-#navigator-toolbox:focus-within #urlbar-container,
-#navigator-toolbox:focus-within #searchbar {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transition: opacity 0.12s ease-out 0.08s !important;
-}
 EOF
 
   cat > "$user_content" << EOF

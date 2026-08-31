@@ -6,9 +6,9 @@ xdg.desktopEntries = {
 # ─── Desktop Apps ────────────────────────────────────────────────────────
 
     "brave-origin" = {
-      name       = "Brave Origin";
+      name       = "Brave";
       exec       = "brave-origin %U";
-      icon       = "brave-origin";
+      icon       = "/home/honey/Pictures/Icons/brave.png";
       comment    = "Web browser";
       categories = [ "Network" "WebBrowser" ];
     };

@@ -418,7 +418,10 @@ in
       text = qsIpc ''brave-origin'' ''firefox'';
     })
 
-    
+    (pkgs.writeShellApplication {
+      name = "toggle-secondary-browser";
+      text = qsIpc ''firefox'' ''brave-origin'';
+    })
 
     (pkgs.writeShellApplication {
       name = "lock-screen";
