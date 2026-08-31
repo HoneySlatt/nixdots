@@ -4,6 +4,7 @@
   nixpkgs.overlays = [
     inputs.millennium.overlays.default
     (final: prev: {
+      hackatime-desktop = final.callPackage ../../modules/home/pkgs/hackatime-desktop.nix { };
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
     })
   ];
@@ -20,8 +21,6 @@
     blender
     gimp
     inkscape
-    notesnook
-    localsend
     libreoffice
     qbittorrent
     element-desktop
@@ -77,6 +76,7 @@
     jellyfin-mpv-shim
 
     # Custom pkgs
+    hackatime-desktop
     steam-metadata-editor
 
     # Discord

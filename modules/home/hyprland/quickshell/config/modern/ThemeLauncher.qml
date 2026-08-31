@@ -352,7 +352,8 @@ Item {
                     font.weight: Font.Bold
                 }
 
-                Row {
+                ListView {
+                    id: themeList
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
@@ -360,21 +361,24 @@ Item {
                     anchors.rightMargin: 24
                     anchors.bottomMargin: 28
                     height: root.cardH
+                    orientation: ListView.Horizontal
+                    model: Theme.themeKeys
+                    currentIndex: root.selectedIndex
                     spacing: root.cardSpacing
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+                    onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Center)
 
-                    Repeater {
-                        model: Theme.themeKeys
-                        delegate: ThemeCard {
-                            required property string modelData
-                            required property int index
+                    delegate: ThemeCard {
+                        required property string modelData
+                        required property int index
 
-                            themeKey: modelData
-                            cardIndex: index
-                            onHovered: root.selectedIndex = index
-                            onSelectedClicked: {
-                                if (root.selectedIndex === index) launcherScope.applyTheme(modelData);
-                                else root.selectedIndex = index;
-                            }
+                        themeKey: modelData
+                        cardIndex: index
+                        onHovered: root.selectedIndex = index
+                        onSelectedClicked: {
+                            if (root.selectedIndex === index) launcherScope.applyTheme(modelData);
+                            else root.selectedIndex = index;
                         }
                     }
                 }

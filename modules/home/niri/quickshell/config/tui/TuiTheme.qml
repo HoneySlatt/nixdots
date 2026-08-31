@@ -14,6 +14,41 @@ QtObject {
             accent: "#3a3a3a", warn: "#ff0000", bright: "#c6c6c6",
             caution: "#525253", misc: "#808080", process: "#a0a0a0", highlight: "#c6c6c6"
         },
+        "catppuccin-mocha": {
+            bg: "#1e1e2e", fg: "#cdd6f4", dim: "#313244",
+            accent: "#b4befe", warn: "#f38ba8", bright: "#b4befe",
+            caution: "#45475a", misc: "#94e2d5", process: "#89b4fa", highlight: "#b4befe"
+        },
+        "miasma": {
+            bg: "#222222", fg: "#c2c2b0", dim: "#383838",
+            accent: "#78824b", warn: "#b36d43", bright: "#d7c483",
+            caution: "#43492a", misc: "#c9a554", process: "#5f875f", highlight: "#d7c483"
+        },
+        "onedark": {
+            bg: "#282C34", fg: "#ABB2BF", dim: "#2C323C",
+            accent: "#61AFEF", warn: "#E06C75", bright: "#E5C07B",
+            caution: "#3E4451", misc: "#56B6C2", process: "#61AFEF", highlight: "#E5C07B"
+        },
+        "tokyonight": {
+            bg: "#1A1B26", fg: "#C0CAF5", dim: "#292E42",
+            accent: "#7AA2F7", warn: "#F7768E", bright: "#E0AF68",
+            caution: "#3B4261", misc: "#73DACA", process: "#7AA2F7", highlight: "#E0AF68"
+        },
+        "kanagawa": {
+            bg: "#1F1F28", fg: "#DCD7BA", dim: "#2A2A37",
+            accent: "#D27E99", warn: "#E82424", bright: "#E6C384",
+            caution: "#363646", misc: "#6A9589", process: "#7E9CD8", highlight: "#E6C384"
+        },
+        "kanagawa-lotus": {
+            bg: "#F2ECBC", fg: "#545464", dim: "#E5DDB0",
+            accent: "#B35B79", warn: "#C84053", bright: "#DE9800",
+            caution: "#DCD5AC", misc: "#5E857A", process: "#4D699B", highlight: "#DE9800"
+        },
+        "sakura": {
+            bg: "#191719", fg: "#D6C1C5", dim: "#252326",
+            accent: "#C58EA7", warn: "#C5505E", bright: "#BC8EC6",
+            caution: "#2F2B30", misc: "#759886", process: "#878FB9", highlight: "#BC8EC6"
+        },
         "everforest": {
             bg: "#2d353b", fg: "#d3c6aa", dim: "#343f44",
             accent: "#a7c080", warn: "#e67e80", bright: "#dbbc7f",
@@ -77,9 +112,16 @@ QtObject {
 
     readonly property string themeFile: "/home/honey/.config/quickshell/.current-theme"
     readonly property string nsfwFile: "/home/honey/.config/quickshell/.nsfw-enabled"
-    readonly property var themeKeys: Object.keys(themes)
+    readonly property var themeKeys: Object.keys(themes).sort()
     readonly property var wallpaperDirs: ({
         "carbonfox": "Carbonfox",
+        "catppuccin-mocha": "CatppuccinMocha",
+        "miasma": "Miasma",
+        "onedark": "OneDark",
+        "tokyonight": "TokyoNight",
+        "kanagawa": "Kanagawa",
+        "kanagawa-lotus": "KanagawaLotus",
+        "sakura": "Sakura",
         "everforest": "Everforest",
         "rosepine": "RosePine",
         "pastelglow": "PastelGlow",
@@ -95,6 +137,13 @@ QtObject {
 
     function themeLabel(key) {
         if (key === "carbonfox") return "carbonfox";
+        if (key === "catppuccin-mocha") return "catppuccin mocha";
+        if (key === "miasma") return "miasma";
+        if (key === "onedark") return "onedark";
+        if (key === "tokyonight") return "tokyonight";
+        if (key === "kanagawa") return "kanagawa";
+        if (key === "kanagawa-lotus") return "kanagawa lotus";
+        if (key === "sakura") return "sakura";
         if (key === "everforest") return "everforest";
         if (key === "rosepine") return "rose pine";
         if (key === "pastelglow") return "pastel glow";

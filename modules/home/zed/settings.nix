@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.zed-editor.userSettings = {
@@ -60,6 +60,16 @@
             shadow = true;
           };
           staticcheck = true;
+        };
+      };
+
+      wakatime = {
+        binary = {
+          path = "${pkgs.zed-wakatime-ls}/bin/wakatime-ls";
+          arguments = [
+            "--wakatime-cli"
+            "${pkgs.wakatime-cli}/bin/wakatime-cli"
+          ];
         };
       };
     };

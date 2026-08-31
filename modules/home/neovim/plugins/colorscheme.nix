@@ -16,6 +16,22 @@
       gruvbox-nvim
       nightfox-nvim
       everforest
+      catppuccin-nvim
+      miasma-nvim
+      tokyonight-nvim
+      kanagawa-nvim
+      lush-nvim
+      (pkgs.vimUtils.buildVimPlugin {
+        pname = "sakura.nvim";
+        version = "68e2bc88";
+        dependencies = [ lush-nvim ];
+        src = pkgs.fetchFromGitHub {
+          owner = "anAcc22";
+          repo = "sakura.nvim";
+          rev = "68e2bc88ca6cadf1fa4611cdb1aef3fa6965afb1";
+          sha256 = "1axgra4sv5ar3s0qhvw80gq2z463zmgnpk9y78a690ypbkp67izr";
+        };
+      })
     ];
 
     extraConfigLua = ''
@@ -91,9 +107,24 @@
         },
       })
 
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = true,
+      })
+
+      require("tokyonight").setup({
+        style = "night",
+      })
 
       -- Dynamic colorscheme from .current-theme
       local theme_map = {
+        tokyonight         = { cs = "tokyonight-night", bg = "dark" },
+        kanagawa          = { cs = "kanagawa-wave", bg = "dark" },
+        ["kanagawa-lotus"] = { cs = "kanagawa-lotus", bg = "light" },
+        sakura             = { cs = "sakura", bg = "dark" },
+        onedark            = { cs = "onedark", bg = "dark" },
+        miasma             = { cs = "miasma", bg = "dark" },
+        ["catppuccin-mocha"] = { cs = "catppuccin-mocha", bg = "dark" },
         pastelglow        = { cs = "pastelglow", bg = "light" },
         rosepine          = { cs = "rose-pine",  bg = "dark"  },
         gruvbox           = { cs = "gruvbox",    bg = "dark"  },

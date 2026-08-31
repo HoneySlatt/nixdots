@@ -531,13 +531,27 @@ Item {
 
                 Text { text: "themes"; color: TuiTheme.accent; font.family: TuiTheme.fontFamily; font.pixelSize: TuiTheme.fontSize; font.weight: TuiTheme.fontWeight }
 
-                Grid {
-                    columns: 2; spacing: 10
-                    Repeater {
-                        model: TuiTheme.themeKeys
-                        delegate: Rectangle {
+                Flickable {
+                    id: themeFlick
+                    width: parent.width
+                    height: parent.height - 34
+                    contentWidth: width
+                    contentHeight: themeGrid.height
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    Grid {
+                        id: themeGrid
+                        width: themeFlick.width
+                        height: Math.ceil(TuiTheme.themeKeys.length / columns) * 86 + Math.max(0, Math.ceil(TuiTheme.themeKeys.length / columns) - 1) * spacing
+                        columns: 2
+                        spacing: 10
+
+                        Repeater {
+                            model: TuiTheme.themeKeys
+                            delegate: Rectangle {
                             required property string modelData
-                            width: 250; height: 86
+                            width: (themeGrid.width - themeGrid.spacing) / themeGrid.columns; height: 86
                             color: TuiTheme.themes[modelData].bg
                             border.color: TuiTheme.currentTheme === modelData ? TuiTheme.accent : TuiTheme.dim
                             border.width: TuiTheme.currentTheme === modelData ? 2 : 1
@@ -553,7 +567,8 @@ Item {
                                 }
                                 Text { text: "bg fg dim accent warn bright"; color: TuiTheme.dim; font.family: TuiTheme.fontFamily; font.pixelSize: TuiTheme.fontSize - 2; font.weight: TuiTheme.fontWeight }
                             }
-                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: TuiTheme.setTheme(modelData) }
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: TuiTheme.setTheme(modelData) }
+                            }
                         }
                     }
                 }

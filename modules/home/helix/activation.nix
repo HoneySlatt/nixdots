@@ -10,6 +10,13 @@
     if [ -f "$theme_file" ]; then
       qs_theme=$(tr -d '[:space:]' < "$theme_file")
       case "$qs_theme" in
+        tokyonight)       hx_theme="tokyonight" ;;
+        kanagawa)         hx_theme="kanagawa" ;;
+        kanagawa-lotus)   hx_theme="kanagawa_lotus" ;;
+        sakura)           hx_theme="sakura" ;;
+        onedark)          hx_theme="onedark" ;;
+        miasma)           hx_theme="miasma" ;;
+        catppuccin-mocha) hx_theme="catppuccin_mocha" ;;
         pastelglow)    hx_theme="pastelglow" ;;
         rosepine)      hx_theme="rose_pine" ;;
         gruvbox)       hx_theme="gruvbox_dark" ;;

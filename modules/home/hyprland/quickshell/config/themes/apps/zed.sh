@@ -1,6 +1,13 @@
 zed_reload() {
   local zf
   case "$THEME" in
+    tokyonight)       zf="tokyonight" ;;
+    kanagawa)         zf="kanagawa" ;;
+    kanagawa-lotus)   zf="kanagawa-lotus" ;;
+    sakura)           zf="sakura" ;;
+    onedark)          zf="onedark" ;;
+    miasma)           zf="miasma" ;;
+    catppuccin-mocha) zf="catppuccin-mocha" ;;
     pastelglow)    zf="pastelglow" ;;
     rosepine)      zf="rosepine" ;;
     gruvbox)       zf="gruvbox" ;;

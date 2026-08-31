@@ -13,6 +13,34 @@ QtObject {
             bg: "#161616", fg: "#f2f4f8", dim: "#2a2a2a",
             accent: "#3a3a3a", warn: "#ff0000", bright: "#c6c6c6"
         },
+        "catppuccin-mocha": {
+            bg: "#1e1e2e", fg: "#cdd6f4", dim: "#313244",
+            accent: "#b4befe", warn: "#f38ba8", bright: "#b4befe"
+        },
+        "miasma": {
+            bg: "#222222", fg: "#c2c2b0", dim: "#383838",
+            accent: "#78824b", warn: "#b36d43", bright: "#d7c483"
+        },
+        "onedark": {
+            bg: "#282C34", fg: "#ABB2BF", dim: "#2C323C",
+            accent: "#61AFEF", warn: "#E06C75", bright: "#E5C07B"
+        },
+        "tokyonight": {
+            bg: "#1A1B26", fg: "#C0CAF5", dim: "#292E42",
+            accent: "#7AA2F7", warn: "#F7768E", bright: "#E0AF68"
+        },
+        "kanagawa": {
+            bg: "#1F1F28", fg: "#DCD7BA", dim: "#2A2A37",
+            accent: "#D27E99", warn: "#E82424", bright: "#E6C384"
+        },
+        "kanagawa-lotus": {
+            bg: "#F2ECBC", fg: "#545464", dim: "#E5DDB0",
+            accent: "#B35B79", warn: "#C84053", bright: "#DE9800"
+        },
+        "sakura": {
+            bg: "#191719", fg: "#D6C1C5", dim: "#252326",
+            accent: "#C58EA7", warn: "#C5505E", bright: "#BC8EC6"
+        },
         "everforest": {
             bg: "#2d353b", fg: "#d3c6aa", dim: "#343f44",
             accent: "#a7c080", warn: "#e67e80", bright: "#dbbc7f"

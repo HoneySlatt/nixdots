@@ -1391,18 +1391,27 @@ Item {
                     Text { text: Theme.themes[Theme.currentTheme].name; color: Theme.muted; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSize; font.weight: Theme.fontWeight }
                 }
 
-                Grid {
-                    id: themeGrid
-                    columns: 2
-                    spacing: 12
+                Flickable {
+                    id: themeFlick
                     width: parent.width
                     height: parent.height - 46
-                    readonly property real cellWidth: (width - spacing) / columns
-                    readonly property real cellHeight: (height - spacing * 2) / 3
+                    contentWidth: width
+                    contentHeight: themeGrid.height
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
 
-                    Repeater {
-                        model: Theme.themeKeys
-                        delegate: Rectangle {
+                    Grid {
+                        id: themeGrid
+                        width: themeFlick.width
+                        height: Math.ceil(Theme.themeKeys.length / columns) * cellHeight + Math.max(0, Math.ceil(Theme.themeKeys.length / columns) - 1) * spacing
+                        columns: 2
+                        spacing: 12
+                        readonly property real cellWidth: (width - spacing) / columns
+                        readonly property real cellHeight: (themeFlick.height - spacing * 2) / 3
+
+                        Repeater {
+                            model: Theme.themeKeys
+                            delegate: Rectangle {
                             required property string modelData
                             width: themeGrid.cellWidth
                             height: themeGrid.cellHeight
@@ -1454,7 +1463,8 @@ Item {
                                 }
                             }
 
-                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: Theme.setTheme(modelData) }
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: Theme.setTheme(modelData) }
+                            }
                         }
                     }
                 }
