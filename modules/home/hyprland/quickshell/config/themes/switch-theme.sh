@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Switch theme — btop, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, hyprland, wallpaper,
-# discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, cider, blender, kdeglobals,
-# hyprlock, tuta, opencode
+# discord, element, steam, heroic, obsidian, obs, firefox, userstyles, jellyfin, kopuz, cider,
+# blender, kdeglobals, hyprlock, tuta, opencode
 
 MODE="full"
 THEME_FILE="$HOME/.config/quickshell/.current-theme"
@@ -142,6 +142,8 @@ if [ "$MODE" = "background" ]; then
   switch_discord
   switch_element
   switch_steam
+  switch_heroic
+  switch_obsidian
   switch_obs
   switch_firefox
   gen_userstyles

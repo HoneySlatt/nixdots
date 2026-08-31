@@ -10,6 +10,17 @@ Item {
 
     property var allGames: []
 
+    function refreshGames() {
+        if (gamesProc.running) return;
+        gamesProc.buffer = "";
+        gamesProc.running = true;
+    }
+
+    function artSource(art) {
+        if (!art) return "";
+        return art.startsWith("http://") || art.startsWith("https://") ? art : "file://" + art;
+    }
+
     Process {
         id: gamesProc
         command: ["steam-games"]
@@ -28,7 +39,7 @@ Item {
         }
     }
 
-    Component.onCompleted: gamesProc.running = true
+    Component.onCompleted: refreshGames()
 
     component GlassPill: Rectangle {
         property color fillColor: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.50)
@@ -154,7 +165,10 @@ Item {
 
             function launchSelected() {
                 if (filteredGames.length === 0) return;
-                Qt.openUrlExternally("steam://rungameid/" + filteredGames[selectedIndex].appid);
+                const game = filteredGames[selectedIndex];
+                const launchUrl = game.launchUrl || (game.appid ? "steam://rungameid/" + game.appid : "");
+                if (!launchUrl) return;
+                Qt.openUrlExternally(launchUrl);
                 SteamLauncherState.close();
             }
 
@@ -163,6 +177,7 @@ Item {
 
             onVisibleChanged: {
                 if (visible) {
+                    launcherScope.refreshGames();
                     searchField.text = "";
                     searchQuery = "";
                     selectedIndex = centerIndex();
@@ -400,7 +415,7 @@ Item {
 
                         Image {
                             anchors.fill: parent
-                            source: modelData.art ? "file://" + modelData.art : ""
+                            source: launcherScope.artSource(modelData.art)
                             fillMode: Image.PreserveAspectCrop
                             smooth: true
                             asynchronous: true

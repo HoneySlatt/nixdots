@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Switch theme — btop, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, niri, wallpaper,
-# discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, blender, kdeglobals,
-# swaylock, tuta, opencode, cider, vibe
+# discord, element, steam, heroic, obsidian, obs, firefox, userstyles, jellyfin, kopuz,
+# blender, kdeglobals, swaylock, tuta, opencode, cider, vibe
 
 SHELL_ONLY=false
 THEME="${1:-pastelglow}"
@@ -147,6 +147,8 @@ switch_wallpaper
 switch_discord
 switch_element
 switch_steam
+switch_heroic
+switch_obsidian
 switch_obs
 switch_firefox
 gen_userstyles

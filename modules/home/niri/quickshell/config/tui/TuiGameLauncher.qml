@@ -10,8 +10,14 @@ Item {
     property var allGames: []
 
     function refreshGames() {
+        if (gamesProc.running) return;
         gamesProc.buffer = "";
         gamesProc.running = true;
+    }
+
+    function artSource(art) {
+        if (!art) return "";
+        return art.startsWith("http://") || art.startsWith("https://") ? art : "file://" + art;
     }
 
     Process {
@@ -44,7 +50,6 @@ Item {
             screen: modelData
             visible: TuiGameLauncherState.visible && monitorIsFocused
 
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
             readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
 
             property string searchQuery: ""
@@ -87,7 +92,9 @@ Item {
 
             function launchSelected() {
                 if (!selectedGame) return;
-                Qt.openUrlExternally("steam://rungameid/" + selectedGame.appid);
+                const launchUrl = selectedGame.launchUrl || (selectedGame.appid ? "steam://rungameid/" + selectedGame.appid : "");
+                if (!launchUrl) return;
+                Qt.openUrlExternally(launchUrl);
                 TuiGameLauncherState.close();
             }
 
@@ -97,7 +104,7 @@ Item {
                 root.selectedIndex = centerIndex();
                 root.filterList();
                 focusTimer.start();
-                if (scope.allGames.length === 0) scope.refreshGames();
+                scope.refreshGames();
             }
 
             function handleKey(event) {
@@ -367,7 +374,7 @@ Item {
                                     Image {
                                         anchors.fill: parent
                                         anchors.margins: 6
-                                        source: modelData.art ? "file://" + modelData.art : ""
+                                        source: scope.artSource(modelData.art)
                                         fillMode: Image.PreserveAspectCrop
                                         smooth: true
                                         asynchronous: true
