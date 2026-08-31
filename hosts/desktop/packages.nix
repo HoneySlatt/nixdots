@@ -41,10 +41,8 @@
     cmake
 
     # Gaming
-    ryubing
-    protonplus
+    heroic
     xivlauncher
-    samrewritten
     prismlauncher
 
     # TUI/CLI

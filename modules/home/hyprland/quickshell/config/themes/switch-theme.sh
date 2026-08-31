@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Switch theme — btop, ghostty, kitty, yazi, nvim, gtk, qt, hyprland, wallpaper,
+# Switch theme — btop, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, hyprland, wallpaper,
 # discord, element, steam, obs, firefox, userstyles, jellyfin, kopuz, cider, blender, kdeglobals,
 # hyprlock, tuta, opencode
 
@@ -182,6 +182,7 @@ mv "$theme_tmp" "$THEME_FILE"
 
 # Apply the visible desktop first.
 switch_btop
+switch_fastfetch
 switch_kitty
 switch_ghostty
 switch_rio
