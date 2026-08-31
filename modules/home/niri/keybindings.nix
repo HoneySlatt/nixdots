@@ -18,7 +18,7 @@
     "Mod+M".action.spawn = "toggle-music-launcher";
     "Mod+P".action.spawn = "toggle-power-launcher";
     "Mod+Tab".action.toggle-overview = { };
-    "Mod+B".action.spawn = "helium";
+    "Mod+B".action.spawn = "brave-origin";
     "Mod+Shift+B".action.spawn = "firefox";
     "Mod+Shift+M".action.spawn = "kopuz";
     "Mod+Shift+Q".action.spawn = "toggle-quickshell";
@@ -34,7 +34,7 @@
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
     "Mod+C".action.spawn = [ "ghostty" "-e" "claude" ];
-    "Mod+Shift+C".action.spawn = [ "ghossty" "-e" "codex" ];
+    "Mod+Shift+C".action.spawn = [ "ghostty" "-e" "codex" ];
     "Mod+Ctrl+C".action.spawn = [ "ghostty" "-e" "opencode" ];
     "Mod+N".action.spawn = [ "ghostty" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";

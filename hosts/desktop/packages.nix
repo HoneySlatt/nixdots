@@ -4,7 +4,6 @@
   nixpkgs.overlays = [
     inputs.millennium.overlays.default
     (final: prev: {
-      hackatime-desktop = final.callPackage ../../modules/home/pkgs/hackatime-desktop.nix { };
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
     })
   ];
@@ -13,7 +12,7 @@
     
     # Web Browsers
     firefox
-    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+    brave-origin
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -76,7 +75,6 @@
     jellyfin-mpv-shim
 
     # Custom pkgs
-    hackatime-desktop
     steam-metadata-editor
 
     # Discord

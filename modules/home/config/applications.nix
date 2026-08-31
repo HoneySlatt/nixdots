@@ -115,13 +115,22 @@ xdg.desktopEntries = {
 
     # ─── Others (hidden overrides) ───────────────────────────────────────────
 
-    bottom = {
-      name      = "Bottom";
-      exec      = "ghostty -e btm";
-      icon      = "btm";
+    btop = {
+      name      = "Btop";
+      exec      = "ghostty -e btop";
+      icon      = "btop";
       comment   = "Resource monitor";
       noDisplay = true;
       categories = [ "System" "Monitor" ];
+    };
+
+    "virt-manager" = {
+      name       = "Virtual Machine Manager";
+      exec       = "virt-manager";
+      icon       = "virt-manager";
+      comment    = "Manage virtual machines";
+      noDisplay  = true;
+      categories = [ "System" ];
     };
 
     "com.vysp3r.ProtonPlus" = {
@@ -295,17 +304,17 @@ xdg.desktopEntries = {
       "text/x-rust"               = "nvim.desktop";
       "text/x-go"                 = "nvim.desktop";
       "text/x-java"               = "nvim.desktop";
-      "text/html"                  = "helium.desktop";
-      "x-scheme-handler/http"      = "helium.desktop";
-      "x-scheme-handler/https"     = "helium.desktop";
-      "x-scheme-handler/ftp"       = "helium.desktop";
-      "x-scheme-handler/about"     = "helium.desktop";
-      "x-scheme-handler/unknown"   = "helium.desktop";
+      "text/html"                  = "brave-origin.desktop";
+      "x-scheme-handler/http"      = "brave-origin.desktop";
+      "x-scheme-handler/https"     = "brave-origin.desktop";
+      "x-scheme-handler/ftp"       = "brave-origin.desktop";
+      "x-scheme-handler/about"     = "brave-origin.desktop";
+      "x-scheme-handler/unknown"   = "brave-origin.desktop";
       "x-scheme-handler/tuta"      = "tutanota-desktop.desktop";
-      "application/xhtml+xml"      = "helium.desktop";
-      "application/x-extension-htm"   = "helium.desktop";
-      "application/x-extension-html"  = "helium.desktop";
-      "application/x-extension-xhtml" = "helium.desktop";
+      "application/xhtml+xml"      = "brave-origin.desktop";
+      "application/x-extension-htm"   = "brave-origin.desktop";
+      "application/x-extension-html"  = "brave-origin.desktop";
+      "application/x-extension-xhtml" = "brave-origin.desktop";
       "text/css"                  = "nvim.desktop";
       "text/javascript"           = "nvim.desktop";
       "application/json"          = "nvim.desktop";

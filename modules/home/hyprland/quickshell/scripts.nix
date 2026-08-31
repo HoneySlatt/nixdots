@@ -425,7 +425,7 @@ in
 
     (pkgs.writeShellApplication {
       name = "toggle-browser";
-      text = qsIpc ''helium'' ''firefox'';
+      text = qsIpc ''brave-origin'' ''firefox'';
     })
 
     

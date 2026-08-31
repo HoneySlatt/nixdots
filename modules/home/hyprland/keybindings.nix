@@ -130,7 +130,7 @@ in
       (bind "SUPER + SHIFT + R" (layoutAware (layoutExpr "colresize -conf") noOpExpr))
       (bind "SUPER + CTRL + SHIFT + R" (layoutAware (layoutExpr "fit active") noOpExpr))
       (bind "SUPER + TAB" toggleOverview)
-      (bind "SUPER + B" (exec "helium"))
+      (bind "SUPER + B" (exec "brave-origin"))
       (bind "SUPER + SHIFT + B" (exec "firefox"))
       (bind "SUPER + M" (exec "kopuz"))
       (bind "SUPER + SHIFT + T" (exec "toggle-quickshell"))
