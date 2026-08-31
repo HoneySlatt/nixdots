@@ -5,6 +5,14 @@ xdg.desktopEntries = {
 
 # ─── Desktop Apps ────────────────────────────────────────────────────────
 
+    "brave-origin" = {
+      name       = "Brave Origin";
+      exec       = "brave-origin %U";
+      icon       = "brave-origin";
+      comment    = "Web browser";
+      categories = [ "Network" "WebBrowser" ];
+    };
+
     mpv = {
       name       = "MPV";
       exec       = "mpv --player-operation-mode=pseudo-gui -- %U";
@@ -87,11 +95,19 @@ xdg.desktopEntries = {
       categories = [ "System" "Documentation" ];
     };
 
+    "com.mitchellh.ghostty" = {
+      name       = "Ghostty";
+      exec       = "ghostty +new-window";
+      icon       = "com.mitchellh.ghostty";
+      comment    = "A terminal emulator";
+      categories = [ "System" "TerminalEmulator" ];
+    };
+
     # ─── TUI / CLI Tools ─────────────────────────────────────────────────────
 
     nvim = {
       name       = "Neovim";
-      exec       = "ghostty -e nvim %F";
+      exec       = "ghostty +new-window -e nvim %F";
       icon       = "nvim";
       comment    = "Hyperextensible Vim-based text editor";
       categories = [ "Utility" "TextEditor" ];
@@ -107,17 +123,36 @@ xdg.desktopEntries = {
 
     yazi = {
       name       = "Yazi";
-      exec       = "ghostty -e yazi %F";
+      exec       = "ghostty +new-window -e yazi %F";
       icon       = "/home/honey/Pictures/Icons/yazi.png";
       comment    = "Blazing fast terminal file manager";
+      noDisplay  = true;
       categories = [ "System" "FileManager" ];
     };
 
     # ─── Others (hidden overrides) ───────────────────────────────────────────
 
+    "org.gnome.Nautilus" = {
+      name       = "Files";
+      exec       = "nautilus --new-window %U";
+      icon       = "org.gnome.Nautilus";
+      comment    = "Access and organize files";
+      noDisplay  = true;
+      categories = [ "GNOME" "GTK" "Utility" "Core" "FileManager" ];
+    };
+
+    "steam-metadata-editor" = {
+      name       = "Steam Metadata Editor";
+      exec       = "steam-metadata-editor";
+      icon       = "steam-metadata-editor";
+      comment    = "Edit metadata of your Steam apps";
+      noDisplay  = true;
+      categories = [ "Utility" "Game" ];
+    };
+
     btop = {
       name      = "Btop";
-      exec      = "ghostty -e btop";
+      exec      = "ghostty +new-window -e btop";
       icon      = "btop";
       comment   = "Resource monitor";
       noDisplay = true;

@@ -3,6 +3,7 @@
 {
   programs.ghostty = {
     enable = true;
+    systemd.enable = true;
     settings = {
       adjust-cell-height = "18%";
 
@@ -23,4 +24,7 @@
       window-decoration = true;
     };
   };
+
+  xdg.configFile."systemd/user/graphical-session.target.wants/app-com.mitchellh.ghostty.service".source =
+    "${pkgs.ghostty}/share/systemd/user/app-com.mitchellh.ghostty.service";
 }

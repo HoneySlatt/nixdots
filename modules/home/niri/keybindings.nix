@@ -3,12 +3,12 @@
 {
   programs.niri.settings.binds = {
     # ── App launchers ────────────────────────────────────────────────────
-    "Ctrl+Shift+T".action.spawn = "ghostty";
+    "Ctrl+Shift+T".action.spawn = [ "ghostty" "+new-window" ];
     "Mod+Q" = {
       action.close-window = { };
       repeat = false;
     };
-    "Mod+E".action.spawn = [ "ghostty" "-e" "yazi" ];
+    "Mod+E".action.spawn = [ "ghostty" "+new-window" "-e" "yazi" ];
     "Mod+Shift+E".action.spawn = "nautilus";
     "Mod+V".action.toggle-window-floating = { };
     "Mod+Space".action.spawn = "toggle-launcher";
@@ -33,12 +33,12 @@
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
-    "Mod+C".action.spawn = [ "ghostty" "-e" "claude" ];
-    "Mod+Shift+C".action.spawn = [ "ghostty" "-e" "codex" ];
-    "Mod+Ctrl+C".action.spawn = [ "ghostty" "-e" "opencode" ];
-    "Mod+N".action.spawn = [ "ghostty" "-e" "nvim" ];
+    "Mod+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
+    "Mod+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];
+    "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "opencode" ];
+    "Mod+N".action.spawn = [ "ghostty" "+new-window" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";
-    "Ctrl+Alt+Delete".action.spawn = [ "ghostty" "-e" "btop" ];
+    "Ctrl+Alt+Delete".action.spawn = [ "ghostty" "+new-window" "-e" "btop" ];
 
     # ── Focus / Move ─────────────────────────────────────────────────────
     "Mod+H".action.focus-column-left = { };

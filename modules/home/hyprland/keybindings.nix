@@ -115,9 +115,9 @@ in
   wayland.windowManager.hyprland.settings = {
     bind = [
       # App launchers
-      (bind "CTRL + SHIFT + T" (exec "ghostty"))
+      (bind "CTRL + SHIFT + T" (exec "ghostty +new-window"))
       (bind "SUPER + Q" (mkLuaInline "hl.dsp.window.close()"))
-      (bind "SUPER + E" (exec "ghostty -e yazi"))
+      (bind "SUPER + E" (exec "ghostty +new-window -e yazi"))
       (bind "SUPER + SHIFT + E" (exec "nautilus"))
       (bind "SUPER + V" (mkLuaInline "hl.dsp.window.float({ action = 'toggle' })"))
       (bind "SUPER + SPACE" (exec "toggle-launcher"))
@@ -148,12 +148,12 @@ in
       (bind "SUPER + CTRL + N" (exec "jellyfin-desktop"))
       (bind "SUPER + SHIFT +G" (exec "steam"))
       (bind "SUPER + F" (layoutAware (layoutExpr "fit active") "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })"))
-      (bind "SUPER + C" (exec "ghostty -e claude"))
-      (bind "SUPER + SHIFT + C" (exec "ghostty -e codex"))
-      (bind "SUPER + CTRL + C" (exec "ghostty -e opencode"))
-      (bind "SUPER + N" (exec "ghostty -e nvim"))
+      (bind "SUPER + C" (exec "ghostty +new-window -e claude"))
+      (bind "SUPER + SHIFT + C" (exec "ghostty +new-window -e codex"))
+      (bind "SUPER + CTRL + C" (exec "ghostty +new-window -e opencode"))
+      (bind "SUPER + N" (exec "ghostty +new-window -e nvim"))
       (bind "SUPER + SHIFT + N" (exec "zeditor"))
-      (bind "CTRL + ALT + DELETE" (exec "ghostty -e btop"))
+      (bind "CTRL + ALT + DELETE" (exec "ghostty +new-window -e btop"))
       (bind "SUPER + Escape" (exec "lock-screen"))
       (bind "SUPER + SHIFT + Escape" (mkLuaInline "hl.dsp.exit()"))
 
