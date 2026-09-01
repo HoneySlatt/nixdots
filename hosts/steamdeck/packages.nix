@@ -16,6 +16,7 @@
 
     # TUI/CLI
     git
+    codex
     neovim
   ];
 }
