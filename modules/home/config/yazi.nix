@@ -6,6 +6,10 @@
     shellWrapperName = "y";
 
     settings = {
+      opener.edit = [
+        { run = "nvim %s"; desc = "Neovim"; "for" = "unix"; block = true; }
+      ];
+
       mgr = {
         ratio = [ 1 4 3 ];
         sort_by = "alphabetical";

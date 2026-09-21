@@ -20,7 +20,6 @@
     obs-studio
     blender
     gimp
-    chatgpt
     obsidian
     inkscape
     localsend
