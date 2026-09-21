@@ -71,6 +71,16 @@ xdg.desktopEntries = {
       categories = [ "Game" ];
     };
 
+    "com.heroicgameslauncher.hgl" = {
+      name       = "GOG Galaxy";
+      exec       = "heroic %U";
+      #icon       = "com.heroicgameslauncher.hgl";
+      icon       = "/home/honey/Pictures/Icons/gog.png";
+      comment    = "Open source launcher for GOG, Epic Games and Amazon Games";
+      mimeType   = [ "x-scheme-handler/heroic" ];
+      categories = [ "Game" ];
+    };
+
     "org.prismlauncher.PrismLauncher" = {
       name       = "Minecraft";
       exec       = "prismlauncher";

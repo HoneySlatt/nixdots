@@ -19,6 +19,10 @@
       url = "github:Kopuz-org/kopuz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-desktop-nix-flake = {
+      url = "github:poeck/claude-desktop-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     nixvim = {
       url = "github:nix-community/nixvim";

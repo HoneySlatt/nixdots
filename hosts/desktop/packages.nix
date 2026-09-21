@@ -16,11 +16,14 @@
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default
     obs-studio
     blender
     gimp
+    chatgpt
     obsidian
     inkscape
+    localsend
     libreoffice
     qbittorrent
     element-desktop
@@ -58,6 +61,7 @@
     cava
     fastfetch
     imv
+    concord-tui
     codex
     claude-code
     opencode
