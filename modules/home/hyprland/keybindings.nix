@@ -148,7 +148,7 @@ in
       (bind "SUPER + CTRL + N" (exec "jellyfin-desktop"))
       (bind "SUPER + SHIFT +G" (exec "steam"))
       (bind "SUPER + F" (layoutAware (layoutExpr "fit active") "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })"))
-      (bind "SUPER + C" (exec "ghostty +new-window -e claude-desktop"))
+      (bind "SUPER + C" (exec "/nix/store/bf0jd9q5x9z2nx1ydpln6yxvqhwb2ckv-claude-desktop-1.18286.2/bin/claude-desktop %U"))
       (bind "SUPER + SHIFT + C" (exec "ghostty +new-window -e claude"))
       (bind "SUPER + CTRL + C" (exec "ghostty +new-window -e codex"))
       (bind "SUPER + N" (exec "ghostty +new-window -e nvim"))
