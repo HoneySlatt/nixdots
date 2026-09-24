@@ -63,6 +63,15 @@ EOF
     echo "/* == $site == */" >> "$gecko_styles_tmp"
     printf '%s\n' "$compiled" >> "$userstyles_tmp"
     printf '%s\n' "$compiled" >> "$gecko_styles_tmp"
+    if [ "$site" = "claude" ]; then
+      (
+        claude_css="${XDG_CONFIG_HOME:-$HOME/.config}/claude-desktop/quickshell.css"
+        mkdir -p "$(dirname "$claude_css")" && claude_tmp=$(mktemp "${claude_css}.XXXXXX") || exit 1
+        trap 'rm -f "$claude_tmp"' EXIT
+        qs-compile-userstyle "$less_file" "$palette" --desktop > "$claude_tmp" &&
+          mv "$claude_tmp" "$claude_css"
+      ) || printf '%s\n' 'Could not update Claude Desktop theme; keeping the previous CSS.' >&2
+    fi
   done
 
   for gecko_user_content in "${gecko_user_contents[@]}"; do

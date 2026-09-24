@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Usage: compile-userstyle.js <site.user.less> <palette-json>
+// Usage: compile-userstyle.js <site.user.less> <palette-json> [--desktop]
 // Compiles a catppuccin userstyle LESS file with a custom palette injected.
 
 const fs   = require('fs');
@@ -12,9 +12,9 @@ try {
   less = require(process.env.LESS_MODULE_PATH || 'less');
 }
 
-const [,, lessFile, paletteJson] = process.argv;
-if (!lessFile || !paletteJson) {
-  process.stderr.write('Usage: compile-userstyle.js <file.user.less> <palette.json>\n');
+const [,, lessFile, paletteJson, mode] = process.argv;
+if (!lessFile || !paletteJson || (mode && mode !== '--desktop')) {
+  process.stderr.write('Usage: compile-userstyle.js <file.user.less> <palette.json> [--desktop]\n');
   process.exit(1);
 }
 
@@ -87,7 +87,13 @@ const cleaned = src
 
 less.render(cleaned, { compress: false })
   .then(output => {
-    const css = output.css.replace(/(--[\w-]+:[^;!]+)(;)/g, '$1 !important$2');
+    let css = output.css.replace(/(--[\w-]+:[^;!]+)(;)/g, '$1 !important$2');
+    if (mode === '--desktop') {
+      // Electron selects the Claude views; its local title bar has no data-mode attributes.
+      css = css.replace(/@-moz-document[^\{]+\{/g, '@media all {')
+        .replace(/:root\[data-color-version="v2"\]\[data-mode="(?:dark|light)"\]/g, ':root');
+      css += `\n* { --claude-accent-clay: ${palette[palette.accentColor]} !important; }\n`;
+    }
     process.stdout.write(css);
   })
   .catch(err   => { process.stderr.write(err.message + '\n'); process.exit(1); });

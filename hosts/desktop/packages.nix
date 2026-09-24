@@ -16,7 +16,9 @@
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default
+    (pkgs.callPackage ../../modules/home/pkgs/claude-desktop.nix {
+      claudeDesktop = inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    })
     obs-studio
     blender
     gimp
