@@ -24,6 +24,25 @@ claudeDesktop.overrideAttrs (old: {
     fs.writeFileSync(manifestPath, JSON.stringify(manifest));
     JS
 
+    # Drop the native min/max/close overlay (unneeded under a tiling WM)
+    node - "$themeRoot" <<'JS'
+    const fs = require('fs');
+    const path = require('path');
+    const re = /titleBarOverlay:[A-Za-z_$][\w$]*(?=,trafficLightPosition)/g;
+    let patched = 0;
+    (function walk(dir) {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const p = path.join(dir, e.name);
+        if (e.isDirectory()) { if (e.name !== 'node_modules') walk(p); continue; }
+        if (!p.endsWith('.js')) continue;
+        const src = fs.readFileSync(p, 'utf8');
+        const out = src.replace(re, () => { patched++; return 'titleBarOverlay:!1'; });
+        if (out !== src) fs.writeFileSync(p, out);
+      }
+    })(process.argv[2]);
+    if (!patched) throw new Error('titleBarOverlay pattern not found');
+    JS
+
     asar pack --unpack "*.node" "$themeRoot" "$out/lib/claude-desktop/resources/app.asar"
   '';
 })

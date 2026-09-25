@@ -50,12 +50,14 @@
     xivlauncher
     protonplus
     prismlauncher
+    shadps4-qtlauncher
 
     # TUI/CLI
     fzf
     fd
     bat
     eza
+    gdu
     btop
     ffmpeg
     ripgrep
