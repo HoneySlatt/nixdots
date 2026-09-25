@@ -11,6 +11,5 @@
     ./searxng.nix
     ./navidrome.nix
     ./invidious.nix
-    ./librechat.nix
   ];
 }
