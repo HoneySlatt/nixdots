@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Switch theme — btop, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, niri, wallpaper,
+# Switch theme — btop, gdu, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, niri, wallpaper,
 # discord, element, steam, heroic, obsidian, obs, firefox, userstyles, jellyfin, kopuz,
 # blender, kdeglobals, swaylock, tuta, opencode, cider, vibe
 
@@ -48,42 +48,6 @@ fi
 
 # Script-specific keys per theme
 case "$THEME" in
-  tokyonight)
-    C[cat_accent]="blue"
-    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="TokyoNight"
-    ;;
-  kanagawa)
-    C[cat_accent]="pink"
-    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="Kanagawa"
-    ;;
-  kanagawa-lotus)
-    C[cat_accent]="pink"
-    C[gtk_theme]="adw-gtk3" C[gtk_scheme]="prefer-light"
-    C[icon_theme]="Papirus-Light"
-    C[wallpaper_dir]="KanagawaLotus"
-    ;;
-  sakura)
-    C[cat_accent]="pink"
-    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="Sakura"
-    ;;
-  onedark)
-    C[cat_accent]="blue"
-    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="OneDark"
-    ;;
-  miasma)
-    C[cat_accent]="blue"
-    C[gtk_theme]="adw-gtk3-dark" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="Miasma"
-    ;;
-  catppuccin-mocha)
-    C[cat_accent]="lavender"
-    C[gtk_theme]="catppuccin-mocha-lavender-standard" C[gtk_scheme]="prefer-dark"
-    C[wallpaper_dir]="CatppuccinMocha"
-    ;;
   pastelglow)
     C[cat_accent]="pink"
     C[gtk_theme]="Gruvbox-Light" C[gtk_scheme]="prefer-light"
@@ -134,6 +98,7 @@ fi
 
 # ── Main ────────────────────────────────────────────────────────────────────
 switch_btop
+switch_gdu
 switch_fastfetch
 switch_ghostty
 switch_rio

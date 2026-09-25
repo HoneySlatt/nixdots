@@ -2,96 +2,6 @@
 
 let
   palette = {
-    kanagawa = {
-      bg0 = "#1F1F28";
-      bg1 = "#2A2A37";
-      bg2 = "#363646";
-      bg4 = "#54546D";
-      fg0 = "#DCD7BA";
-      fg4 = "#727169";
-      red = "#E82424";
-      green = "#98BB6C";
-      yellow = "#E6C384";
-      blue = "#7E9CD8";
-      purple = "#957FB8";
-      aqua = "#6A9589";
-      orange = "#FFA066";
-    };
-    kanagawa_lotus = {
-      bg0 = "#F2ECBC";
-      bg1 = "#E5DDB0";
-      bg2 = "#DCD5AC";
-      bg4 = "#8A8980";
-      fg0 = "#545464";
-      fg4 = "#8A8980";
-      red = "#C84053";
-      green = "#6F894E";
-      yellow = "#DE9800";
-      blue = "#4D699B";
-      purple = "#766B90";
-      aqua = "#5E857A";
-      orange = "#CC6D00";
-    };
-    sakura = {
-      bg0 = "#191719";
-      bg1 = "#252326";
-      bg2 = "#2F2B30";
-      bg4 = "#5A525B";
-      fg0 = "#D6C1C5";
-      fg4 = "#967E82";
-      red = "#C5505E";
-      green = "#759886";
-      yellow = "#B0886F";
-      blue = "#878FB9";
-      purple = "#BC8EC6";
-      aqua = "#A289A1";
-      orange = "#B46E90";
-    };
-    onedark = {
-      bg0 = "#282C34";
-      bg1 = "#21252B";
-      bg2 = "#3E4451";
-      bg4 = "#5C6370";
-      fg0 = "#ABB2BF";
-      fg4 = "#828997";
-      red = "#E06C75";
-      green = "#98C379";
-      yellow = "#E5C07B";
-      blue = "#61AFEF";
-      purple = "#C678DD";
-      aqua = "#56B6C2";
-      orange = "#D19A66";
-    };
-    tokyonight = {
-      bg0 = "#1A1B26";
-      bg1 = "#16161E";
-      bg2 = "#3B4261";
-      bg4 = "#565F89";
-      fg0 = "#C0CAF5";
-      fg4 = "#565F89";
-      red = "#F7768E";
-      green = "#9ECE6A";
-      yellow = "#E0AF68";
-      blue = "#7AA2F7";
-      purple = "#BB9AF7";
-      aqua = "#73DACA";
-      orange = "#FF9E64";
-    };
-    miasma = {
-      bg0 = "#222222";
-      bg1 = "#1c1c1c";
-      bg2 = "#383838";
-      bg4 = "#666666";
-      fg0 = "#c2c2b0";
-      fg4 = "#666666";
-      red = "#b36d43";
-      green = "#5f875f";
-      yellow = "#c9a554";
-      blue = "#78824b";
-      purple = "#bb7744";
-      aqua = "#c9a554";
-      orange = "#bb7744";
-    };
     gruvbox = {
       bg0 = "#282828";
       bg1 = "#3c3836";
@@ -266,12 +176,6 @@ let
 in
 {
   programs.helix.themes = {
-    kanagawa = mkTheme "kanagawa" palette.kanagawa;
-    kanagawa_lotus = mkTheme "kanagawa_lotus" palette.kanagawa_lotus;
-    sakura = mkTheme "sakura" palette.sakura;
-    onedark = mkTheme "onedark" palette.onedark;
-    tokyonight = mkTheme "tokyonight" palette.tokyonight;
-    miasma = mkTheme "miasma" palette.miasma;
     pastelglow = mkTheme "pastelglow" palette.pastel;
     gruvbox_dark = mkTheme "gruvbox_dark" palette.gruvbox;
     rose_pine = mkTheme "rose_pine" palette.rose-pine;

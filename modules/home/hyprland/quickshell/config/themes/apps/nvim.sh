@@ -1,13 +1,6 @@
 nvim_reload() {
   local cs bg
   case "$THEME" in
-    tokyonight)       cs="tokyonight-night" bg="dark" ;;
-    kanagawa)         cs="kanagawa-wave" bg="dark" ;;
-    kanagawa-lotus)   cs="kanagawa-lotus" bg="light" ;;
-    sakura)           cs="sakura" bg="dark" ;;
-    onedark)          cs="onedark" bg="dark" ;;
-    miasma)           cs="miasma" bg="dark" ;;
-    catppuccin-mocha) cs="catppuccin-mocha" bg="dark" ;;
     pastelglow)    cs="pastelglow" bg="light" ;;
     rosepine)      cs="rose-pine"  bg="dark"  ;;
     gruvbox)       cs="gruvbox"    bg="dark"  ;;

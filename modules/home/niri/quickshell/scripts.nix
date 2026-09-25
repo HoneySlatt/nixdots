@@ -389,13 +389,6 @@ in
         BASE_DIR="$HOME/Pictures/Wallpapers"
 
         declare -A THEME_DIRS
-        THEME_DIRS[tokyonight]="TokyoNight"
-        THEME_DIRS[kanagawa]="Kanagawa"
-        THEME_DIRS[kanagawa-lotus]="KanagawaLotus"
-        THEME_DIRS[sakura]="Sakura"
-        THEME_DIRS[onedark]="OneDark"
-        THEME_DIRS[miasma]="Miasma"
-        THEME_DIRS[catppuccin-mocha]="CatppuccinMocha"
         THEME_DIRS[pastelglow]="PastelGlow"
         THEME_DIRS[rosepine]="RosePine"
         THEME_DIRS[everforest]="Everforest"

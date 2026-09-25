@@ -4,13 +4,6 @@ switch_vibe() {
 
   # Map quickshell themes to Textual built-in themes
   case "$THEME" in
-    tokyonight)       vibe_theme="ansi-dark" ;;
-    kanagawa)         vibe_theme="ansi-dark" ;;
-    kanagawa-lotus)   vibe_theme="ansi-light" ;;
-    sakura)           vibe_theme="rose-pine" ;;
-    onedark)          vibe_theme="ansi-dark" ;;
-    miasma)           vibe_theme="ansi-dark" ;;
-    catppuccin-mocha) vibe_theme="catppuccin-mocha" ;;
     pastelglow)    vibe_theme="catppuccin-latte" ;;
     rosepine)      vibe_theme="rose-pine" ;;
     gruvbox)       vibe_theme="gruvbox" ;;

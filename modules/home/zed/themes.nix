@@ -2,48 +2,6 @@
 
 let
   palettes = {
-    kanagawa = {
-      bg = "#1F1F28"; bg1 = "#2A2A37"; bg2 = "#363646"; bg3 = "#54546D";
-      fg = "#DCD7BA"; fg2 = "#727169";
-      red = "#E82424"; green = "#98BB6C"; yellow = "#E6C384";
-      blue = "#7E9CD8"; purple = "#957FB8"; aqua = "#6A9589"; orange = "#FFA066";
-    };
-    kanagawa-lotus = {
-      bg = "#F2ECBC"; bg1 = "#E5DDB0"; bg2 = "#DCD5AC"; bg3 = "#DCD7BA";
-      fg = "#545464"; fg2 = "#8A8980";
-      red = "#C84053"; green = "#6F894E"; yellow = "#DE9800";
-      blue = "#4D699B"; purple = "#766B90"; aqua = "#5E857A"; orange = "#CC6D00";
-    };
-    sakura = {
-      bg = "#191719"; bg1 = "#252326"; bg2 = "#2F2B30"; bg3 = "#5A525B";
-      fg = "#D6C1C5"; fg2 = "#967E82";
-      red = "#C5505E"; green = "#759886"; yellow = "#B0886F";
-      blue = "#878FB9"; purple = "#BC8EC6"; aqua = "#A289A1"; orange = "#B46E90";
-    };
-    onedark = {
-      bg = "#282C34"; bg1 = "#21252B"; bg2 = "#2C323C"; bg3 = "#3E4451";
-      fg = "#ABB2BF"; fg2 = "#828997";
-      red = "#E06C75"; green = "#98C379"; yellow = "#E5C07B";
-      blue = "#61AFEF"; purple = "#C678DD"; aqua = "#56B6C2"; orange = "#D19A66";
-    };
-    tokyonight = {
-      bg = "#1A1B26"; bg1 = "#16161E"; bg2 = "#292E42"; bg3 = "#3B4261";
-      fg = "#C0CAF5"; fg2 = "#565F89";
-      red = "#F7768E"; green = "#9ECE6A"; yellow = "#E0AF68";
-      blue = "#7AA2F7"; purple = "#BB9AF7"; aqua = "#73DACA"; orange = "#FF9E64";
-    };
-    miasma = {
-      bg = "#222222"; bg1 = "#1c1c1c"; bg2 = "#383838"; bg3 = "#43492a";
-      fg = "#c2c2b0"; fg2 = "#666666";
-      red = "#b36d43"; green = "#5f875f"; yellow = "#c9a554";
-      blue = "#78824b"; purple = "#bb7744"; aqua = "#c9a554"; orange = "#bb7744";
-    };
-    catppuccin-mocha = {
-      bg = "#1e1e2e"; bg1 = "#181825"; bg2 = "#313244"; bg3 = "#45475a";
-      fg = "#cdd6f4"; fg2 = "#a6adc8";
-      red = "#f38ba8"; green = "#a6e3a1"; yellow = "#f9e2af";
-      blue = "#b4befe"; purple = "#cba6f7"; aqua = "#94e2d5"; orange = "#fab387";
-    };
     gruvbox = {
       bg = "#282828"; bg1 = "#3c3836"; bg2 = "#504945"; bg3 = "#665c54";
       fg = "#fbf1c7"; fg2 = "#a89984";
@@ -138,13 +96,6 @@ in
 {
   # Deploy palette files for dynamic theme switching
   xdg.configFile = {
-    "zed/theme-overrides/kanagawa.json".text = builtins.toJSON (mkOverride palettes.kanagawa);
-    "zed/theme-overrides/kanagawa-lotus.json".text = builtins.toJSON (mkOverride palettes.kanagawa-lotus);
-    "zed/theme-overrides/sakura.json".text = builtins.toJSON (mkOverride palettes.sakura);
-    "zed/theme-overrides/onedark.json".text = builtins.toJSON (mkOverride palettes.onedark);
-    "zed/theme-overrides/tokyonight.json".text = builtins.toJSON (mkOverride palettes.tokyonight);
-    "zed/theme-overrides/miasma.json".text = builtins.toJSON (mkOverride palettes.miasma);
-    "zed/theme-overrides/catppuccin-mocha.json".text = builtins.toJSON (mkOverride palettes.catppuccin-mocha);
     "zed/theme-overrides/gruvbox.json".text = builtins.toJSON (mkOverride palettes.gruvbox);
     "zed/theme-overrides/rosepine.json".text = builtins.toJSON (mkOverride palettes.rose-pine);
     "zed/theme-overrides/everforest.json".text = builtins.toJSON (mkOverride palettes.everforest);

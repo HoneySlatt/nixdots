@@ -20,83 +20,6 @@ QtObject {
             accent: "#3a3a3a",
             highlight: "#c6c6c6"
         },
-        "catppuccin-mocha": {
-            name: "Catppuccin Mocha",
-            background: "#1e1e2e",
-            text: "#cdd6f4",
-            separator: "#313244",
-            warning: "#f38ba8",
-            caution: "#45475a",
-            misc: "#94e2d5",
-            process: "#89b4fa",
-            accent: "#b4befe",
-            highlight: "#b4befe"
-        },
-        "miasma": {
-            name: "Miasma",
-            background: "#222222",
-            text: "#c2c2b0",
-            separator: "#383838",
-            warning: "#b36d43",
-            caution: "#43492a",
-            misc: "#c9a554",
-            process: "#5f875f",
-            accent: "#78824b",
-            highlight: "#d7c483"
-        },
-        "onedark": {
-            name: "OneDark",
-            background: "#282C34",
-            text: "#ABB2BF",
-            separator: "#2C323C",
-            warning: "#E06C75",
-            caution: "#3E4451",
-            misc: "#56B6C2",
-            process: "#61AFEF",
-            accent: "#61AFEF",
-            highlight: "#E5C07B"
-        },
-        "tokyonight": {
-            name: "TokyoNight", background: "#1A1B26", text: "#C0CAF5", separator: "#292E42",
-            warning: "#F7768E", caution: "#3B4261", misc: "#73DACA", process: "#7AA2F7",
-            accent: "#7AA2F7", highlight: "#E0AF68"
-        },
-        "kanagawa": {
-            name: "Kanagawa",
-            background: "#1F1F28",
-            text: "#DCD7BA",
-            separator: "#2A2A37",
-            warning: "#E82424",
-            caution: "#363646",
-            misc: "#6A9589",
-            process: "#7E9CD8",
-            accent: "#D27E99",
-            highlight: "#E6C384"
-        },
-        "kanagawa-lotus": {
-            name: "Kanagawa Lotus",
-            background: "#F2ECBC",
-            text: "#545464",
-            separator: "#E5DDB0",
-            warning: "#C84053",
-            caution: "#DCD5AC",
-            misc: "#5E857A",
-            process: "#4D699B",
-            accent: "#B35B79",
-            highlight: "#DE9800"
-        },
-        "sakura": {
-            name: "Sakura",
-            background: "#191719",
-            text: "#D6C1C5",
-            separator: "#252326",
-            warning: "#C5505E",
-            caution: "#2F2B30",
-            misc: "#759886",
-            process: "#878FB9",
-            accent: "#C58EA7",
-            highlight: "#BC8EC6"
-        },
         "everforest": {
             name: "Everforest Dark",
             background: "#2d353b",
@@ -180,25 +103,18 @@ QtObject {
     readonly property color subtle: Qt.tint(separator, Qt.rgba(background.r, background.g, background.b, 0.35))
     readonly property color glow: Qt.rgba(accent.r, accent.g, accent.b, 0.35)
 
-    readonly property var themeKeys: Object.keys(themes).sort()
+    readonly property var themeKeys: ["carbonfox", "everforest", "rosepine", "pastelglow", "gruvbox", "gruvbox-light"]
 
     // ── Wallpaper directories ──
     readonly property var wallpaperDirs: ({
         "pastelglow": "PastelGlow",
-        "catppuccin-mocha": "CatppuccinMocha",
-        "miasma": "Miasma",
-        "onedark": "OneDark",
-        "tokyonight": "TokyoNight",
-        "kanagawa": "Kanagawa",
-        "kanagawa-lotus": "KanagawaLotus",
-        "sakura": "Sakura",
         "rosepine": "RosePine",
         "everforest": "Everforest",
         "carbonfox": "Carbonfox",
         "gruvbox": "GruvboxDark",
         "gruvbox-light": "GruvboxLight"
     })
-    readonly property string wallpaperDir: "/home/honey/Pictures/Wallpapers/" + (wallpaperDirs[currentTheme] || "CatppuccinMocha")
+    readonly property string wallpaperDir: "/home/honey/Pictures/Wallpapers/" + (wallpaperDirs[currentTheme] || "PastelGlow")
 
     // ── Font settings ──
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
