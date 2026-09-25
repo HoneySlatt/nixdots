@@ -155,8 +155,10 @@
   home.file.".config/jellyfin-mpv-shim/scripts/modernz.lua".source =
     "${pkgs.mpvScripts.modernz}/share/mpv/scripts/modernz.lua";
 
-  home.file.".config/jellyfin-mpv-shim/scripts/thumbfast.lua".source =
-    "${pkgs.mpvScripts.thumbfast}/share/mpv/scripts/thumbfast.lua";
+  # thumbfast n'est PAS placé ici : jellyfin-mpv-shim charge déjà sa propre
+  # copie en interne pour le trickplay dès que "thumbnail_enable" est actif.
+  # Le dupliquer ici faisait charger thumbfast deux fois et dessiner deux
+  # aperçus de vignette superposés.
 
   home.file.".config/jellyfin-mpv-shim/fonts" = {
     source    = "${pkgs.mpvScripts.modernz}/share/fonts";

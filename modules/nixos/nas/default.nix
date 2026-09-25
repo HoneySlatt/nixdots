@@ -3,6 +3,7 @@
 {
   imports = [
     ./tailscale.nix
+    ./kavita.nix
     ./jellyfin.nix
     ./servarr.nix
     ./samba.nix

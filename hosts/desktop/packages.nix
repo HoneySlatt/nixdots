@@ -53,8 +53,9 @@
     shadps4-qtlauncher
 
     # TUI/CLI
-    fzf
+    gh
     fd
+    fzf
     bat
     eza
     gdu
