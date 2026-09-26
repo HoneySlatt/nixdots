@@ -30,6 +30,7 @@
     element-desktop
     tutanota-desktop
     jellyfin-desktop
+    stremio-linux-shell
     kdePackages.kdenlive
 
     # Development
