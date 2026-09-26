@@ -21,6 +21,7 @@
     })
     pkgsRocm.blender
     gimp
+    seanime
     obsidian
     inkscape
     localsend

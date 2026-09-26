@@ -9,5 +9,6 @@
     { argv = [ "start-quickshell" ]; }
     { argv = [ "steam" "-silent" ]; }
     { sh = "sleep 15 && jellyfin-mpv-shim"; }
+    { argv = [ "seanime" ]; }
   ];
 }
