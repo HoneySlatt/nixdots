@@ -14,6 +14,12 @@ in
       cfg.finalConfig
       + ''
 
+        // Pas encore dans niri-flake : empêche Chromium/Electron (Brave, Claude Desktop…) de rouvrir
+        // « maximisés jusqu'aux bords » (sans gaps ni bordures) ; ils ouvrent en colonne normale.
+        window-rule {
+            open-maximized-to-edges false
+        }
+
         include optional=true "${niriDir}/theme.kdl"
         include optional=true "${niriDir}/bar-mode.kdl"
       ''

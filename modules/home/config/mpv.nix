@@ -12,8 +12,6 @@
       video-sync      = "display-resample";
       swapchain-depth = 1;
 
-      input-ipc-server = "/tmp/mpvsocket";
-
       save-position-on-quit = "yes";
       keep-open             = "yes";
       cursor-autohide       = 1000;
@@ -22,8 +20,7 @@
       osc = "no";
 
       # Keep mpv output SDR; HDR sources are tone-mapped instead of triggering HDR.
-      target-colorspace-hint      = "auto";
-      target-colorspace-hint-mode = "target";
+      target-colorspace-hint      = "no"; # pas de gestion des couleurs sous niri
       target-trc                  = "srgb";
       target-prim                 = "bt.709";
       tone-mapping                = "bt.2446a";
@@ -116,13 +113,11 @@
     hwdec=vaapi-copy
     video-sync=display-resample
     swapchain-depth=1
-    input-ipc-server=/tmp/mpvsocket
     save-position-on-quit=yes
     keep-open=yes
     cursor-autohide=1000
     osc=no
-    target-colorspace-hint=auto
-    target-colorspace-hint-mode=target
+    target-colorspace-hint=no
     target-trc=srgb
     target-prim=bt.709
     tone-mapping=bt.2446a
