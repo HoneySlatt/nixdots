@@ -5,7 +5,7 @@
     # Web Browsers
     brave-origin
 
-    # Desktops Apps
+    # Desktop Apps
     discord
     protonplus
     moonlight-qt

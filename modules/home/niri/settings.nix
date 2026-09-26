@@ -57,7 +57,6 @@
       };
     };
 
-    # Workspaces 1-10 comme sur Hyprland : impairs sur DP-2, pairs sur DP-3.
     workspaces = builtins.listToAttrs (builtins.genList (i:
       let ws = i + 1; in {
         name = if ws < 10 then "0${toString ws}" else toString ws;

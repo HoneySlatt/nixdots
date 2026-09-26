@@ -6,14 +6,12 @@ import Quickshell.Io
 QtObject {
     id: root
 
-    // Current connection state
     property string netType: "offline"
     property int signalStrength: 0
     property string connectionName: ""
     property bool vpnConnected: false
     property bool wifiEnabled: true
 
-    // Available networks list
     property var availableNetworks: []
     property bool scanning: false
     property bool connecting: false
@@ -183,7 +181,6 @@ QtObject {
             .slice(0, 8);
     }
 
-    // Fast cached scan (instant results)
     readonly property var _cachedScanProc: Process {
         command: ["nmcli", "-t", "-f", "IN-USE,SIGNAL,SECURITY,SSID", "dev", "wifi", "list", "--rescan", "no"]
         running: false
@@ -191,13 +188,11 @@ QtObject {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.availableNetworks = root._parseNetworks(this.text);
-                // Then trigger a real rescan to update the list
                 root._scanProc.running = true;
             }
         }
     }
 
-    // Full rescan (slower, updates list after)
     readonly property var _scanProc: Process {
         command: ["nmcli", "-t", "-f", "IN-USE,SIGNAL,SECURITY,SSID", "dev", "wifi", "list", "--rescan", "yes"]
         running: false

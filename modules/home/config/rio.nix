@@ -8,9 +8,6 @@
       theme = "switch-theme";
       "line-height" = 1.18;
       navigation."hide-if-single" = true;
-      #window = {
-        #opacity = 0.9;
-      #};
       fonts = {
         size = 15;
         family = "JetBrainsMono Nerd Font";

@@ -3,8 +3,7 @@ import Quickshell
 import Quickshell.Wayland
 import "services" as Services
 
-// Ferme les launchers/popups quand on clique sur un autre écran
-// (équivalent de HyprlandFocusGrab, qui n'existe pas sous niri).
+// Closes popups when clicking another output (niri has no HyprlandFocusGrab).
 Scope {
     id: root
 

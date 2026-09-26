@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   programs.nixvim.extraPackages = with pkgs; [
-    stylua        # Lua formatter
-    gotools       # goimports (Go)
-    rustfmt       # Rust formatter
-    rust-analyzer # Rust LSP
-    clang-tools   # clang-format (C)
+    stylua
+    gotools # goimports
+    rustfmt
+    rust-analyzer
+    clang-tools # clang-format
   ];
 }

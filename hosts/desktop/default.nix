@@ -42,13 +42,12 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
     initrd.kernelModules = [ "amdgpu" ];
+    kernelModules = [ "ntsync" ];
   };
 
-  hardware = {
-    graphics = {
+  hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    };
   };
 
   networking.hostName = "NixBTW";
@@ -56,26 +55,12 @@
   # Run the Claude Code binary downloaded by Claude Desktop.
   programs.nix-ld.enable = true;
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   services = {
     xserver.videoDrivers = [ "amdgpu" ];
     libinput.mouse.accelProfile = "flat";
     lact.enable = true;
     flatpak.enable = true;
   };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   virtualisation = {
     libvirtd = {
@@ -88,25 +73,5 @@
     spiceUSBRedirection.enable = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   system.stateVersion = "25.11";
-
 }

@@ -16,7 +16,6 @@ switch_vibe() {
       ;;
   esac
 
-  # Update vibe config
   mkdir -p "$HOME/.config/vibe"
 
   if [ -f "$config_file" ]; then

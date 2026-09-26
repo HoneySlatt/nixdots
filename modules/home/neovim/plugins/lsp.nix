@@ -22,7 +22,7 @@
     servers = {
       # Rust — handled by rustaceanvim, not here
 
-      # C / C++ (systems programming, Phase 2)
+      # C / C++
       clangd = {
         enable = true;
         cmd = [ "clangd" "--background-index" "--clang-tidy" ];
@@ -30,7 +30,7 @@
         rootMarkers = [ "compile_commands.json" "Makefile" ".git" ];
       };
 
-      # Go (Phase 7 — employability)
+      # Go
       gopls = {
         enable = true;
         filetypes = [ "go" "gomod" "gowork" "gotmpl" ];
@@ -53,14 +53,14 @@
         };
       };
 
-      # TOML — Cargo.toml, config files
+      # TOML
       taplo = {
         enable = true;
         filetypes = [ "toml" ];
         rootMarkers = [ "Cargo.toml" ".git" ];
       };
 
-      # Lua — NixOS config, Neovim config
+      # Lua
       lua_ls = {
         enable = true;
         filetypes = [ "lua" ];

@@ -20,7 +20,7 @@
       osc = "no";
 
       # Keep mpv output SDR; HDR sources are tone-mapped instead of triggering HDR.
-      target-colorspace-hint      = "no"; # pas de gestion des couleurs sous niri
+      target-colorspace-hint      = "no";
       target-trc                  = "srgb";
       target-prim                 = "bt.709";
       tone-mapping                = "bt.2446a";
@@ -64,7 +64,6 @@
         scalewindowed   = "0.5";
         scalefullscreen = "0.5";
 
-        # Monochrome theme (white/grey)
         osc_color                  = "#000000";
         seekbarfg_color            = "#FFFFFF";
         seekbarbg_color            = "#666666";
@@ -150,10 +149,7 @@
   home.file.".config/jellyfin-mpv-shim/scripts/modernz.lua".source =
     "${pkgs.mpvScripts.modernz}/share/mpv/scripts/modernz.lua";
 
-  # thumbfast n'est PAS placé ici : jellyfin-mpv-shim charge déjà sa propre
-  # copie en interne pour le trickplay dès que "thumbnail_enable" est actif.
-  # Le dupliquer ici faisait charger thumbfast deux fois et dessiner deux
-  # aperçus de vignette superposés.
+  # thumbfast is omitted: jellyfin-mpv-shim bundles its own copy, loading both draws duplicate previews.
 
   home.file.".config/jellyfin-mpv-shim/fonts" = {
     source    = "${pkgs.mpvScripts.modernz}/share/fonts";

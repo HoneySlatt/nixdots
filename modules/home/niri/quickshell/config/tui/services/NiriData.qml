@@ -10,10 +10,8 @@ Singleton {
     property var workspaces: []
     property var activeWorkspace: null
 
-    // Name of the output holding the focused workspace (niri outputs have no "focused" field).
     readonly property string focusedOutput: activeWorkspace ? activeWorkspace.output : ""
 
-    // Workspaces shown in the bar, like Hyprland: those with windows or visible on an output.
     readonly property var barWorkspaces: {
         const list = (workspaces || []).filter(ws => ws.active_window_id !== null || ws.is_active);
         const key = ws => {
@@ -28,7 +26,6 @@ Singleton {
         refresh(getWorkspaces);
     }
 
-    // Re-run a query, or queue one more run if it is already in flight.
     function refresh(proc) {
         if (proc.running)
             proc.pending = true;
@@ -36,7 +33,6 @@ Singleton {
             proc.running = true;
     }
 
-    // Accepts an argv array (["focus-workspace", "3"]) or a space-separated string.
     function dispatch(action) {
         const args = Array.isArray(action) ? action : String(action).trim().split(/\s+/);
         Quickshell.execDetached(["niri", "msg", "action"].concat(args));
@@ -58,7 +54,6 @@ Singleton {
         dispatch(["focus-workspace", String(name)]);
     }
 
-    // Next/previous workspace in bar order, across outputs (Hyprland "e+1" / "e-1").
     function focusRelative(delta) {
         const list = barWorkspaces;
         if (!activeWorkspace || list.length === 0)
@@ -71,7 +66,6 @@ Singleton {
 
     Component.onCompleted: updateWorkspaces()
 
-    // Refresh on every compositor event instead of polling.
     Process {
         id: eventStream
         command: ["niri", "msg", "--json", "event-stream"]

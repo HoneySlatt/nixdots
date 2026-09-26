@@ -35,7 +35,6 @@ PanelWindow {
     exclusionMode: ExclusionMode.Normal
     exclusiveZone: isTop ? Theme.barHeight + Theme.margin : Theme.barHeight - 1
 
-    // Rounded background container
     Rectangle {
         id: barBackground
         anchors.fill: parent
@@ -43,7 +42,6 @@ PanelWindow {
         radius: isTop ? Theme.borderRadius : 0
         clip: true
 
-        // Clock anchored to absolute center
         Modules.Clock {
             anchors.centerIn: parent
         }

@@ -3,14 +3,12 @@ switch_discord() {
   local assets_dir="$SCRIPT_DIR/discord"
   mkdir -p "$(dirname "$theme_file")"
 
-  # Detect shell mode
   local shell_mode="modern"
   local shell_file="$HOME/.config/quickshell/.current-shell"
   if [ -f "$shell_file" ]; then
     shell_mode="$(tr -d '[:space:]' < "$shell_file")"
   fi
 
-  # Build CSS base
   {
     cat << EOF
 /**

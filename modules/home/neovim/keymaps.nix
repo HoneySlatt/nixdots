@@ -43,7 +43,7 @@
     { mode = "n"; key = "<leader>fd"; action = "<cmd>FzfLua diagnostics_document<cr>"; options.desc = "Document diagnostics"; }
     { mode = "n"; key = "<leader>ft"; action = "<cmd>TodoFzfLua<cr>";                options.desc = "Find TODOs"; }
 
-    # Code (format, action, rename — le reste est dans lsp.nix)
+    # Code (format, action, rename; the rest is in lsp.nix)
     {
       mode = "n";
       key = "<leader>cf";

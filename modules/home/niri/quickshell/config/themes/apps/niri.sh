@@ -1,5 +1,4 @@
 switch_niri() {
-  # Inclus par config.kdl (voir niri/includes.nix), rechargé automatiquement par niri.
   local theme_file="$HOME/.config/niri/theme.kdl"
   local active="${C[hypr_accent]:-${C[accent]}}"
   local inactive="${C[surface0]}"

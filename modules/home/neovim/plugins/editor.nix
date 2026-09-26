@@ -15,7 +15,6 @@
       };
     };
 
-    # Highlight TODO, FIXME, HACK, NOTE, WARN in code
     todo-comments = {
       enable = true;
       settings = {
@@ -26,7 +25,6 @@
       };
     };
 
-    # Surround operations: add, change, delete delimiters
     nvim-surround.enable = true;
   };
 }

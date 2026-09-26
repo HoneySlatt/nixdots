@@ -5,17 +5,12 @@ let
   niriDir = "${config.xdg.configHome}/niri";
 in
 {
-  # Fichiers écrits à chaud par quickshell, inclus après la config Nix (niri les recharge tout seul) :
-  # - theme.kdl    : couleurs des bordures/ombres du thème courant
-  # - bar-mode.kdl : mode compact quand la barre est en bas (0 gap, 0 bordure, 0 arrondi)
-  # finalConfig est en lecture seule, donc on remplace le fichier généré (toujours validé par `niri validate`).
+  # Raw KDL for what niri-flake settings cannot express.
   xdg.configFile.niri-config.source = lib.mkForce (
     inputs.niri.lib.internal.validated-config-for pkgs cfg.package (
       cfg.finalConfig
       + ''
 
-        // Pas encore dans niri-flake : empêche Chromium/Electron (Brave, Claude Desktop…) de rouvrir
-        // « maximisés jusqu'aux bords » (sans gaps ni bordures) ; ils ouvrent en colonne normale.
         window-rule {
             open-maximized-to-edges false
         }

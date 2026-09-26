@@ -74,7 +74,6 @@ xdg.desktopEntries = {
     "com.heroicgameslauncher.hgl" = {
       name       = "GOG Galaxy";
       exec       = "heroic %U";
-      #icon       = "com.heroicgameslauncher.hgl";
       icon       = "/home/honey/Pictures/Icons/gog.png";
       comment    = "Open source launcher for GOG, Epic Games and Amazon Games";
       mimeType   = [ "x-scheme-handler/heroic" ];
@@ -122,14 +121,6 @@ xdg.desktopEntries = {
       comment    = "Hyperextensible Vim-based text editor";
       categories = [ "Utility" "TextEditor" ];
     };
-
-    #Helix = {
-      #name       = "Helix";
-      #exec       = "ghostty -e hx %F";
-      #icon       = "helix";
-      #comment    = "Post-modern modal text editor";
-      #categories = [ "Utility" "TextEditor" ];
-    #};
 
     yazi = {
       name       = "Yazi";

@@ -12,8 +12,6 @@
         "?/home/honey/.config/ghostty/themes/current.conf"
       ];
 
-      #background-opacity = 0.95;
-
       shell-integration = "zsh";
       confirm-close-surface = false;
       gtk-single-instance = true;

@@ -52,7 +52,7 @@
     "Mod+Ctrl+Shift+K".action.move-window-up = { };
     "Mod+Ctrl+Shift+J".action.move-window-down = { };
 
-    # ── Workspaces haut / bas (sur le moniteur courant) ─────────────────
+    # ── Workspaces up / down ─────────────────────────────────────────────
     "Mod+K".action.focus-workspace-up = { };
     "Mod+J".action.focus-workspace-down = { };
     "Mod+Shift+K".action.move-window-to-workspace-up = { };

@@ -13,7 +13,7 @@
     localsend
     libreoffice
 
-    # Developpement
+    # Development
     git
     rustc
     rustfmt

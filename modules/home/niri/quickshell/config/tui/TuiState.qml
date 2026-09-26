@@ -9,11 +9,9 @@ QtObject {
 
     property bool isTop: true
     readonly property string positionFile: "/home/honey/.config/quickshell/.bar-position"
-    // Inclus par la config niri (voir niri/includes.nix), rechargé à chaud par niri.
     readonly property string niriModeFile: "/home/honey/.config/niri/bar-mode.kdl"
 
     readonly property string niriTopMode: "window-rule {\n    geometry-corner-radius 0\n}"
-    // Barre en bas : mode compact, comme sur Hyprland.
     readonly property string niriCompactMode: "layout {\n    gaps 0\n    border {\n        off\n    }\n    shadow {\n        off\n    }\n}\nwindow-rule {\n    geometry-corner-radius 0\n    opacity 1.0\n}"
 
     function setPosition(position) {
@@ -47,7 +45,6 @@ QtObject {
         stdout: SplitParser {
             onRead: data => root.setPosition(data.trim())
         }
-        // Pas de fichier de position : on écrit quand même le mode par défaut (barre en haut).
         onExited: exitCode => { if (exitCode !== 0) root.applyNiriMode(); }
     }
 

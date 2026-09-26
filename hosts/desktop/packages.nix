@@ -19,8 +19,7 @@
     (pkgs.callPackage ../../modules/home/pkgs/claude-desktop.nix {
       claudeDesktop = inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
     })
-    obs-studio
-    blender
+    pkgsRocm.blender
     gimp
     obsidian
     inkscape
@@ -32,7 +31,7 @@
     jellyfin-desktop
     kdePackages.kdenlive
 
-    # Developpement
+    # Development
     git
     rustc
     rustfmt
@@ -42,6 +41,9 @@
     clippy
     nodejs
     gcc
+    gnumake
+    clang-tools
+    gdb
     pkg-config
     cmake
 
@@ -91,10 +93,15 @@
     })
   ];
 
-    programs.steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      package = pkgs.millennium-steam;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    protontricks.enable = true;
+    package = pkgs.millennium-steam;
   };
+
+  programs.gamemode.enable = true;
+
+  programs.obs-studio.enable = true;
 }

@@ -1,4 +1,3 @@
-# Config/steam-metadata-editor.nix
 { lib
 , stdenv
 , fetchFromGitHub
@@ -31,11 +30,9 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    # Copier les sources Python
     mkdir -p $out/lib/steam-metadata-editor
     cp -r src/* $out/lib/steam-metadata-editor/
 
-    # Wrapper qui lance directement main.py
     mkdir -p $out/bin
     cat > $out/bin/steam-metadata-editor << EOF
 #!/usr/bin/env bash
@@ -43,7 +40,6 @@ exec ${python}/bin/python3 $out/lib/steam-metadata-editor/main.py "\$@"
 EOF
     chmod +x $out/bin/steam-metadata-editor
 
-    # Icône
     install -Dm644 steam-metadata-editor.png \
       $out/share/icons/hicolor/256x256/apps/steam-metadata-editor.png
 

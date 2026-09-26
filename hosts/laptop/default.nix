@@ -40,23 +40,17 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  hardware = {
-    graphics = {
+  hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    };
   };
 
   networking.hostName = "NixOS";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   services = {
     xserver.videoDrivers = [ "amdgpu" ];
     libinput.mouse.accelProfile = "flat";
   };
-  system.stateVersion = "25.11";
 
+  system.stateVersion = "25.11";
 }
