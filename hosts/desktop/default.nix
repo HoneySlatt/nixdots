@@ -23,6 +23,7 @@
         efiSupport = true;
         maxGenerations = 5;
         style = {
+          wallpapers = [ ];
           interface = {
             brandingColor = "B4BEFE";
             helpColor = "B4BEFE";

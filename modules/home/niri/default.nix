@@ -8,6 +8,7 @@
     ./settings.nix
     ./includes.nix
     ./autostart.nix
+    ./single-column.nix
     ./keybindings.nix
     ./windowrules.nix
     ../hyprland/hyprlock.nix

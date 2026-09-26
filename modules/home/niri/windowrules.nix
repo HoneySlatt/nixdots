@@ -12,6 +12,7 @@
       };
       clip-to-geometry = true;
       opacity = 0.9;
+      draw-border-with-background = false;
     }
     {
       matches = [ { is-focused = true; } ];
