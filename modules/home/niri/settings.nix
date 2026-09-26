@@ -7,8 +7,6 @@
       QT_STYLE_OVERRIDE = "kvantum";
       XCURSOR_THEME = "phinger-cursors-dark";
       XCURSOR_SIZE = "24";
-      DXVK_HDR = "1";
-      ENABLE_HDR_WSI = "1";
       NIXOS_OZONE_WL = "1";
     };
 
@@ -22,8 +20,10 @@
       center-focused-column = "never";
 
       preset-column-widths = [
+        { proportion = 0.33333; }
         { proportion = 0.5; }
         { proportion = 0.66667; }
+        { proportion = 1.0; }
       ];
 
       default-column-width = { proportion = 0.5; };
@@ -56,6 +56,17 @@
         color = "#00000070";
       };
     };
+
+    # Workspaces 1-10 comme sur Hyprland : impairs sur DP-2, pairs sur DP-3.
+    workspaces = builtins.listToAttrs (builtins.genList (i:
+      let ws = i + 1; in {
+        name = if ws < 10 then "0${toString ws}" else toString ws;
+        value = {
+          name = toString ws;
+          open-on-output = if ws / 2 * 2 == ws then "DP-3" else "DP-2";
+        };
+      }
+    ) 10);
 
     prefer-no-csd = true;
 

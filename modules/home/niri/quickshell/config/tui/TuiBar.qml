@@ -10,21 +10,12 @@ PanelWindow {
 
     property bool manuallyVisible: true
     readonly property bool isTop: TuiState.isTop
-    readonly property bool isFocused: {
-        if (!Services.NiriData.monitors) return false;
-        const monitors = Services.NiriData.monitors;
-        for (let key in monitors) {
-            if (monitors[key].name === root.screen.name && monitors[key].focused) {
-                return true;
-            }
-        }
-        return false;
-    }
+    readonly property bool isFocused: Services.NiriData.focusedOutput === root.screen.name
 
     visible: manuallyVisible
     color: "transparent"
     exclusionMode: ExclusionMode.Normal
-    exclusiveZone: TuiTheme.barH + TuiTheme.pad
+    exclusiveZone: isTop ? TuiTheme.barH + TuiTheme.pad : TuiTheme.barH - 1
     implicitHeight: TuiTheme.barH
 
     anchors {
@@ -36,9 +27,9 @@ PanelWindow {
 
     margins {
         top: isTop ? TuiTheme.pad : 0
-        bottom: isTop ? 0 : TuiTheme.pad
-        left: TuiTheme.pad
-        right: TuiTheme.pad
+        bottom: 0
+        left: isTop ? TuiTheme.pad : 0
+        right: isTop ? TuiTheme.pad : 0
     }
 
     Rectangle {
@@ -46,7 +37,7 @@ PanelWindow {
         anchors.fill: parent
         color: TuiTheme.barBg
         border.color: TuiTheme.barBorder
-        border.width: 1
+        border.width: root.isTop ? 1 : 0
         clip: true
 
         Rectangle {
@@ -54,7 +45,7 @@ PanelWindow {
             anchors.margins: 2
             color: "transparent"
             border.color: TuiTheme.barInnerBorder
-            border.width: 1
+            border.width: root.isTop ? 1 : 0
         }
 
         Item {

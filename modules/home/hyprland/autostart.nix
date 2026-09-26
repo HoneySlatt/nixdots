@@ -12,6 +12,7 @@ in
           function()
             hl.exec_cmd("systemctl --user start hyprpolkitagent")
             hl.exec_cmd("swaync")
+            hl.exec_cmd("swayosd-server")
             hl.exec_cmd("start-quickshell")
             hl.exec_cmd("awww-daemon")
             hl.exec_cmd("wallpaper-rotation")

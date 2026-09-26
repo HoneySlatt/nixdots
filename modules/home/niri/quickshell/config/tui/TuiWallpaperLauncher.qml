@@ -108,8 +108,7 @@ Item {
             screen: modelData
             visible: TuiWallpaperLauncherState.visible && monitorIsFocused
 
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
+            readonly property bool monitorIsFocused: Services.NiriData.focusedOutput === root.screen.name
 
             color: "transparent"
 
@@ -278,6 +277,7 @@ Item {
                             currentIndex: scope.selectedIndex
                             spacing: 12
                             clip: true
+                            interactive: false
                             boundsBehavior: Flickable.StopAtBounds
                             onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Center)
 

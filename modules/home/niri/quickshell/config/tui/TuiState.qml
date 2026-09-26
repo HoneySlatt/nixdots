@@ -1,6 +1,7 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 QtObject {
@@ -8,10 +9,26 @@ QtObject {
 
     property bool isTop: true
     readonly property string positionFile: "/home/honey/.config/quickshell/.bar-position"
+    // Inclus par la config niri (voir niri/includes.nix), rechargé à chaud par niri.
+    readonly property string niriModeFile: "/home/honey/.config/niri/bar-mode.kdl"
+
+    readonly property string niriTopMode: "window-rule {\n    geometry-corner-radius 0\n}"
+    // Barre en bas : mode compact, comme sur Hyprland.
+    readonly property string niriCompactMode: "layout {\n    gaps 0\n    border {\n        off\n    }\n    shadow {\n        off\n    }\n}\nwindow-rule {\n    geometry-corner-radius 0\n    opacity 1.0\n}"
 
     function setPosition(position) {
         if (position === "top") isTop = true;
         else if (position === "bottom") isTop = false;
+        else return;
+
+        applyNiriMode();
+    }
+
+    function applyNiriMode() {
+        Quickshell.execDetached([
+            "sh", "-c", "mkdir -p \"$(dirname \"$1\")\" && printf '%s\\n' \"$2\" > \"$1\"",
+            "sh", niriModeFile, isTop ? niriTopMode : niriCompactMode
+        ]);
     }
 
     function writePosition() {
@@ -20,7 +37,7 @@ QtObject {
     }
 
     function togglePosition() {
-        isTop = !isTop;
+        setPosition(isTop ? "bottom" : "top");
         writePosition();
     }
 
@@ -30,6 +47,8 @@ QtObject {
         stdout: SplitParser {
             onRead: data => root.setPosition(data.trim())
         }
+        // Pas de fichier de position : on écrit quand même le mode par défaut (barre en haut).
+        onExited: exitCode => { if (exitCode !== 0) root.applyNiriMode(); }
     }
 
     readonly property var writer: Process {

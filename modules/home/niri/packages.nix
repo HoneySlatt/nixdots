@@ -9,12 +9,10 @@
     wf-recorder
     wl-clipboard
     playerctl
-    swaylock
-    swayidle
     swaynotificationcenter
     quickshell
     hyprpicker
-    hyprsunset
+    wlsunset
     swayosd
   ];
 }

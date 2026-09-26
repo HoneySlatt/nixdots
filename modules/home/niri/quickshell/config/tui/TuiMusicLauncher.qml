@@ -10,6 +10,7 @@ Item {
         id: button
 
         property string label: ""
+        property bool active: false
         signal clicked()
 
         width: 72
@@ -48,8 +49,7 @@ Item {
             screen: modelData
             visible: TuiMusicLauncherState.visible && monitorIsFocused
 
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
+            readonly property bool monitorIsFocused: Services.NiriData.focusedOutput === root.screen.name
 
             property int sectionIndex: 0
             property int selectedIndex: 0

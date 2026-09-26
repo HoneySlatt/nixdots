@@ -28,7 +28,7 @@ claudeDesktop.overrideAttrs (old: {
     node - "$themeRoot" <<'JS'
     const fs = require('fs');
     const path = require('path');
-    const re = /titleBarOverlay:[A-Za-z_$][\w$]*(?=,trafficLightPosition)/g;
+    const re = /titleBarOverlay:(?:!0|[A-Za-z_$][\w$]*)(?=,trafficLightPosition)/g;
     let patched = 0;
     (function walk(dir) {
       for (const e of fs.readdirSync(dir, { withFileTypes: true })) {

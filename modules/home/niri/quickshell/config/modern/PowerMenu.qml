@@ -608,14 +608,14 @@ Item {
 
             Process {
                 id: nightLightProc
-                command: ["pgrep", "-x", "hyprsunset"]
+                command: ["pgrep", "-x", "wlsunset"]
                 running: false
                 onExited: root.nightLightEnabled = exitCode === 0
             }
 
             Process {
                 id: nightLightToggleProc
-                command: ["bash", "-c", "if pgrep -x hyprsunset >/dev/null; then pkill hyprsunset; else hyprsunset >/dev/null 2>&1 & fi"]
+                command: ["bash", "-c", "if pgrep -x wlsunset >/dev/null; then pkill wlsunset; else wlsunset -T 6001 -t 6000 >/dev/null 2>&1 & fi"]
                 running: false
                 onExited: nightLightProc.running = true
             }

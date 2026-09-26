@@ -15,12 +15,13 @@
     "Mod+T".action.spawn = "toggle-theme-launcher";
     "Mod+W".action.spawn = "toggle-wallpaper-launcher";
     "Mod+G".action.spawn = "toggle-game-launcher";
-    "Mod+M".action.spawn = "toggle-music-launcher";
+    "Mod+Shift+M".action.spawn = "toggle-music-launcher";
     "Mod+P".action.spawn = "toggle-power-launcher";
     "Mod+Tab".action.toggle-overview = { };
     "Mod+B".action.spawn = "toggle-browser";
     "Mod+Shift+B".action.spawn = "toggle-secondary-browser";
-    "Mod+Shift+M".action.spawn = "kopuz";
+    "Mod+M".action.spawn = "kopuz";
+    "Mod+Shift+T".action.spawn = "toggle-quickshell";
     "Mod+Shift+Q".action.spawn = "toggle-quickshell";
     "Mod+Shift+W".action.spawn = "toggle-bar-position";
     "Mod+Shift+V".action.spawn = "toggle-tailscale";
@@ -33,9 +34,9 @@
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
     "Mod+Shift+G".action.spawn = "steam";
-    "Mod+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
-    "Mod+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];
-    "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "opencode" ];
+    "Mod+C".action.spawn = "claude-desktop";
+    "Mod+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
+    "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];
     "Mod+N".action.spawn = [ "ghostty" "+new-window" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";
     "Ctrl+Alt+Delete".action.spawn = [ "ghostty" "+new-window" "-e" "btop" ];
@@ -51,17 +52,11 @@
     "Mod+Ctrl+Shift+K".action.move-window-up = { };
     "Mod+Ctrl+Shift+J".action.move-window-down = { };
 
-    # ── Monitor ──────────────────────────────────────────────────────────
-    "Mod+1".action.focus-monitor-left = { };
-    "Mod+2".action.focus-monitor-right = { };
-    "Mod+Shift+1".action.move-column-to-monitor-left = { };
-    "Mod+Shift+2".action.move-column-to-monitor-right = { };
-
-    # ── Workspaces (scroll infini) ───────────────────────────────────────
+    # ── Workspaces haut / bas (sur le moniteur courant) ─────────────────
     "Mod+K".action.focus-workspace-up = { };
     "Mod+J".action.focus-workspace-down = { };
-    "Mod+Shift+K".action.move-column-to-workspace-up = { };
-    "Mod+Shift+J".action.move-column-to-workspace-down = { };
+    "Mod+Shift+K".action.move-window-to-workspace-up = { };
+    "Mod+Shift+J".action.move-window-to-workspace-down = { };
     "Mod+WheelScrollDown" = {
       action.focus-workspace-down = { };
       cooldown-ms = 150;
@@ -70,6 +65,28 @@
       action.focus-workspace-up = { };
       cooldown-ms = 150;
     };
+
+    # ── Workspaces 1-10 ──────────────────────────────────────────────────
+    "Mod+1".action.focus-workspace = "1";
+    "Mod+2".action.focus-workspace = "2";
+    "Mod+3".action.focus-workspace = "3";
+    "Mod+4".action.focus-workspace = "4";
+    "Mod+5".action.focus-workspace = "5";
+    "Mod+6".action.focus-workspace = "6";
+    "Mod+7".action.focus-workspace = "7";
+    "Mod+8".action.focus-workspace = "8";
+    "Mod+9".action.focus-workspace = "9";
+    "Mod+0".action.focus-workspace = "10";
+    "Mod+Shift+1".action.move-window-to-workspace = "1";
+    "Mod+Shift+2".action.move-window-to-workspace = "2";
+    "Mod+Shift+3".action.move-window-to-workspace = "3";
+    "Mod+Shift+4".action.move-window-to-workspace = "4";
+    "Mod+Shift+5".action.move-window-to-workspace = "5";
+    "Mod+Shift+6".action.move-window-to-workspace = "6";
+    "Mod+Shift+7".action.move-window-to-workspace = "7";
+    "Mod+Shift+8".action.move-window-to-workspace = "8";
+    "Mod+Shift+9".action.move-window-to-workspace = "9";
+    "Mod+Shift+0".action.move-window-to-workspace = "10";
 
     # ── Column / window sizing ───────────────────────────────────────────
     "Mod+F".action.maximize-column = { };
@@ -82,7 +99,7 @@
     "Mod+Shift+Equal".action.set-window-height = "+10%";
 
     # ── Quit / Lock ─────────────────────────────────────────────────────
-    "Mod+Escape".action.spawn = "swaylock";
+    "Mod+Escape".action.spawn = "lock-screen";
     "Mod+Shift+Escape" = {
       action.quit = { };
       repeat = false;

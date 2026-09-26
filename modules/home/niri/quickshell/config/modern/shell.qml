@@ -8,6 +8,7 @@ import Quickshell.Io
 import "modules" as Modules
 
 ShellRoot {
+    ClickOutside {}
 
     Loader {
         active: LauncherState.visible

@@ -13,7 +13,7 @@
         y = 0;
       };
       scale = 1.5;
-      variable-refresh-rate = "on-demand";
+      variable-refresh-rate = true;
     };
     "DP-3" = {
       mode = {
@@ -26,7 +26,7 @@
         y = 0;
       };
       scale = 1.0;
-      variable-refresh-rate = "on-demand";
+      variable-refresh-rate = true;
     };
   };
 }

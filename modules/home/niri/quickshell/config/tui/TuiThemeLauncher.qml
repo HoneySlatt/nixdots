@@ -114,8 +114,7 @@ Item {
             screen: modelData
             visible: TuiThemeLauncherState.visible && monitorIsFocused
 
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
+            readonly property bool monitorIsFocused: Services.NiriData.focusedOutput === root.screen.name
 
             readonly property int cardW: 172
             readonly property int cardH: 198

@@ -147,6 +147,7 @@ Item {
 
         property string icon: ""
         property string title: ""
+        property bool active: false
         signal clicked()
 
         radius: 12

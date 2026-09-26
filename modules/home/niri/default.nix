@@ -6,11 +6,12 @@
     ./monitors.nix
     ./input.nix
     ./settings.nix
+    ./includes.nix
     ./autostart.nix
     ./keybindings.nix
     ./windowrules.nix
-    ./swaylock.nix
-    ./swayidle.nix
+    ../hyprland/hyprlock.nix
+    ./hypridle.nix
     ./quickshell
   ];
 

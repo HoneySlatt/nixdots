@@ -504,9 +504,7 @@ in
 
     (pkgs.writeShellApplication {
       name = "toggle-overview";
-      text = qsIpc
-        ''quickshell ipc -c modern call overview toggle''
-        ''quickshell ipc -c tui call overview toggle'';
+      text = "niri msg action toggle-overview";
     })
 
     (pkgs.writeShellApplication {
@@ -522,11 +520,11 @@ in
     (pkgs.writeShellApplication {
       name = "lock-screen";
       text = ''
-        if pgrep -x swaylock > /dev/null; then
+        if pgrep -x hyprlock > /dev/null; then
           exit 0
         fi
 
-        if [ ! -f "$HOME/.config/swaylock/config" ]; then
+        if [ ! -f "$HOME/.config/hypr/hyprlock-theme.conf" ]; then
           THEME_FILE="$HOME/.config/quickshell/.current-theme"
           THEME="carbonfox"
           if [ -f "$THEME_FILE" ]; then
@@ -538,7 +536,13 @@ in
           fi
         fi
 
-        swaylock
+        ${readProfile}
+
+        if [ "$profile" = "tui" ] && [ -f "$HOME/.config/hypr/hyprlock-tui.conf" ]; then
+          hyprlock --config "$HOME/.config/hypr/hyprlock-tui.conf" --immediate-render
+        else
+          hyprlock --immediate-render
+        fi
       '';
     })
 

@@ -15,5 +15,6 @@
     hyprpicker
     hyprsunset
     playerctl
+    swayosd
   ];
 }

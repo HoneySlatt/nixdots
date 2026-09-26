@@ -11,7 +11,7 @@
         bottom-right = 12.0;
       };
       clip-to-geometry = true;
-      opacity = 0.95;
+      opacity = 0.9;
     }
     {
       matches = [ { is-focused = true; } ];
@@ -24,8 +24,8 @@
     {
       matches = [ { app-id = "^org.pulseaudio.pavucontrol$"; } ];
       open-floating = true;
-      default-column-width = { proportion = 0.5; };
-      default-window-height = { proportion = 0.5; };
+      default-column-width = { fixed = 1500; };
+      default-window-height = { fixed = 750; };
     }
     {
       matches = [ { app-id = "^mpv$"; } ];

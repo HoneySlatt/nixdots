@@ -9,8 +9,8 @@ Item {
     implicitWidth: workspaceRow.implicitWidth + TuiTheme.compactItemPad
     implicitHeight: TuiTheme.barH
 
-    function focusWorkspace(idx) {
-        Services.NiriData.dispatch("focus-workspace " + idx);
+    function focusWorkspace(wsId) {
+        Services.NiriData.focusWorkspaceByName(wsId);
     }
 
     Row {
@@ -26,12 +26,12 @@ Item {
                 readonly property int wsId: index + 1
                 readonly property bool active: {
                     if (!Services.NiriData.activeWorkspace) return false;
-                    return wsId === Services.NiriData.activeWorkspace.idx;
+                    return String(wsId) === Services.NiriData.activeWorkspace.name;
                 }
                 readonly property bool occupied: {
-                    if (!Services.NiriData.workspaces) return false;
-                    for (let i = 0; i < Services.NiriData.workspaces.length; i++) {
-                        if (Services.NiriData.workspaces[i].idx === wsId) return true;
+                    const list = Services.NiriData.barWorkspaces;
+                    for (let i = 0; i < list.length; i++) {
+                        if (list[i].name === String(wsId)) return true;
                     }
                     return false;
                 }
@@ -63,7 +63,7 @@ Item {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     onClicked: root.focusWorkspace(wsId)
-                    onWheel: wheel => root.focusWorkspace(wheel.angleDelta.y > 0 ? wsId - 1 : wsId + 1)
+                    onWheel: wheel => Services.NiriData.focusRelative(wheel.angleDelta.y > 0 ? -1 : 1)
                 }
             }
         }

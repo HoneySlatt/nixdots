@@ -35,3 +35,4 @@ TuiMusicLauncher 1.0 TuiMusicLauncher.qml
 TuiPowerLauncher 1.0 TuiPowerLauncher.qml
 TuiCalendarPopup 1.0 TuiCalendarPopup.qml
 TuiVpnLauncher 1.0 TuiVpnLauncher.qml
+TuiClickOutside 1.0 TuiClickOutside.qml

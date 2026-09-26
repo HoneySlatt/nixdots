@@ -11,10 +11,6 @@ Item {
     implicitWidth: workspaceRow.implicitWidth + 8
     implicitHeight: Theme.barHeight
 
-    function focusWorkspace(idx) {
-        Services.NiriData.dispatch("focus-workspace " + idx);
-    }
-
     Row {
         id: workspaceRow
         anchors.centerIn: parent
@@ -22,16 +18,7 @@ Item {
         spacing: 0
 
         Repeater {
-            model: {
-                let ws = [];
-                if (Services.NiriData.workspaces) {
-                    for (let i = 0; i < Services.NiriData.workspaces.length; i++) {
-                        ws.push(Services.NiriData.workspaces[i]);
-                    }
-                }
-                ws.sort((a, b) => a.idx - b.idx);
-                return ws.filter(w => w.idx > 0);
-            }
+            model: Services.NiriData.barWorkspaces
 
             delegate: Item {
                 required property var modelData
@@ -42,11 +29,11 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: {
-                        if (modelData.name === "magic") return "\uf074";
-                        if (modelData.name === "zellij") return "\uf120";
-                        if (modelData.idx === 10) return "\u{f02b4}";
-                        if (modelData.name === "lock") return "\uf023";
-                        return "\uf111";
+                        if (modelData.name === "magic") return "";
+                        if (modelData.name === "zellij") return "";
+                        if (modelData.name === "10") return "\u{f02b4}";
+                        if (modelData.name === "lock") return "";
+                        return "";
                     }
                     color: {
                         if (modelData.is_focused)
@@ -66,8 +53,8 @@ Item {
                 MouseArea {
                     cursorShape: Qt.PointingHandCursor
                     anchors.fill: parent
-                    onClicked: root.focusWorkspace(modelData.idx)
-                    onWheel: wheel => root.focusWorkspace(wheel.angleDelta.y > 0 ? modelData.idx - 1 : modelData.idx + 1)
+                    onClicked: Services.NiriData.focusWorkspace(modelData)
+                    onWheel: wheel => Services.NiriData.focusRelative(wheel.angleDelta.y > 0 ? -1 : 1)
                 }
             }
         }

@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 # Switch theme — btop, gdu, fastfetch, ghostty, kitty, yazi, nvim, gtk, qt, niri, wallpaper,
-# discord, element, steam, heroic, obsidian, obs, firefox, userstyles, jellyfin, kopuz,
-# blender, kdeglobals, swaylock, tuta, opencode, cider, vibe
+# discord, element, steam, heroic, obsidian, obs, firefox, userstyles, jellyfin, kopuz, cider,
+# blender, kdeglobals, hyprlock, tuta, opencode, vibe
 
-SHELL_ONLY=false
+MODE="full"
+THEME_FILE="$HOME/.config/quickshell/.current-theme"
 THEME="${1:-pastelglow}"
+REQUEST_ID="${2:-$(date +%s%3N)00}"
 
-if [ "$THEME" = "--shell" ]; then
-  SHELL_ONLY=true
-  THEME_FILE="$HOME/.config/quickshell/.current-theme"
+if [ "$THEME" = "--shell" ] || [ "$THEME" = "--background-current" ]; then
+  if [ "$THEME" = "--shell" ]; then
+    MODE="shell"
+  else
+    MODE="background"
+  fi
+
   if [ -f "$THEME_FILE" ]; then
     THEME="$(tr -d '[:space:]' < "$THEME_FILE")"
   else
@@ -87,19 +93,65 @@ for f in "$SCRIPT_DIR/apps/"*.sh; do
   source "$f"
 done
 
-# Shell-only mode: only update discord and exit
-if [ "$SHELL_ONLY" = true ]; then
+# Shell-only mode: only update discord and element.
+if [ "$MODE" = "shell" ]; then
   switch_discord
   switch_element
-  gen_swaylock_config
-  echo "Updated discord + element + swaylock shell profile"
+  echo "Updated discord + element shell profile"
   exit 0
 fi
 
-# ── Main ────────────────────────────────────────────────────────────────────
+# Slow application updates run in a restartable user service.
+if [ "$MODE" = "background" ]; then
+  switch_discord
+  switch_element
+  switch_steam
+  switch_heroic
+  switch_obsidian
+  switch_obs
+  switch_firefox
+  gen_userstyles
+  switch_jellyfin
+  switch_kopuz
+  switch_cider
+  switch_blender
+  gen_kdeglobals
+  switch_tuta
+  switch_opencode
+  switch_vibe
+  echo "Finished background theme update: ${C[name]}"
+  exit 0
+fi
+
+request_dir="$HOME/.cache/quickshell"
+request_file="$request_dir/theme-request-id"
+mkdir -p "$request_dir"
+exec 9>"$request_dir/theme-switch.lock"
+flock 9
+
+last_request=0
+if [ -f "$request_file" ]; then
+  last_request="$(tr -dc '0-9' < "$request_file")"
+fi
+
+if [ -n "$last_request" ] && [ "$REQUEST_ID" -le "$last_request" ]; then
+  exit 0
+fi
+
+request_tmp="$(mktemp "${request_file}.XXXXXX")"
+printf '%s\n' "$REQUEST_ID" > "$request_tmp"
+mv "$request_tmp" "$request_file"
+
+mkdir -p "$(dirname "$THEME_FILE")"
+theme_tmp="$(mktemp "${THEME_FILE}.XXXXXX")"
+printf '%s\n' "$THEME" > "$theme_tmp"
+mv "$theme_tmp" "$THEME_FILE"
+
+# Apply the visible desktop first.
 switch_btop
 switch_gdu
 switch_fastfetch
+switch_kitty
 switch_ghostty
 switch_rio
 gen_yazi_theme
@@ -108,25 +160,11 @@ helix_reload
 zed_reload
 switch_gtk
 switch_qt
-switch_wallpaper
-switch_discord
-switch_element
-switch_steam
-switch_heroic
-switch_obsidian
-switch_obs
-switch_firefox
-gen_userstyles
-switch_jellyfin
-switch_kopuz
-switch_cider
-switch_blender
-gen_kdeglobals
-gen_swaylock_config
-switch_tuta
-switch_opencode
-switch_swaync
 switch_niri
-switch_vibe
+switch_wallpaper
+gen_hyprlock_theme
+switch_swaync
 
-echo "Switched theme to: ${C[name]}"
+systemctl --user restart --no-block quickshell-theme-background.service
+flock -u 9
+echo "Applied desktop theme: ${C[name]}"

@@ -7,6 +7,8 @@ import Quickshell
 import Quickshell.Io
 
 ShellRoot {
+    TuiClickOutside {}
+
     Loader {
         active: TuiLauncherState.visible
         source: "TuiLauncher.qml"

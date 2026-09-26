@@ -25,4 +25,13 @@
 
     Install.WantedBy = [ "default.target" ];
   };
+
+  systemd.user.services.quickshell-theme-background = {
+    Unit.Description = "Apply secondary Quickshell theme updates";
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${config.xdg.configHome}/quickshell/themes/switch-theme.sh --background-current";
+    };
+  };
 }

@@ -29,8 +29,7 @@ Item {
             screen: modelData
             visible: TuiPowerLauncherState.visible && monitorIsFocused
 
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
-            readonly property bool monitorIsFocused: { if (!Services.NiriData.monitors) return false; const monitors = Services.NiriData.monitors; for (let key in monitors) { if (monitors[key].name === root.screen.name && monitors[key].focused) return true; } return false; }
+            readonly property bool monitorIsFocused: Services.NiriData.focusedOutput === root.screen.name
             readonly property MprisPlayer player: {
                 const players = Mpris.players.values;
                 if (players.length === 0) return null;
@@ -272,8 +271,8 @@ Item {
             }
             Process { id: brightnessSetProc; running: false; onExited: brightnessProc.running = true }
             Process { id: vpnToggleProc; command: ["bash", "/home/honey/NixOS/modules/home/niri/quickshell/config/scripts/toggle-tailscale-exit-node.sh"]; running: false }
-            Process { id: nightLightProc; command: ["pgrep", "-x", "hyprsunset"]; running: false; onExited: exitCode => root.nightLightEnabled = exitCode === 0 }
-            Process { id: nightLightToggleProc; command: ["bash", "-c", "if pgrep -x hyprsunset >/dev/null; then pkill hyprsunset; else hyprsunset >/dev/null 2>&1 & fi"]; running: false; onExited: nightLightProc.running = true }
+            Process { id: nightLightProc; command: ["pgrep", "-x", "wlsunset"]; running: false; onExited: exitCode => root.nightLightEnabled = exitCode === 0 }
+            Process { id: nightLightToggleProc; command: ["bash", "-c", "if pgrep -x wlsunset >/dev/null; then pkill wlsunset; else wlsunset -T 6001 -t 6000 >/dev/null 2>&1 & fi"]; running: false; onExited: nightLightProc.running = true }
             Process {
                 id: batteryProc
                 command: ["bash", "-c", "for d in /sys/class/power_supply/*; do [ -e \"$d/capacity\" ] || continue; [ \"$(cat \"$d/type\" 2>/dev/null)\" = Battery ] || continue; base=${d##*/}; case \"$base\" in hidpp_*|ps-controller-*) continue;; esac; cat \"$d/capacity\"; exit 0; done; echo --"]

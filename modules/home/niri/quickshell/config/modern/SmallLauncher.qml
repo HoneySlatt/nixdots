@@ -264,6 +264,7 @@ Item {
                             orientation: ListView.Horizontal
                             model: root.filteredApps
                             clip: true
+                            interactive: false
                             boundsBehavior: Flickable.StopAtBounds
                             focus: false
                             currentIndex: root.selectedIndex
