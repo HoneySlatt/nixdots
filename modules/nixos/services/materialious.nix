@@ -5,7 +5,7 @@
   virtualisation.oci-containers.backend = "podman";
 
   virtualisation.oci-containers.containers.materialious = {
-    image = "wardpearce/materialious-full:latest";
+    image = "docker.io/wardpearce/materialious-full:1.18.7";
 
     extraOptions = [ "--network=host" ];
 
