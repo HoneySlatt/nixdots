@@ -9,7 +9,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    
+
     # Web Browsers
     firefox
     brave-origin
@@ -78,7 +78,7 @@
     # Virtualisation
     virt-manager
     virtio-win
-    
+
     # Others
     lact
     sqlite
