@@ -90,6 +90,7 @@
 
     # ── Column / window sizing ───────────────────────────────────────────
     "Mod+F".action.maximize-column = { };
+    "Mod+Shift+F".action.fullscreen-window = { };
     "Mod+R".action.switch-preset-column-width = { };
     "Mod+Shift+R".action.switch-preset-column-width-back = { };
     "Mod+Ctrl+Shift+R".action.switch-preset-window-height = { };

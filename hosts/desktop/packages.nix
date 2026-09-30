@@ -2,7 +2,7 @@
 
 {
   nixpkgs.overlays = [
-    inputs.millennium.overlays.default
+    #inputs.millennium.overlays.default
     (final: prev: {
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
     })
@@ -100,7 +100,7 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     protontricks.enable = true;
-    package = pkgs.millennium-steam;
+    #package = pkgs.millennium-steam;
   };
 
   programs.gamemode.enable = true;
