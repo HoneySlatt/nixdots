@@ -7,6 +7,9 @@ switch_cider() {
     prefer-light) appearance="light" ;;
   esac
 
+  # Fill color behind Cider's hardcoded white text
+  local accent="${C[accent_ui]:-${C[accent]}}"
+
   local css
   css=$(cat << EOF
   customCSS: |
@@ -16,8 +19,9 @@ switch_cider() {
       --qs-cider-surface: ${C[surface0]};
       --qs-cider-text: ${C[text]};
       --qs-cider-subtext: ${C[subtext0]};
-      --qs-cider-accent: ${C[accent]};
-      --accent: ${C[accent]};
+      --qs-cider-accent: ${accent};
+      --qs-cider-link: ${C[accent]};
+      --accent: ${accent};
       --text: ${C[text]};
       --card-bg: ${C[surface0]};
     }
@@ -48,7 +52,7 @@ switch_cider() {
     a,
     .text-primary,
     .q-btn.text-primary {
-      color: var(--qs-cider-accent) !important;
+      color: var(--qs-cider-link) !important;
     }
 EOF
 )
@@ -56,7 +60,7 @@ EOF
   local tmp
   tmp="$(mktemp)" || return 0
 
-  if APPEARANCE="$appearance" ACCENT="${C[accent]}" CSS_BLOCK="$css" perl -0pe '
+  if APPEARANCE="$appearance" ACCENT="$accent" CSS_BLOCK="$css" perl -0pe '
     my $appearance = $ENV{APPEARANCE};
     my $accent = $ENV{ACCENT};
     my $css = $ENV{CSS_BLOCK};
