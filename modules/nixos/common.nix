@@ -30,6 +30,6 @@
 
   environment.variables = {
     EDITOR = "nvim";
-    BROWSER = "brave-origin";
+    BROWSER = "helium";
   };
 }

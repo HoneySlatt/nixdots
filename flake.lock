@@ -56,6 +56,26 @@
         "type": "github"
       }
     },
+    "helium": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790255647,
+        "narHash": "sha256-VGsihdN8HxpBeNHB2AK/G5PJP2fFMLBCTy0c1ti0fIg=",
+        "owner": "oxcl",
+        "repo": "nix-flake-helium-browser",
+        "rev": "5334f268b6cec49c58f69093b8f3198d3516e566",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxcl",
+        "repo": "nix-flake-helium-browser",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -327,6 +347,7 @@
     "root": {
       "inputs": {
         "claude-desktop-nix-flake": "claude-desktop-nix-flake",
+        "helium": "helium",
         "home-manager": "home-manager",
         "hymission": "hymission",
         "jovian": "jovian",

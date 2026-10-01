@@ -15,12 +15,13 @@
     "Mod+T".action.spawn = "toggle-theme-launcher";
     "Mod+W".action.spawn = "toggle-wallpaper-launcher";
     "Mod+G".action.spawn = "toggle-game-launcher";
-    "Mod+Shift+M".action.spawn = "toggle-music-launcher";
+    "Mod+Alt+M".action.spawn = "toggle-music-launcher";
     "Mod+P".action.spawn = "toggle-power-launcher";
     "Mod+Tab".action.toggle-overview = { };
     "Mod+B".action.spawn = "toggle-browser";
     "Mod+Shift+B".action.spawn = "toggle-secondary-browser";
-    "Mod+M".action.spawn = "kopuz";
+    "Mod+M".action.spawn = "cider-2";
+    "Mod+Shift+M".action.spawn = "kopuz";
     "Mod+Shift+T".action.spawn = "toggle-quickshell";
     "Mod+Shift+Q".action.spawn = "toggle-quickshell";
     "Mod+Shift+W".action.spawn = "toggle-bar-position";

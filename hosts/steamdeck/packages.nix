@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
     # Web Browsers
-    brave-origin
+    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
     discord

@@ -396,6 +396,10 @@ in
         THEME_DIRS[gruvbox]="GruvboxDark"
         THEME_DIRS[gruvbox-light]="GruvboxLight"
 
+        until awww query >/dev/null 2>&1; do
+          sleep 0.5
+        done
+
         while true; do
           theme=$(cat "$THEME_FILE" 2>/dev/null | tr -d '[:space:]')
           subdir="''${THEME_DIRS[$theme]:-PastelGlow}"
@@ -409,7 +413,7 @@ in
           fi
 
           if [ -n "$wallpaper" ]; then
-            awww img "$wallpaper" --transition-type wave --transition-duration 2
+            awww img "$wallpaper" --transition-type wave --transition-duration 2 || true
           fi
 
           sleep 300
@@ -509,12 +513,12 @@ in
 
     (pkgs.writeShellApplication {
       name = "toggle-browser";
-      text = qsIpc ''brave-origin'' ''firefox'';
+      text = qsIpc ''helium'' ''firefox'';
     })
 
     (pkgs.writeShellApplication {
       name = "toggle-secondary-browser";
-      text = qsIpc ''firefox'' ''brave-origin'';
+      text = qsIpc ''firefox'' ''helium'';
     })
 
     (pkgs.writeShellApplication {

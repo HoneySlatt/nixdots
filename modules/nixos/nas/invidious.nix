@@ -19,7 +19,7 @@ in
     settings = {
       external_port = 3000;
       https_only = false;
-      registration_enabled = false;
+      registration_enabled = true;
       invidious_companion = [ { private_url = "http://127.0.0.1:8282/companion"; } ];
       invidious_companion_key = companionKey;
     };

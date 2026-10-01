@@ -5,6 +5,15 @@
     #inputs.millennium.overlays.default
     (final: prev: {
       steam-metadata-editor = final.callPackage ../../modules/home/pkgs/steam-metadata-editor.nix { };
+
+      # Sort library by overridden title when set
+      heroic-unwrapped = prev.heroic-unwrapped.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace src/frontend/screens/Library/index.tsx \
+            --replace-fail "a.title.toUpperCase()" "(a.overrides?.title || a.title).toUpperCase()" \
+            --replace-fail "b.title.toUpperCase()" "(b.overrides?.title || b.title).toUpperCase()"
+        '';
+      });
     })
   ];
 
@@ -12,7 +21,7 @@
 
     # Web Browsers
     firefox
-    brave-origin
+    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -21,6 +30,7 @@
     })
     pkgsRocm.blender
     gimp
+    cider-2
     seanime
     obsidian
     inkscape

@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
     
     # Web Browsers
     firefox
-    brave-origin
+    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Desktop Apps
     cider-2

@@ -19,6 +19,10 @@
       url = "github:Kopuz-org/kopuz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    helium = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -57,6 +61,24 @@
             home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.honey = import ./modules/home/desktop.nix;
+          }
+        ];
+      };
+
+      laptop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/laptop
+          inputs.niri.nixosModules.niri
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupCommand = ''rm -f "$1"'';
+            home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.honey = import ./modules/home/laptop.nix;
           }
         ];
       };

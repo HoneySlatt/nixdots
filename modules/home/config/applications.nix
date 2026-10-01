@@ -5,14 +5,6 @@ xdg.desktopEntries = {
 
 # ─── Desktop Apps ────────────────────────────────────────────────────────
 
-    "brave-origin" = {
-      name       = "Brave Origin";
-      exec       = "brave-origin %U";
-      icon       = "brave-origin";
-      comment    = "Web browser";
-      categories = [ "Network" "WebBrowser" ];
-    };
-
     mpv = {
       name       = "MPV";
       exec       = "mpv --player-operation-mode=pseudo-gui -- %U";
@@ -340,17 +332,17 @@ xdg.desktopEntries = {
       "text/x-rust"               = "nvim.desktop";
       "text/x-go"                 = "nvim.desktop";
       "text/x-java"               = "nvim.desktop";
-      "text/html"                  = "brave-origin.desktop";
-      "x-scheme-handler/http"      = "brave-origin.desktop";
-      "x-scheme-handler/https"     = "brave-origin.desktop";
-      "x-scheme-handler/ftp"       = "brave-origin.desktop";
-      "x-scheme-handler/about"     = "brave-origin.desktop";
-      "x-scheme-handler/unknown"   = "brave-origin.desktop";
+      "text/html"                  = "helium.desktop";
+      "x-scheme-handler/http"      = "helium.desktop";
+      "x-scheme-handler/https"     = "helium.desktop";
+      "x-scheme-handler/ftp"       = "helium.desktop";
+      "x-scheme-handler/about"     = "helium.desktop";
+      "x-scheme-handler/unknown"   = "helium.desktop";
       "x-scheme-handler/tuta"      = "tutanota-desktop.desktop";
-      "application/xhtml+xml"      = "brave-origin.desktop";
-      "application/x-extension-htm"   = "brave-origin.desktop";
-      "application/x-extension-html"  = "brave-origin.desktop";
-      "application/x-extension-xhtml" = "brave-origin.desktop";
+      "application/xhtml+xml"      = "helium.desktop";
+      "application/x-extension-htm"   = "helium.desktop";
+      "application/x-extension-html"  = "helium.desktop";
+      "application/x-extension-xhtml" = "helium.desktop";
       "text/css"                  = "nvim.desktop";
       "text/javascript"           = "nvim.desktop";
       "application/json"          = "nvim.desktop";
