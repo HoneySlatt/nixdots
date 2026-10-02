@@ -1,0 +1,253 @@
+--- a/src/frontend/components/UI/Sidebar/index.tsx
++++ b/src/frontend/components/UI/Sidebar/index.tsx
+@@ -5,6 +5,7 @@
+ import './index.scss'
+ import HeroicVersion from './components/HeroicVersion'
+ import SidebarTour from './components/SidebarTour'
++import GogProfile from './components/GogProfile'
+ import { DMQueueElement } from 'common/types'
+ 
+ import HeroicIcon from 'frontend/assets/heroic-icon.svg?react'
+@@ -148,6 +149,7 @@
+           />
+         )}
+       </div>
++      <GogProfile />
+       <HeroicVersion />
+       <div className="resizer" onMouseDown={handleDragStart} />
+       <SidebarTour />
+--- a/src/frontend/screens/WebView/index.tsx
++++ b/src/frontend/screens/WebView/index.tsx
+@@ -17,6 +17,7 @@
+   toggleWebviewFocus
+ } from 'frontend/helpers/gamepad'
+ import './index.css'
++import { gogAccountPages } from 'frontend/components/UI/Sidebar/components/GogProfile/pages'
+ import LoginWarning from '../Login/components/LoginWarning'
+ import { NileLoginData } from 'common/types/nile'
+ import {
+@@ -42,7 +43,7 @@
+ 
+ export default function WebView() {
+   const { i18n } = useTranslation()
+-  const { pathname, search } = useLocation()
++  const { pathname, search, key: locationKey } = useLocation()
+   const { t } = useTranslation()
+   const { epic, gog, amazon, zoom, connectivity } = useContext(ContextProvider)
+   const [loading, setLoading] = useState<{
+@@ -114,6 +115,14 @@
+     }
+   }
+ 
++  const accountPage =
++    store === 'gog'
++      ? gogAccountPages.find(
++          ({ id }) => id === new URLSearchParams(search).get('account')
++        )
++      : undefined
++  if (accountPage) startUrl = accountPage.url
++
+   if (pathname.match(/store-page/)) {
+     const searchParams = new URLSearchParams(search)
+     const queryParam = searchParams.get('store-url')
+@@ -449,7 +458,7 @@
+       )}
+       {loading.refresh && <UpdateComponent message={loading.message} />}
+       <webview
+-        key={store}
++        key={accountPage ? 'gog-account-' + locationKey : store}
+         ref={webviewRef}
+         className="WebView__webview"
+         partition={`persist:${store ?? (runner === 'legendary' ? 'epic' : runner === 'nile' ? 'amazon' : runner)}`}
+--- a/src/frontend/components/UI/Sidebar/components/GogProfile/index.tsx
++++ b/src/frontend/components/UI/Sidebar/components/GogProfile/index.tsx
+@@ -0,0 +1,80 @@
++import { useContext, useMemo, useRef, useState } from 'react'
++import { Avatar, MenuItem, MenuList, Popover } from '@mui/material'
++import { useNavigate } from 'react-router-dom'
++import ContextProvider from 'frontend/state/ContextProvider'
++import { gogConfigStore } from 'frontend/helpers/electronStores'
++import { gogAccountPages } from './pages'
++import './index.scss'
++
++export default function GogProfile() {
++  const { gog } = useContext(ContextProvider)
++  const navigate = useNavigate()
++  const trigger = useRef<HTMLButtonElement>(null)
++  const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null)
++  const avatar = useMemo(
++    () => gogConfigStore.get_nodefault('userData.avatar'),
++    [gog.username]
++  )
++  const image = avatar?.small_2x || avatar?.small
++  const open = Boolean(anchor) && Boolean(gog.username)
++
++  if (!gog.username) return null
++
++  return (
++    <div className="GogProfile">
++      <button
++        ref={trigger}
++        id="gog-profile-button"
++        type="button"
++        className="GogProfile__button"
++        title={gog.username}
++        aria-label={`GOG account: ${gog.username}`}
++        aria-haspopup="menu"
++        aria-expanded={open}
++        aria-controls={open ? 'gog-profile-menu' : undefined}
++        onClick={(event) => setAnchor(event.currentTarget)}
++      >
++        <Avatar src={image} alt="">
++          {gog.username.slice(0, 1).toUpperCase()}
++        </Avatar>
++      </button>
++      <Popover
++        open={open}
++        anchorEl={anchor}
++        onClose={() => setAnchor(null)}
++        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
++        transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
++        disableRestoreFocus
++        TransitionProps={{ onExited: () => trigger.current?.focus() }}
++        slotProps={{ paper: { className: 'GogProfile__menu' } }}
++      >
++        <div className="GogProfile__header">
++          <Avatar src={image} alt="">
++            {gog.username.slice(0, 1).toUpperCase()}
++          </Avatar>
++          <div>
++            <span>Your account</span>
++            <strong>{gog.username}</strong>
++          </div>
++        </div>
++        <MenuList
++          id="gog-profile-menu"
++          aria-labelledby="gog-profile-button"
++          autoFocusItem
++        >
++          {gogAccountPages.map(({ id, label }) => (
++            <MenuItem
++              key={id}
++              onClick={() => {
++                setAnchor(null)
++                navigate(`/store/gog?account=${id}`)
++              }}
++            >
++              {label}
++            </MenuItem>
++          ))}
++        </MenuList>
++      </Popover>
++    </div>
++  )
++}
+--- a/src/frontend/components/UI/Sidebar/components/GogProfile/index.scss
++++ b/src/frontend/components/UI/Sidebar/components/GogProfile/index.scss
+@@ -0,0 +1,88 @@
++.Sidebar .GogProfile {
++  grid-column: 1;
++  align-self: center;
++  justify-self: center;
++  flex-shrink: 0;
++  margin-top: auto;
++  -webkit-app-region: no-drag;
++}
++
++.GogProfile__button {
++  display: grid;
++  place-items: center;
++  width: 48px;
++  height: 48px;
++  padding: 3px;
++  border: 1px solid var(--divider);
++  border-radius: 50%;
++  background: var(--background);
++  cursor: pointer;
++
++  &:hover,
++  &[aria-expanded='true'] {
++    border-color: var(--accent);
++  }
++  &:focus-visible {
++    outline: 2px solid var(--accent);
++    outline-offset: 3px;
++  }
++}
++
++.GogProfile__button .MuiAvatar-root,
++.GogProfile__header .MuiAvatar-root {
++  width: 40px;
++  height: 40px;
++  color: var(--text-default);
++  background: var(--background-lighter);
++  font-family: var(--primary-font-family);
++}
++
++.GogProfile__menu.MuiPaper-root {
++  width: 260px;
++  max-width: calc(100vw - 96px);
++  margin-left: 12px;
++  border: 1px solid var(--divider);
++  border-radius: 12px;
++  color: var(--text-default);
++  background: var(--background);
++  background-image: none;
++  box-shadow: 0 12px 32px #0005;
++  font-family: var(--primary-font-family);
++
++  .MuiList-root {
++    padding: 6px;
++  }
++  .MuiMenuItem-root {
++    min-height: 42px;
++    padding: 10px 14px;
++    border-radius: 7px;
++    font: inherit;
++    &:hover,
++    &.Mui-focusVisible {
++      color: var(--text-default);
++      background: color-mix(in srgb, var(--accent) 14%, var(--background));
++    }
++  }
++}
++
++.GogProfile__header {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  padding: 18px;
++  border-bottom: 1px solid var(--divider);
++  > div:last-child {
++    min-width: 0;
++  }
++  span {
++    display: block;
++    color: var(--text-secondary);
++    font-size: 12px;
++  }
++  strong {
++    display: block;
++    margin-top: 4px;
++    overflow-wrap: anywhere;
++    font-size: 17px;
++  }
++}
+--- a/src/frontend/components/UI/Sidebar/components/GogProfile/pages.ts
++++ b/src/frontend/components/UI/Sidebar/components/GogProfile/pages.ts
+@@ -0,0 +1,15 @@
++// Use GOG's account-menu destinations in the GOG webview session.
++export const gogAccountPages = [
++  { id: 'profile', label: 'Profile', url: 'https://www.gog.com/u' },
++  { id: 'games', label: 'Games', url: 'https://www.gog.com/en/account' },
++  {
++    id: 'wishlist',
++    label: 'Wishlist',
++    url: 'https://www.gog.com/en/account/wishlist'
++  },
++  {
++    id: 'friends',
++    label: 'Friends',
++    url: 'https://www.gog.com/en/account/friends'
++  }
++] as const

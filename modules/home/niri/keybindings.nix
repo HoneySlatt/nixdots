@@ -37,8 +37,10 @@
     "Mod+Shift+G".action.spawn = "heroic";
     "Mod+Ctrl+G".action.spawn = "steam";
     "Mod+C".action.spawn = "claude-desktop";
-    "Mod+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
-    "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];
+    "Mod+Shift+C".action.spawn = "chatgpt";
+    "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
+    "Mod+Ctrl+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];
+    "Mod+O".action.spawn = "obsidian";
     "Mod+N".action.spawn = [ "ghostty" "+new-window" "-e" "nvim" ];
     "Mod+Shift+N".action.spawn = "zeditor";
     "Ctrl+Alt+Delete".action.spawn = [ "ghostty" "+new-window" "-e" "btop" ];

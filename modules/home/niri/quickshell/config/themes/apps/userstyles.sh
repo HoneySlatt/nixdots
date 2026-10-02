@@ -63,14 +63,19 @@ EOF
     echo "/* == $site == */" >> "$gecko_styles_tmp"
     printf '%s\n' "$compiled" >> "$userstyles_tmp"
     printf '%s\n' "$compiled" >> "$gecko_styles_tmp"
-    if [ "$site" = "claude" ]; then
+    local desktop_app=""
+    case "$site" in
+      claude) desktop_app=claude-desktop ;;
+      chatgpt) desktop_app=chatgpt-desktop ;;
+    esac
+    if [ -n "$desktop_app" ]; then
       (
-        claude_css="${XDG_CONFIG_HOME:-$HOME/.config}/claude-desktop/quickshell.css"
-        mkdir -p "$(dirname "$claude_css")" && claude_tmp=$(mktemp "${claude_css}.XXXXXX") || exit 1
-        trap 'rm -f "$claude_tmp"' EXIT
-        qs-compile-userstyle "$less_file" "$palette" --desktop > "$claude_tmp" &&
-          mv "$claude_tmp" "$claude_css"
-      ) || printf '%s\n' 'Could not update Claude Desktop theme; keeping the previous CSS.' >&2
+        desktop_css="${XDG_CONFIG_HOME:-$HOME/.config}/$desktop_app/quickshell.css"
+        mkdir -p "$(dirname "$desktop_css")" && desktop_tmp=$(mktemp "${desktop_css}.XXXXXX") || exit 1
+        trap 'rm -f "$desktop_tmp"' EXIT
+        qs-compile-userstyle "$less_file" "$palette" --desktop > "$desktop_tmp" &&
+          mv "$desktop_tmp" "$desktop_css"
+      ) || printf 'Could not update %s theme; keeping the previous CSS.\n' "$desktop_app" >&2
     fi
   done
 

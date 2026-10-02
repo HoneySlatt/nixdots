@@ -8,6 +8,7 @@
 
       # Sort library by overridden title when set
       heroic-unwrapped = prev.heroic-unwrapped.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ../../modules/home/pkgs/heroic-gog-profile.patch ];
         postPatch = (old.postPatch or "") + ''
           substituteInPlace src/frontend/screens/Library/index.tsx \
             --replace-fail "a.title.toUpperCase()" "(a.overrides?.title || a.title).toUpperCase()" \
@@ -28,7 +29,9 @@
     (pkgs.callPackage ../../modules/home/pkgs/claude-desktop.nix {
       claudeDesktop = inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
     })
-    inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
+    (pkgs.callPackage ../../modules/home/pkgs/chatgpt-desktop.nix {
+      chatgptDesktop = inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    })
     pkgsRocm.blender
     gimp
     seanime
