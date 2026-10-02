@@ -19,12 +19,12 @@
       url = "github:Kopuz-org/kopuz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    helium = {
-      url = "github:oxcl/nix-flake-helium-browser";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    chatgpt-desktop = {
+      url = "github:stslex/chatgpt-desktop-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";

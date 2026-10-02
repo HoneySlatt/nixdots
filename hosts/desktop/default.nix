@@ -60,7 +60,6 @@
     xserver.videoDrivers = [ "amdgpu" ];
     libinput.mouse.accelProfile = "flat";
     lact.enable = true;
-    flatpak.enable = true;
   };
 
   virtualisation = {

@@ -34,7 +34,8 @@
     "Mod+Shift+D".action.spawn = "element-desktop";
     "Ctrl+Shift+M".action.spawn = [ "tutanota-desktop" "--no-sandbox" "%U" ];
     "Mod+Ctrl+N".action.spawn = "jellyfin-desktop";
-    "Mod+Shift+G".action.spawn = "steam";
+    "Mod+Shift+G".action.spawn = "heroic";
+    "Mod+Ctrl+G".action.spawn = "steam";
     "Mod+C".action.spawn = "claude-desktop";
     "Mod+Shift+C".action.spawn = [ "ghostty" "+new-window" "-e" "claude" ];
     "Mod+Ctrl+C".action.spawn = [ "ghostty" "+new-window" "-e" "codex" ];

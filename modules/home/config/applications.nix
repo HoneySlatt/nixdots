@@ -5,6 +5,14 @@ xdg.desktopEntries = {
 
 # ─── Desktop Apps ────────────────────────────────────────────────────────
 
+    "brave-origin" = {
+      name       = "Brave Origin";
+      exec       = "brave-origin %U";
+      icon       = "brave-origin";
+      comment    = "Web browser";
+      categories = [ "Network" "WebBrowser" ];
+    };
+
     mpv = {
       name       = "MPV";
       exec       = "mpv --player-operation-mode=pseudo-gui -- %U";
@@ -40,6 +48,15 @@ xdg.desktopEntries = {
       categories = [ "Network" "Email" ];
     };
 
+    notesnook = {
+      name       = "Notesnook";
+      exec       = "notesnook %U";
+      icon       = "/home/honey/Pictures/Icons/notesnook.png";
+      comment    = "Your private note taking space";
+      mimeType   = [ "x-scheme-handler/nn" ];
+      categories = [ "Office" ];
+    };
+
     startcenter = {
       name       = "LibreOffice";
       exec       = "libreoffice %U";
@@ -64,9 +81,9 @@ xdg.desktopEntries = {
     };
 
     "com.heroicgameslauncher.hgl" = {
-      name       = "GOG Galaxy";
+      name       = "Heroic Games Launcher";
       exec       = "heroic %U";
-      icon       = "/home/honey/Pictures/Icons/gog.png";
+      icon       = "com.heroicgameslauncher.hgl";
       comment    = "Open source launcher for GOG, Epic Games and Amazon Games";
       mimeType   = [ "x-scheme-handler/heroic" ];
       categories = [ "Game" ];
@@ -166,6 +183,15 @@ xdg.desktopEntries = {
       exec       = "protonplus";
       icon       = "com.vysp3r.ProtonPlus";
       comment    = "A modern compatibility tools manager";
+      noDisplay  = true;
+      categories = [ "Game" "Utility" ];
+    };
+
+    protontricks = {
+      name       = "Protontricks";
+      exec       = "protontricks --no-term --gui";
+      icon       = "wine";
+      comment    = "Winetricks wrapper for Proton games";
       noDisplay  = true;
       categories = [ "Game" "Utility" ];
     };
@@ -332,17 +358,17 @@ xdg.desktopEntries = {
       "text/x-rust"               = "nvim.desktop";
       "text/x-go"                 = "nvim.desktop";
       "text/x-java"               = "nvim.desktop";
-      "text/html"                  = "helium.desktop";
-      "x-scheme-handler/http"      = "helium.desktop";
-      "x-scheme-handler/https"     = "helium.desktop";
-      "x-scheme-handler/ftp"       = "helium.desktop";
-      "x-scheme-handler/about"     = "helium.desktop";
-      "x-scheme-handler/unknown"   = "helium.desktop";
+      "text/html"                  = "brave-origin.desktop";
+      "x-scheme-handler/http"      = "brave-origin.desktop";
+      "x-scheme-handler/https"     = "brave-origin.desktop";
+      "x-scheme-handler/ftp"       = "brave-origin.desktop";
+      "x-scheme-handler/about"     = "brave-origin.desktop";
+      "x-scheme-handler/unknown"   = "brave-origin.desktop";
       "x-scheme-handler/tuta"      = "tutanota-desktop.desktop";
-      "application/xhtml+xml"      = "helium.desktop";
-      "application/x-extension-htm"   = "helium.desktop";
-      "application/x-extension-html"  = "helium.desktop";
-      "application/x-extension-xhtml" = "helium.desktop";
+      "application/xhtml+xml"      = "brave-origin.desktop";
+      "application/x-extension-htm"   = "brave-origin.desktop";
+      "application/x-extension-html"  = "brave-origin.desktop";
+      "application/x-extension-xhtml" = "brave-origin.desktop";
       "text/css"                  = "nvim.desktop";
       "text/javascript"           = "nvim.desktop";
       "application/json"          = "nvim.desktop";

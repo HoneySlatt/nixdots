@@ -21,17 +21,18 @@
 
     # Web Browsers
     firefox
-    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+    brave-origin
 
     # Desktop Apps
     inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
     (pkgs.callPackage ../../modules/home/pkgs/claude-desktop.nix {
       claudeDesktop = inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
     })
+    inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgsRocm.blender
     gimp
-    cider-2
     seanime
+    cider-2
     obsidian
     inkscape
     localsend
@@ -64,7 +65,6 @@
     xivlauncher
     protonplus
     prismlauncher
-    shadps4-qtlauncher
 
     # TUI/CLI
     gh

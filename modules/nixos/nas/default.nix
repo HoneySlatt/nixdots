@@ -10,6 +10,5 @@
     ./searxng.nix
     ./navidrome.nix
     ./invidious.nix
-    ./aiostreams.nix
   ];
 }
