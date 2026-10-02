@@ -48,15 +48,6 @@ xdg.desktopEntries = {
       categories = [ "Network" "Email" ];
     };
 
-    notesnook = {
-      name       = "Notesnook";
-      exec       = "notesnook %U";
-      icon       = "/home/honey/Pictures/Icons/notesnook.png";
-      comment    = "Your private note taking space";
-      mimeType   = [ "x-scheme-handler/nn" ];
-      categories = [ "Office" ];
-    };
-
     startcenter = {
       name       = "LibreOffice";
       exec       = "libreoffice %U";
