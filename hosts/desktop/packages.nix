@@ -38,6 +38,7 @@
     localsend
     libreoffice
     qbittorrent
+    signal-desktop
     element-desktop
     tutanota-desktop
     jellyfin-desktop
