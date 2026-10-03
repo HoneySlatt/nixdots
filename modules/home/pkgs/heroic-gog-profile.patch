@@ -79,7 +79,7 @@
 +    () => gogConfigStore.get_nodefault('userData.avatar'),
 +    [gog.username]
 +  )
-+  const image = avatar?.small_2x || avatar?.small
++  const image = avatar?.large_2x || avatar?.small_2x || avatar?.small
 +  const open = Boolean(anchor) && Boolean(gog.username)
 +
 +  if (!gog.username) return null

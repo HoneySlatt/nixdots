@@ -18,5 +18,6 @@
     git
     codex
     neovim
+    claude-code
   ];
 }
