@@ -25,7 +25,6 @@
     brave-origin
 
     # Desktop Apps
-    inputs.kopuz.packages.${pkgs.stdenv.hostPlatform.system}.default
     (pkgs.callPackage ../../modules/home/pkgs/claude-desktop.nix {
       claudeDesktop = inputs.claude-desktop-nix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
     })
@@ -34,6 +33,7 @@
     })
     pkgsRocm.blender
     gimp
+    kopuz
     seanime
     cider-2
     obsidian

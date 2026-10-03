@@ -15,10 +15,6 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kopuz = {
-      url = "github:Kopuz-org/kopuz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
