@@ -16,43 +16,39 @@ switch_cider() {
     :root {
       --qs-cider-base: ${C[base]};
       --qs-cider-mantle: ${C[mantle]};
-      --qs-cider-surface: ${C[surface0]};
       --qs-cider-text: ${C[text]};
       --qs-cider-subtext: ${C[subtext0]};
       --qs-cider-accent: ${accent};
-      --qs-cider-link: ${C[accent]};
-      --accent: ${accent};
-      --text: ${C[text]};
-      --card-bg: ${C[surface0]};
     }
 
-    body,
-    .q-layout,
-    .q-page {
-      background: var(--qs-cider-base) !important;
+    :root:root,
+    body.body--dark,
+    body.body--light {
+      --q-primary: var(--qs-cider-accent);
+      --qDark: var(--qs-cider-mantle);
+      --qDarkPage: var(--qs-cider-base);
+      --lightBackgroundColor: var(--qs-cider-mantle);
+      --glassFallbackColor: var(--qs-cider-mantle);
+      --mats-darkBackgroundBase: var(--qs-cider-mantle);
+      --mats-lightBackgroundBase: var(--qs-cider-mantle);
+      --textDefault: var(--qs-cider-text);
+      --systemPrimary: var(--qs-cider-text);
+      --systemSecondary: var(--qs-cider-subtext);
+    }
+
+    body {
+      background: var(--qs-cider-mantle) !important;
       color: var(--qs-cider-text) !important;
     }
 
-    .q-dark,
-    body.body--dark {
-      --q-dark: var(--qs-cider-mantle) !important;
-      --q-dark-page: var(--qs-cider-base) !important;
-      --q-primary: var(--qs-cider-accent) !important;
-      --q-accent: var(--qs-cider-accent) !important;
+    .new-shell-page-container {
+      --pageContainerBg: var(--qs-cider-base) !important;
+      background-color: var(--qs-cider-base) !important;
     }
 
-    .q-card,
-    .q-menu,
-    .q-dialog__inner > div,
-    .cider-card {
-      background: var(--qs-cider-surface) !important;
-      color: var(--qs-cider-text) !important;
-    }
-
-    a,
-    .text-primary,
-    .q-btn.text-primary {
-      color: var(--qs-cider-link) !important;
+    /* Keep a hint of the artwork behind the sidebar */
+    .blurmap-container {
+      opacity: 0.25;
     }
 EOF
 )
